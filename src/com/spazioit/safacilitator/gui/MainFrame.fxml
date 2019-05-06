@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.spazioit.safacilitator.gui.MainFrameController">
+  <children>
+    <MenuBar VBox.vgrow="NEVER">
+      <menus>
+        <Menu mnemonicParsing="false" text="Project">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#newProject" text="New Project" />
+                  <MenuItem mnemonicParsing="false" onAction="#loadProject" text="Load Project" />
+                  <MenuItem mnemonicParsing="false" onAction="#editProject" text="Edit Project" />
+                  <MenuItem mnemonicParsing="false" onAction="#saveProject" text="Save Project" />
+                  <MenuItem mnemonicParsing="false" onAction="#saveProjectAs" text="Save Project As" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" onAction="#compileCommands" text="Import Compile Commands" />
+                  <MenuItem mnemonicParsing="false" onAction="#saveProjectAsCompileCommands" text="Save Project as Compile Commands" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" onAction="#exit" text="Exit" />
+               </items>
+        </Menu>
+            <Menu mnemonicParsing="false" text="Preprocessing">
+              <items>
+                  <MenuItem mnemonicParsing="false" onAction="#showCompilerDefines" text="Show Compiler Defines" />
+                  <MenuItem mnemonicParsing="false" onAction="#preparePreprocessing" text="Prepare Preprocessing" />
+                <MenuItem mnemonicParsing="false" onAction="#preProcess" text="Preprocess Sources" />
+              </items>
+            </Menu>
+        <Menu mnemonicParsing="false" text="Analyzers">
+          <items>
+            <MenuItem mnemonicParsing="false" onAction="#prepareAnalyzers" text="Prepare Analyzers" />
+            <MenuItem mnemonicParsing="false" onAction="#executeAnalyzers" text="Execute Analyzers" />
+                  <MenuItem mnemonicParsing="false" onAction="#postProcessAnalyzers" text="Postprocess Analyzers" />
+          </items>
+        </Menu>
+            <Menu mnemonicParsing="false" text="SonarQube">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#prepareSonarQube" text="Prepare SonarQube Script" />
+                  <MenuItem mnemonicParsing="false" onAction="#runSonarScanner" text="Run SonarQube Script" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Executor">
+              <items>
+                <MenuItem fx:id="stopRunningMenuItem" disable="true" mnemonicParsing="false" onAction="#stopRunningProcess" text="Stop running process..." />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Log">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#clearLog" text="Clear Log" />
+                  <MenuItem mnemonicParsing="false" onAction="#saveLog" text="Save Log" />
+              </items>
+            </Menu>
+        <Menu mnemonicParsing="false" text="Help">
+          <items>
+            <MenuItem mnemonicParsing="false" onAction="#supportDialog" text="Support" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" onAction="#aboutDialog" text="About" />
+          </items>
+        </Menu>
+      </menus>
+    </MenuBar>
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+         <children>
+            <TextArea fx:id="textArea" editable="false" prefHeight="346.0" prefWidth="640.0" AnchorPane.bottomAnchor="29.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <FlowPane nodeOrientation="LEFT_TO_RIGHT" prefHeight="25.0" prefWidth="641.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <children>
+                  <Label text=" Application Message:" />
+                  <Label text="  " />
+                  <Label fx:id="applicationMessage" prefHeight="17.0" prefWidth="500.0" />
+               </children>
+            </FlowPane>
+         </children>
+    </AnchorPane>
+  </children>
+</VBox>

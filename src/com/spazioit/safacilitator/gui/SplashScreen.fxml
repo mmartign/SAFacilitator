@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" fx:id="ap" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.spazioit.safacilitator.gui.SplashScreenController">
+   <children>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="225.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Marvin.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="251.0" layoutY="232.0" text="SAFacilitator">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="221.0" layoutY="259.0" text="(Static Analysis Facilitator)">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="139.0" layoutY="296.0" text="Spazio IT - Soluzioni Informatiche - https://www.spazioit.com" />
+   </children>
+</AnchorPane>
