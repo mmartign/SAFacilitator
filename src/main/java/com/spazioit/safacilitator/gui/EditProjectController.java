@@ -702,10 +702,10 @@ public class EditProjectController implements Initializable {
                  p.setSelectedFile(sourceFiles.getSelectionModel().getSelectedItem());
             }
             Stage stage = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("ProjectFile.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/fxml/ProjectFile.fxml"));
             Scene scene = new Scene(root);        
             stage.setScene(scene);
-            stage.getIcons().add(new Image(MainFrame.class.getResourceAsStream( "Marvin.png" )));
+            stage.getIcons().add(new Image(MainFrame.class.getResourceAsStream( "/images/Marvin.png" )));
             stage.setTitle("Editing Single Project File - " + sourceFiles.getSelectionModel().getSelectedItem());
             stage.show();
             MainFrame.tertiaryStage = stage;

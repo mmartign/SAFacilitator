@@ -116,10 +116,10 @@ public class MainFrameController implements Initializable {
         try {
             applicationMessage.setText("Editing Project.");
             Stage stage = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("EditProject.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/fxml/EditProject.fxml"));
             Scene scene = new Scene(root);        
             stage.setScene(scene);
-            stage.getIcons().add(new Image(MainFrame.class.getResourceAsStream( "Marvin.png" )));
+            stage.getIcons().add(new Image(MainFrame.class.getResourceAsStream( "/images/Marvin.png" )));
             Project p = SAFacilitator.myself.currentProject;
             if ((p == null) || 
                 (p.getProjectName() == null) || 
@@ -216,7 +216,7 @@ public class MainFrameController implements Initializable {
     private void aboutDialog(ActionEvent event) {
         Alert alert = new Alert(AlertType.INFORMATION);
         Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-        stage.getIcons().add(new Image(MainFrame.class.getResourceAsStream( "Marvin.png" ))); 
+        stage.getIcons().add(new Image(MainFrame.class.getResourceAsStream( "/images/Marvin.png" ))); 
         alert.setTitle("SAFacilitator");
         alert.setHeaderText("Static Analysis Facilitator - version " + SAFacilitator.version);
         alert.setContentText("Copyright (©) "  + Calendar.getInstance().get(Calendar.YEAR) +  "\n" + 
@@ -238,7 +238,7 @@ public class MainFrameController implements Initializable {
     private void supportDialog(ActionEvent event) {
         Alert alert = new Alert(AlertType.INFORMATION);
         Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-        stage.getIcons().add(new Image(MainFrame.class.getResourceAsStream( "Marvin.png" ))); 
+        stage.getIcons().add(new Image(MainFrame.class.getResourceAsStream( "/images/Marvin.png" ))); 
         alert.setTitle("SAFacilitator");
         alert.setHeaderText("Online Support");
         alert.setContentText("Support requests can be posted at\n" + 

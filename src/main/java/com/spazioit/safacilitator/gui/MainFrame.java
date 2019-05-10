@@ -55,10 +55,10 @@ public class MainFrame extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         // Start the splashscreen first
-        Parent root = FXMLLoader.load(getClass().getResource("SplashScreen.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/SplashScreen.fxml"));
         
         Scene scene = new Scene(root);
-        stage.getIcons().add(new Image(MainFrame.class.getResourceAsStream( "Marvin.png" )));
+        stage.getIcons().add(new Image(MainFrame.class.getResourceAsStream( "/images/Marvin.png" )));
         // stage.setResizable(false);
         stage.setTitle("SAFacilitator - Copyright (©) " + Calendar.getInstance().get(Calendar.YEAR) +  " - Spazio IT - https://www.spazioit.com");
        

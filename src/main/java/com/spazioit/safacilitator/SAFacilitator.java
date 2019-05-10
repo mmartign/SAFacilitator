@@ -41,7 +41,7 @@ public class SAFacilitator {
     public Project currentProject = null;
     public static SAFacilitator myself = null;
     public static boolean guiEnabled = true;
-    public static String version = "0.5";
+    public static String version = "0.6";
     public static int MAX_LINES = 24576;
     public static String fileName = "";
     

@@ -59,7 +59,7 @@ public class SplashScreenController implements Initializable {
                     Stage stage = new Stage();
                     Parent root = null;
                     try {
-                        root = FXMLLoader.load(getClass().getResource("MainFrame.fxml"));
+                        root = FXMLLoader.load(getClass().getResource("/fxml/MainFrame.fxml"));
                     } catch (IOException ex) {
                         System.err.println(ex.getMessage());
                     }
@@ -68,7 +68,7 @@ public class SplashScreenController implements Initializable {
         
                     stage.setScene(scene);
                     primaryStage = stage;
-                    stage.getIcons().add(new Image(MainFrame.class.getResourceAsStream( "Marvin.png" )));
+                    stage.getIcons().add(new Image(MainFrame.class.getResourceAsStream("/images/Marvin.png")));
                     // stage.setResizable(false);
                     stage.setTitle("SAFacilitator - Copyright (©) " + Calendar.getInstance().get(Calendar.YEAR) +  " - Spazio IT - https://www.spazioit.com");
                     stage.show();

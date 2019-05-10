@@ -38,7 +38,7 @@ public class CommonGuiFunctions {
     public static void displayMessage(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-        stage.getIcons().add(new Image(MainFrame.class.getResourceAsStream( "Marvin.png" ))); 
+        stage.getIcons().add(new Image(MainFrame.class.getResourceAsStream( "/images/Marvin.png" ))); 
         alert.setTitle("SAFacilitator");
         alert.setHeaderText("Application Info");
         alert.setContentText(message);
@@ -56,7 +56,7 @@ public class CommonGuiFunctions {
         }
         Alert alert = new Alert(Alert.AlertType.ERROR);
         Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-        stage.getIcons().add(new Image(MainFrame.class.getResourceAsStream( "Marvin.png" ))); 
+        stage.getIcons().add(new Image(MainFrame.class.getResourceAsStream( "/images/Marvin.png" ))); 
         alert.setTitle("SAFacilitator");
         alert.setHeaderText("Application Error");
         alert.setContentText(message);
