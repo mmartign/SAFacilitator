@@ -28,7 +28,7 @@
                               <Label layoutX="14.0" layoutY="194.0" text="Include Directories:" />
                               <Button fx:id="addIncludeButton" layoutX="545.0" layoutY="167.0" mnemonicParsing="false" onAction="#addInclude" text="Add" AnchorPane.rightAnchor="115.0" AnchorPane.topAnchor="167.0" />
                               <Button fx:id="editIncludeButton" layoutX="545.0" layoutY="196.0" mnemonicParsing="false" onAction="#editInclude" text="Edit" AnchorPane.rightAnchor="116.0" AnchorPane.topAnchor="196.0" />
-                              <Button fx:id="removeIncludeButton" layoutX="545.0" layoutY="225.0" mnemonicParsing="false" onAction="#removeInclude" text="Remove" AnchorPane.rightAnchor="89.0" AnchorPane.topAnchor="225.0" />
+                              <Button fx:id="removeIncludeButton" layoutX="545.0" layoutY="225.0" mnemonicParsing="false" onAction="#removeInclude" text="Remove" AnchorPane.rightAnchor="94.0" AnchorPane.topAnchor="225.0" />
                               <Separator layoutX="14.0" layoutY="49.0" prefHeight="0.0" prefWidth="673.0" />
                               <Button fx:id="upIncludeButton" layoutX="632.0" layoutY="167.0" mnemonicParsing="false" onAction="#upInclude" text="Up" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="167.0" />
                               <Button fx:id="downIncludeButton" layoutX="617.0" layoutY="225.0" mnemonicParsing="false" onAction="#downInclude" text="Down" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="225.0" />

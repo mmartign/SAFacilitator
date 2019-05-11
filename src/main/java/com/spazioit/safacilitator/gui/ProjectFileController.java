@@ -82,10 +82,6 @@ public class ProjectFileController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        if (System.getProperty("os.name").toLowerCase().startsWith("windows")) {
-            AnchorPane.setRightAnchor(removeIncludeDirectories, 94.0);
-        }
-
         try {
             Project p = SAFacilitator.myself.currentProject;
             if (p == null) {
