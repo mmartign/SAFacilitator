@@ -300,7 +300,7 @@ public class AnalyzersFunctions {
         if (myDef.size() > 0) {
             for (int i = 0; i < myDef.size(); i++) {
                 bw.write("        <define name=\"");
-                bw.write(myDef.get(i));
+                bw.write(myDef.get(i).replace("\"", "&quot;"));
                 bw.write("\"/>");
                 bw.newLine();
             }
@@ -312,7 +312,7 @@ public class AnalyzersFunctions {
         if (myUndef.size() > 0) {
             for (int i = 0; i < myUndef.size(); i++) {
                 bw.write("        <undefine name=\"");
-                bw.write(myUndef.get(i));
+                bw.write(myUndef.get(i).replace("\"", "&quot;"));
                 bw.write("\"/>");
                 bw.newLine();
             }
@@ -438,7 +438,7 @@ public class AnalyzersFunctions {
                     bw.write(p.getpFiles().get(i).getPfFileName().replace(p.getBaseDirectory(), p.getExplodedDirectory()) + " ");
                 }
                 for (int j = 0; j < p.getpFiles().get(i).getPfDefines().size(); j++) {
-                    bw.write("-extra-arg-before=\"" + p.getpFiles().get(i).getPfDefines().get(j) + "\"");
+                    bw.write("-extra-arg-before=\"" + p.getpFiles().get(i).getPfDefines().get(j).replace("\"", "\\\"") + "\"");
                     bw.write(" ");
                 }
                 bw.write("-extra-arg-before=\"-ferror-limit=0\" ");
@@ -497,7 +497,7 @@ public class AnalyzersFunctions {
                     bw.write(p.getpFiles().get(i).getPfFileName().replace(p.getBaseDirectory(), p.getExplodedDirectory()) + " ");
                 }
                 for (int j = 0; j < p.getpFiles().get(i).getPfDefines().size(); j++) {
-                    bw.write("-extra-arg-before=\"" + p.getpFiles().get(i).getPfDefines().get(j) + "\"");
+                    bw.write("-extra-arg-before=\"" + p.getpFiles().get(i).getPfDefines().get(j).replace("\"", "\\\"") + "\"");
                     bw.write(" ");
                 }
                 bw.write("-extra-arg-before=\"-ferror-limit=0\" ");
@@ -558,7 +558,7 @@ public class AnalyzersFunctions {
                 bw.write("clang-tidy -checks=*,cert-*,clang-analyzer-*,cppcoreguidelines-*,hicpp-* ");
                 bw.write(p.getpFiles().get(i).getPfFileName() + " -- ");
                 for (int j = 0; j < p.getpFiles().get(i).getPfDefines().size(); j++) {
-                    bw.write(p.getpFiles().get(i).getPfDefines().get(j));
+                    bw.write(p.getpFiles().get(i).getPfDefines().get(j).replace("\"", "\\\""));
                     bw.write(" ");
                 }
                 bw.write("-ferror-limit=0 ");
@@ -607,7 +607,7 @@ public class AnalyzersFunctions {
                 bw.write("clang-tidy -checks=*,cert-*,clang-analyzer-*,cppcoreguidelines-*,hicpp-* ");
                 bw.write(p.getpFiles().get(i).getPfFileName() + " -- ");
                 for (int j = 0; j < p.getpFiles().get(i).getPfDefines().size(); j++) {
-                    bw.write(p.getpFiles().get(i).getPfDefines().get(j));
+                    bw.write(p.getpFiles().get(i).getPfDefines().get(j).replace("\"", "\\\""));
                     bw.write(" ");
                 }
                 bw.write("-ferror-limit=0 ");
@@ -668,11 +668,11 @@ public class AnalyzersFunctions {
                 bw.newLine();
                 bw.write(p.getpFiles().get(i).getPfOriginalBuilder() + " ");
                 for (int j = 0; j < p.getpFiles().get(i).getPfDefines().size(); j++) {
-                    bw.write(p.getpFiles().get(i).getPfDefines().get(j));
+                    bw.write(p.getpFiles().get(i).getPfDefines().get(j).replace("\"", "\\\""));
                     bw.write(" ");
                 }
                 for (int j = 0; j < p.getpFiles().get(i).getPfAdditionalArguments().size(); j++) {
-                    bw.write(p.getpFiles().get(i).getPfAdditionalArguments().get(j));
+                    bw.write(p.getpFiles().get(i).getPfAdditionalArguments().get(j).replace("\"", "\\\""));
                     bw.write(" ");
                 }
                 for (int j = 0; j < p.getpFiles().get(i).getPfIncludeDirectories().size(); j++) {
@@ -719,11 +719,11 @@ public class AnalyzersFunctions {
                 bw.newLine();
                 bw.write(p.getpFiles().get(i).getPfOriginalBuilder() + " ");
                 for (int j = 0; j < p.getpFiles().get(i).getPfDefines().size(); j++) {
-                    bw.write(p.getpFiles().get(i).getPfDefines().get(j));
+                    bw.write(p.getpFiles().get(i).getPfDefines().get(j).replace("\"", "\\\""));
                     bw.write(" ");
                 }
                 for (int j = 0; j < p.getpFiles().get(i).getPfAdditionalArguments().size(); j++) {
-                    bw.write(p.getpFiles().get(i).getPfAdditionalArguments().get(j));
+                    bw.write(p.getpFiles().get(i).getPfAdditionalArguments().get(j).replace("\"", "\\\""));
                     bw.write(" ");
                 }
                 for (int j = 0; j < p.getpFiles().get(i).getPfIncludeDirectories().size(); j++) {
