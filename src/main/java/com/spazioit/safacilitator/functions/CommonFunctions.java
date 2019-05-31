@@ -49,11 +49,11 @@ public class CommonFunctions {
      * print the message either onto the application textarea or to Stdout
      */
     public static void printMessage(String message) {
-        if (SAFacilitator.guiEnabled) {
+        if (SAFacilitator.isGuiEnabled()) {
             Platform.runLater(new Runnable() {
                 @Override 
                 public void run() {
-                    MainFrame.textArea.appendText(message + "\n");
+                    MainFrame.getTextArea().appendText(message + "\n");
                 }
             });
         } else {
@@ -69,18 +69,18 @@ public class CommonFunctions {
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String myMessage = sdf.format(cal.getTime()) + " - " + message;
-        if (SAFacilitator.guiEnabled) {
+        if (SAFacilitator.isGuiEnabled()) {
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
-                    MainFrame.textArea.appendText(myMessage + "\n");
+                    MainFrame.getTextArea().appendText(myMessage + "\n");
                 }
             });
-            if (lines < SAFacilitator.MAX_LINES) {
+            if (lines < SAFacilitator.getMAX_LINES()) {
                 lines++;
             } else {
                 lines = 0;
-                MainFrame.textArea.setText("");
+                MainFrame.getTextArea().setText("");
             }
         } else {
             System.out.println(myMessage);

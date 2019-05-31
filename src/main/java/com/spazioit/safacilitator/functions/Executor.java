@@ -45,6 +45,7 @@ public class Executor extends Thread {
         this.isLog = isLog;
     }
 
+    @Override
     public void run() {
         try {
             // Create process
@@ -103,7 +104,7 @@ public class Executor extends Thread {
             inputThread.join();
             errorThread.join();
             CommonFunctions.printLogMessage(message);
-            if (!SAFacilitator.guiEnabled) {
+            if (!SAFacilitator.isGuiEnabled()) {
                 try {
                     notifyAll();
                 } catch (Exception ex) {
@@ -113,12 +114,12 @@ public class Executor extends Thread {
         } catch (Exception ex) {
             System.err.println(ex.getMessage());
         }
-        if (SAFacilitator.guiEnabled) {
+        if (SAFacilitator.isGuiEnabled()) {
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
-                    MainFrame.stopRunningMenuItem.setText("Stop running process...");
-                    MainFrame.stopRunningMenuItem.setDisable(true);
+                    MainFrame.getStopRunningMenuItem().setText("Stop running process...");
+                    MainFrame.getStopRunningMenuItem().setDisable(true);
                 }
             });
         }

@@ -22,6 +22,7 @@
 package com.spazioit.safacilitator.gui;
 
 import com.spazioit.safacilitator.SAFacilitator;
+import com.spazioit.safacilitator.Strings;
 import com.spazioit.safacilitator.functions.EditFunctions;
 import com.spazioit.safacilitator.model.Project;
 import java.io.File;
@@ -113,22 +114,24 @@ public class EditProjectController implements Initializable {
     private Button removeIncludeDirectories;
     @FXML
     private TitledPane titledPane;
+    
+    private static final String C_FILES = "C Files";
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        if (SAFacilitator.myself.currentProject == null) {
-            SAFacilitator.myself.currentProject = new Project();
+        if (SAFacilitator.getMyself().getCurrentProject() == null) {
+            SAFacilitator.getMyself().setCurrentProject(new Project());
         }
-        editFunctions = new EditFunctions(SAFacilitator.myself);
-        if (!System.getProperty("os.name").toLowerCase().startsWith("windows")) {
+        editFunctions = new EditFunctions(SAFacilitator.getMyself());
+        if (!System.getProperty(Strings.OS_NAME).toLowerCase().startsWith(Strings.WINDOWS)) {
             AnchorPane.setRightAnchor(removeSourceDitectories, 104.0);
             AnchorPane.setRightAnchor(removeSourceFiles, 104.0);
             AnchorPane.setRightAnchor(removeIncludeDirectories, 98.0);
         }
-        Project p = SAFacilitator.myself.currentProject;
+        Project p = SAFacilitator.getMyself().getCurrentProject() ;
         if ((p == null) || 
             (p.getProjectName() == null) || 
             (p.getProjectName().equals(""))) {
@@ -187,7 +190,7 @@ public class EditProjectController implements Initializable {
             editFunctions.setSonarQubeUserName(sonarQubeUser);
             editFunctions.setSonarQubeUserPassword(sonarQubePassword);
             editFunctions.setSonarScanner(sonarScanner);
-            MainFrame.secondaryStage.close();
+            MainFrame.getSecondaryStage().close();
         } catch (Exception ex) {
             applicationMessage.setText(ex.getMessage());
             CommonGuiFunctions.displayError(ex.getMessage());
@@ -199,7 +202,7 @@ public class EditProjectController implements Initializable {
      */
     @FXML
     private void cancelEdit(ActionEvent event) {
-        MainFrame.secondaryStage.close();
+        MainFrame.getSecondaryStage().close();
     }
 
     /**
@@ -210,7 +213,7 @@ public class EditProjectController implements Initializable {
         try {
             DirectoryChooser chooser = new DirectoryChooser();
             chooser.setTitle("Select Base Directory");
-            File selectedDirectory = chooser.showDialog(MainFrame.mainWindow);
+            File selectedDirectory = chooser.showDialog(MainFrame.getMainWindow());
             baseDirectory.setText(selectedDirectory.getCanonicalPath().replace("\\", "/").replace("c:", "C:"));
         } catch (Exception ex) {
             applicationMessage.setText(ex.getMessage());
@@ -229,7 +232,7 @@ public class EditProjectController implements Initializable {
             }
             DirectoryChooser chooser = new DirectoryChooser();
             chooser.setTitle("Select Exploded Directory");
-            File selectedDirectory = chooser.showDialog(MainFrame.mainWindow);
+            File selectedDirectory = chooser.showDialog(MainFrame.getMainWindow());
             explodedDirectory.setText(selectedDirectory.getCanonicalPath().replace("\\", "/").replace("c:", "C:"));
             if (explodedDirectory.getText().startsWith(baseDirectory.getText() + "/")) {
                 explodedDirectory.setText("");
@@ -247,17 +250,17 @@ public class EditProjectController implements Initializable {
     @FXML
     private void addDirectory(ActionEvent event) {
         try {
-            Project p = SAFacilitator.myself.currentProject;
+            Project p = SAFacilitator.getMyself().getCurrentProject() ;
             if (p == null) {
-                throw new Exception("Project cannot be null.");
+                throw new Exception(Strings.PROJECT_CANNOT_BE_NULL);
             } 
             if (baseDirectory.getText() == null) {
-                throw new Exception("Base Directory cannot be null.");
+                throw new Exception(Strings.BASE_DIRECTORY_CANNOT_BE_NULL);
             } 
             DirectoryChooser chooser = new DirectoryChooser();
             chooser.setTitle("Add Source Directory");
             chooser.setInitialDirectory(new File(baseDirectory.getText()));
-            File selectedDirectory = chooser.showDialog(MainFrame.mainWindow);
+            File selectedDirectory = chooser.showDialog(MainFrame.getMainWindow());
             String normDirectory = selectedDirectory.getCanonicalPath().replace("\\", "/").replace("c:", "C:");
             if (normDirectory.equals(baseDirectory.getText())) {
                 normDirectory = ".";
@@ -280,12 +283,12 @@ public class EditProjectController implements Initializable {
     @FXML
     private void editDirectory(ActionEvent event) {
         try {
-            Project p = SAFacilitator.myself.currentProject;
+            Project p = SAFacilitator.getMyself().getCurrentProject() ;
             if (p == null) {
-                throw new Exception("Project cannot be null.");
+                throw new Exception(Strings.PROJECT_CANNOT_BE_NULL);
             } 
             if (baseDirectory.getText() == null) {
-                throw new Exception("Base Directory cannot be null.");
+                throw new Exception(Strings.BASE_DIRECTORY_CANNOT_BE_NULL);
             } 
             int selectedIdx = sourceDirectories.getSelectionModel().getSelectedIndex();
             if (selectedIdx != -1) {
@@ -293,7 +296,7 @@ public class EditProjectController implements Initializable {
                 DirectoryChooser chooser = new DirectoryChooser();
                 chooser.setTitle("Edit Source Directory");
                 chooser.setInitialDirectory(new File(baseDirectory.getText() + "/" + itemToEdit));
-                File selectedDirectory = chooser.showDialog(MainFrame.mainWindow);
+                File selectedDirectory = chooser.showDialog(MainFrame.getMainWindow());
                 String normDirectory = selectedDirectory.getCanonicalPath().replace("\\", "/").replace("c:", "C:");
                 if (normDirectory.equals(baseDirectory.getText())) {
                     normDirectory = ".";
@@ -334,27 +337,27 @@ public class EditProjectController implements Initializable {
     @FXML
     private void addFile(ActionEvent event) {
         try {
-            Project p = SAFacilitator.myself.currentProject;
+            Project p = SAFacilitator.getMyself().getCurrentProject() ;
             if (p == null) {
-                throw new Exception("Project cannot be null.");
+                throw new Exception(Strings.PROJECT_CANNOT_BE_NULL);
             } 
             if (baseDirectory.getText() == null) {
-                throw new Exception("Base Directory cannot be null.");
+                throw new Exception(Strings.BASE_DIRECTORY_CANNOT_BE_NULL);
             } 
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Add Source File");
             fileChooser.setInitialDirectory(new File(baseDirectory.getText()));
             fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("C Files", "*.c"),
-                new FileChooser.ExtensionFilter("C Files", "*.C"),
-                new FileChooser.ExtensionFilter("C Files", "*.cc"),
-                new FileChooser.ExtensionFilter("C Files", "*.CC"),
-                new FileChooser.ExtensionFilter("C Files", "*.cpp"),
-                new FileChooser.ExtensionFilter("C Files", "*.CPP"),
-                new FileChooser.ExtensionFilter("C Files", "*.cxx"),
-                new FileChooser.ExtensionFilter("C Files", "*.CXX"),
-                new FileChooser.ExtensionFilter("All Files", "*.*"));
-            File selectedFile = fileChooser.showOpenDialog(MainFrame.mainWindow);
+                new FileChooser.ExtensionFilter(C_FILES, "*.c"),
+                new FileChooser.ExtensionFilter(C_FILES, "*.C"),
+                new FileChooser.ExtensionFilter(C_FILES, "*.cc"),
+                new FileChooser.ExtensionFilter(C_FILES, "*.CC"),
+                new FileChooser.ExtensionFilter(C_FILES, "*.cpp"),
+                new FileChooser.ExtensionFilter(C_FILES, "*.CPP"),
+                new FileChooser.ExtensionFilter(C_FILES, "*.cxx"),
+                new FileChooser.ExtensionFilter(C_FILES, "*.CXX"),
+                new FileChooser.ExtensionFilter(Strings.ALL_FILES, "*.*"));
+            File selectedFile = fileChooser.showOpenDialog(MainFrame.getMainWindow());
             String fileName = selectedFile.getCanonicalPath().replace("\\", "/").replace("c:", "C:");
             sourceFiles.getItems().add(fileName);
             applicationMessage.setText("File Added.");
@@ -370,12 +373,12 @@ public class EditProjectController implements Initializable {
     @FXML
     private void editFile(ActionEvent event) {
         try {
-            Project p = SAFacilitator.myself.currentProject;
+            Project p = SAFacilitator.getMyself().getCurrentProject() ;
             if (p == null) {
-                throw new Exception("Project cannot be null.");
+                throw new Exception(Strings.PROJECT_CANNOT_BE_NULL);
             } 
             if (baseDirectory.getText() == null) {
-                throw new Exception("Base Directory cannot be null.");
+                throw new Exception(Strings.BASE_DIRECTORY_CANNOT_BE_NULL);
             } 
             int selectedIdx = sourceFiles.getSelectionModel().getSelectedIndex();
             if (selectedIdx != -1) {
@@ -392,8 +395,8 @@ public class EditProjectController implements Initializable {
                     new FileChooser.ExtensionFilter("CPP files", "*.CPP"),
                     new FileChooser.ExtensionFilter("cxx files", "*.cxx"),
                     new FileChooser.ExtensionFilter("CXX files", "*.CXX"),
-                    new FileChooser.ExtensionFilter("All files", "*.*"));
-                File selectedFile = fileChooser.showOpenDialog(MainFrame.mainWindow);
+                    new FileChooser.ExtensionFilter(Strings.ALL_FILES, "*.*"));
+                File selectedFile = fileChooser.showOpenDialog(MainFrame.getMainWindow());
                 String fileName = selectedFile.getCanonicalPath().replace("\\", "/").replace("c:", "C:");
                 sourceFiles.getItems().set(selectedIdx, fileName);
             }
@@ -434,7 +437,7 @@ public class EditProjectController implements Initializable {
                 throw new Exception("Source Directory cannot be empty.");
             }
             if (baseDirectory.getText() == null) {
-                throw new Exception("Base Directory cannot be null.");
+                throw new Exception(Strings.BASE_DIRECTORY_CANNOT_BE_NULL);
             }             
             ObservableList<String> ol = FXCollections.observableArrayList();
             String extensions[] = new String[10];
@@ -446,8 +449,8 @@ public class EditProjectController implements Initializable {
             extensions[5] = "CPP";
             extensions[6] = "cxx";
             extensions[7] = "CXX";
-            extensions[6] = "c++";
-            extensions[7] = "C++";
+            extensions[8] = "c++";
+            extensions[9] = "C++";
             for (int i = 0; i < sourceDirectories.getItems().size(); i++) {
                 File dir = new File(baseDirectory.getText() + "/" + sourceDirectories.getItems().get(i));
                 for (File file: FileUtils.listFiles(dir, extensions, true)) {
@@ -469,17 +472,17 @@ public class EditProjectController implements Initializable {
     @FXML
     private void addInclude(ActionEvent event) {
         try {
-            Project p = SAFacilitator.myself.currentProject;
+            Project p = SAFacilitator.getMyself().getCurrentProject() ;
             if (p == null) {
-                throw new Exception("Project cannot be null.");
+                throw new Exception(Strings.PROJECT_CANNOT_BE_NULL);
             } 
             if (baseDirectory.getText() == null) {
-                throw new Exception("Base Directory cannot be null.");
+                throw new Exception(Strings.BASE_DIRECTORY_CANNOT_BE_NULL);
             } 
             DirectoryChooser chooser = new DirectoryChooser();
             chooser.setTitle("Add Include Directory");
             chooser.setInitialDirectory(new File(baseDirectory.getText()));
-            File selectedDirectory = chooser.showDialog(MainFrame.mainWindow);
+            File selectedDirectory = chooser.showDialog(MainFrame.getMainWindow());
             String normDirectory = selectedDirectory.getCanonicalPath().replace("\\", "/").replace("c:", "C:");
             if (normDirectory.equals(baseDirectory.getText())) {
                 normDirectory = ".";
@@ -502,12 +505,12 @@ public class EditProjectController implements Initializable {
     @FXML
     private void editInclude(ActionEvent event) {
         try {
-            Project p = SAFacilitator.myself.currentProject;
+            Project p = SAFacilitator.getMyself().getCurrentProject() ;
             if (p == null) {
-                throw new Exception("Project cannot be null.");
+                throw new Exception(Strings.PROJECT_CANNOT_BE_NULL);
             } 
             if (baseDirectory.getText() == null) {
-                throw new Exception("Base Directory cannot be null.");
+                throw new Exception(Strings.BASE_DIRECTORY_CANNOT_BE_NULL);
             } 
             int selectedIdx = includeDirectories.getSelectionModel().getSelectedIndex();
             if (selectedIdx != -1) {
@@ -515,7 +518,7 @@ public class EditProjectController implements Initializable {
                 DirectoryChooser chooser = new DirectoryChooser();
                 chooser.setTitle("Edit Include Directory");
                 chooser.setInitialDirectory(new File(baseDirectory.getText() + "/" + itemToEdit));
-                File selectedDirectory = chooser.showDialog(MainFrame.mainWindow);
+                File selectedDirectory = chooser.showDialog(MainFrame.getMainWindow());
                 String normDirectory = selectedDirectory.getCanonicalPath().replace("\\", "/").replace("c:", "C:");
                 if (normDirectory.equals(baseDirectory.getText())) {
                     normDirectory = ".";
@@ -646,9 +649,9 @@ public class EditProjectController implements Initializable {
     @FXML
     private void getSonarScanner(ActionEvent event) {
          try {
-            Project p = SAFacilitator.myself.currentProject;
+            Project p = SAFacilitator.getMyself().getCurrentProject() ;
             if (p == null) {
-                throw new Exception("Project cannot be null.");
+                throw new Exception(Strings.PROJECT_CANNOT_BE_NULL);
             } 
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Get Sonar Scanner");
@@ -656,8 +659,8 @@ public class EditProjectController implements Initializable {
             fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("Shell files", "*.sh"),
                 new FileChooser.ExtensionFilter("Batch files", "*.bat"),
-                new FileChooser.ExtensionFilter("All files", "*.*"));
-            File selectedFile = fileChooser.showOpenDialog(MainFrame.mainWindow);
+                new FileChooser.ExtensionFilter(Strings.ALL_FILES, "*.*"));
+            File selectedFile = fileChooser.showOpenDialog(MainFrame.getMainWindow());
             String fileName = selectedFile.getCanonicalPath().replace("\\", "/").replace("c:", "C:");
             sonarScanner.setText(fileName);
             applicationMessage.setText("Sonar Scanner obtained.");
@@ -696,7 +699,7 @@ public class EditProjectController implements Initializable {
                 return;
             }
             applicationMessage.setText("Editing Single Project File.");
-            Project p = SAFacilitator.myself.currentProject;
+            Project p = SAFacilitator.getMyself().getCurrentProject() ;
             int selectedIdx = sourceFiles.getSelectionModel().getSelectedIndex();
             if (selectedIdx != -1) {
                  p.setSelectedFile(sourceFiles.getSelectionModel().getSelectedItem());
@@ -705,10 +708,10 @@ public class EditProjectController implements Initializable {
             Parent root = FXMLLoader.load(getClass().getResource("/fxml/ProjectFile.fxml"));
             Scene scene = new Scene(root);        
             stage.setScene(scene);
-            stage.getIcons().add(new Image(MainFrame.class.getResourceAsStream( "/images/Marvin.png" )));
+            stage.getIcons().add(new Image(MainFrame.class.getResourceAsStream( Strings.MARVIN_PNG )));
             stage.setTitle("Editing Single Project File - " + sourceFiles.getSelectionModel().getSelectedItem());
             stage.show();
-            MainFrame.tertiaryStage = stage;
+            MainFrame.setTertiaryStage(stage);
         } catch (Exception ex) {
             applicationMessage.setText(ex.getMessage());
             CommonGuiFunctions.displayError(ex.getMessage());
@@ -737,16 +740,16 @@ public class EditProjectController implements Initializable {
     @FXML
     private void displayAnalysisInfo(ActionEvent event) {
         try {
-            Project p = SAFacilitator.myself.currentProject;
+            Project p = SAFacilitator.getMyself().getCurrentProject() ;
             if (p == null) {
-                throw new Exception("Project cannot be null.");
+                throw new Exception(Strings.PROJECT_CANNOT_BE_NULL);
             }
             String myProject = p.getProjectName();
             if (myProject == null) {
                 throw new Exception("Project Name cannot be null.");                
             }
             String message = null;
-            if (System.getProperty("os.name").toLowerCase().startsWith("windows")) {
+            if (System.getProperty(Strings.OS_NAME).toLowerCase().startsWith(Strings.WINDOWS)) {
                 message = "The configuration files are:\n" + 
                           "PC-lint:\t\t" + myProject + ".lnt, run_pclint.bat\n" +
                           "Cppcheck:\t" + myProject + ".cppcheck, run_cppcheck.bat\n" +

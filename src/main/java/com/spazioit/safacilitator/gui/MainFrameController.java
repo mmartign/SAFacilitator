@@ -22,6 +22,7 @@
 package com.spazioit.safacilitator.gui;
 
 import com.spazioit.safacilitator.SAFacilitator;
+import com.spazioit.safacilitator.Strings;
 import com.spazioit.safacilitator.functions.AnalyzersFunctions;
 import com.spazioit.safacilitator.functions.CommonFunctions;
 import com.spazioit.safacilitator.functions.FileFunctions;
@@ -65,6 +66,9 @@ public class MainFrameController implements Initializable {
     private javafx.scene.control.TextArea textArea;
     @FXML
     private MenuItem stopRunningMenuItem;
+    
+    private static final String JSON_FILES = "JSON Files";
+    private static final String JSON_EXT = "*.json";
 
     /**
      * Loads project file
@@ -74,15 +78,15 @@ public class MainFrameController implements Initializable {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Project File");
         fileChooser.getExtensionFilters().addAll(
-            new ExtensionFilter("JSON Files", "*.json"),
-            new ExtensionFilter("All Files", "*.*"));
-        File selectedFile = fileChooser.showOpenDialog(MainFrame.mainWindow);
+            new ExtensionFilter(JSON_FILES, JSON_EXT),
+            new ExtensionFilter(Strings.ALL_FILES, "*.*"));
+        File selectedFile = fileChooser.showOpenDialog(MainFrame.getMainWindow());
         try {
             String fileName = selectedFile.getCanonicalPath();
-            FileFunctions functions = new FileFunctions(SAFacilitator.myself);
+            FileFunctions functions = new FileFunctions(SAFacilitator.getMyself());
             functions.readProject(fileName);
-            SAFacilitator.fileName = fileName;
-            MainFrame.primaryStage.setTitle("SAFacilitator - " + fileName);
+            SAFacilitator.setFileName(fileName);
+            MainFrame.getPrimaryStage().setTitle(Strings.SAFACILITATOR + " - " + fileName);
             applicationMessage.setText("Project Loaded.");
         } catch (Exception ex) {
             applicationMessage.setText(ex.getMessage());
@@ -95,9 +99,9 @@ public class MainFrameController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        MainFrame.textArea = textArea;
-        MainFrame.applicationMessage = applicationMessage;
-        MainFrame.stopRunningMenuItem = stopRunningMenuItem;
+        MainFrame.setTextArea(textArea);
+        MainFrame.setApplicationMessage(applicationMessage);
+        MainFrame.setStopRunningMenuItem(stopRunningMenuItem);
         textArea.textProperty().addListener(new ChangeListener<Object>() {
             @Override
             public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
@@ -105,7 +109,7 @@ public class MainFrameController implements Initializable {
                 //use Double.MIN_VALUE to scroll to the top
             }
         });
-        textArea.setPrefRowCount(SAFacilitator.MAX_LINES);
+        textArea.setPrefRowCount(SAFacilitator.getMAX_LINES());
     }
 
     /**
@@ -119,8 +123,8 @@ public class MainFrameController implements Initializable {
             Parent root = FXMLLoader.load(getClass().getResource("/fxml/EditProject.fxml"));
             Scene scene = new Scene(root);        
             stage.setScene(scene);
-            stage.getIcons().add(new Image(MainFrame.class.getResourceAsStream( "/images/Marvin.png" )));
-            Project p = SAFacilitator.myself.currentProject;
+            stage.getIcons().add(new Image(MainFrame.class.getResourceAsStream( Strings.MARVIN_PNG )));
+            Project p = SAFacilitator.getMyself().getCurrentProject() ;
             if ((p == null) || 
                 (p.getProjectName() == null) || 
                 (p.getProjectName().equals(""))) {
@@ -129,7 +133,7 @@ public class MainFrameController implements Initializable {
                 stage.setTitle("Editing Project - " + p.getProjectName());                
             }
             stage.show();
-            MainFrame.secondaryStage = stage;
+            MainFrame.setSecondaryStage(stage);
         } catch (Exception ex) {
             applicationMessage.setText(ex.getMessage());
             CommonGuiFunctions.displayError(ex.getMessage());
@@ -142,15 +146,15 @@ public class MainFrameController implements Initializable {
     @FXML
     private void saveProject(ActionEvent event) {        
         try {
-            String fileName = SAFacilitator.fileName;
+            String fileName = SAFacilitator.getFileName();
             if ((fileName == null) || 
                 (fileName.equals(""))) {
                 saveProjectAs(event);
                 return;
             }
-            FileFunctions functions = new FileFunctions(SAFacilitator.myself);
+            FileFunctions functions = new FileFunctions(SAFacilitator.getMyself());
             functions.saveProject(fileName);
-            MainFrame.primaryStage.setTitle("SAFacilitator - " + fileName);
+            MainFrame.getPrimaryStage().setTitle(Strings.SAFACILITATOR + " - " + fileName);
             applicationMessage.setText("Project Saved.");
         } catch (Exception ex) {
             applicationMessage.setText(ex.getMessage());
@@ -163,9 +167,9 @@ public class MainFrameController implements Initializable {
      */
     @FXML
     private void newProject(ActionEvent event) {
-        SAFacilitator.myself.currentProject = new Project();
-        SAFacilitator.fileName = "";
-        MainFrame.primaryStage.setTitle("SAFacilitator - (Empty) Project");
+        SAFacilitator.getMyself().setCurrentProject(new Project());
+        SAFacilitator.setFileName("");
+        MainFrame.getPrimaryStage().setTitle(Strings.SAFACILITATOR + " - (Empty) Project");
         applicationMessage.setText("Working on New (Empty) Project.");
     }
 
@@ -178,10 +182,10 @@ public class MainFrameController implements Initializable {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Import Compile Commands File");
             fileChooser.getExtensionFilters().addAll(
-                new ExtensionFilter("JSON Files", "*.json"),
-                new ExtensionFilter("All Files", "*.*"));
+                new ExtensionFilter(JSON_FILES, JSON_EXT),
+                new ExtensionFilter(Strings.ALL_FILES, "*.*"));
             fileChooser.setInitialFileName("compile_commands.json");
-            Project p = SAFacilitator.myself.currentProject;
+            Project p = SAFacilitator.getMyself().getCurrentProject() ;
             if ((p == null) || 
                 (p.getBaseDirectory() == null) || 
                 (p.getBaseDirectory().equals(""))) {
@@ -192,9 +196,9 @@ public class MainFrameController implements Initializable {
                 (!p.getBaseDirectory().equals(""))) {
                 fileChooser.setInitialDirectory(new File(p.getBaseDirectory()));
             }
-            File selectedFile = fileChooser.showOpenDialog(MainFrame.mainWindow);
+            File selectedFile = fileChooser.showOpenDialog(MainFrame.getMainWindow());
             String fileName = selectedFile.getCanonicalPath();
-            FileFunctions functions = new FileFunctions(SAFacilitator.myself);
+            FileFunctions functions = new FileFunctions(SAFacilitator.getMyself());
             functions.readCompileCommands(fileName);
             applicationMessage.setText("Compile Commands Imported.");
         } catch (Exception ex) {
@@ -205,7 +209,7 @@ public class MainFrameController implements Initializable {
 
     @FXML
     private void exit(ActionEvent event) {
-        MainFrame.primaryStage.close();
+        MainFrame.getPrimaryStage().close();
         System.exit(0);
     }
 
@@ -216,9 +220,9 @@ public class MainFrameController implements Initializable {
     private void aboutDialog(ActionEvent event) {
         Alert alert = new Alert(AlertType.INFORMATION);
         Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-        stage.getIcons().add(new Image(MainFrame.class.getResourceAsStream( "/images/Marvin.png" ))); 
-        alert.setTitle("SAFacilitator");
-        alert.setHeaderText("Static Analysis Facilitator - version " + SAFacilitator.version);
+        stage.getIcons().add(new Image(MainFrame.class.getResourceAsStream( Strings.MARVIN_PNG ))); 
+        alert.setTitle(Strings.SAFACILITATOR);
+        alert.setHeaderText("Static Analysis Facilitator - version " + SAFacilitator.getVersion());
         alert.setContentText("Copyright (©) "  + Calendar.getInstance().get(Calendar.YEAR) +  "\n" + 
                              "Spazio IT - Soluzioni Informatiche s.a.s.\n" +
                              "https://www.spazioit.com\n\n" +
@@ -238,8 +242,8 @@ public class MainFrameController implements Initializable {
     private void supportDialog(ActionEvent event) {
         Alert alert = new Alert(AlertType.INFORMATION);
         Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-        stage.getIcons().add(new Image(MainFrame.class.getResourceAsStream( "/images/Marvin.png" ))); 
-        alert.setTitle("SAFacilitator");
+        stage.getIcons().add(new Image(MainFrame.class.getResourceAsStream( Strings.MARVIN_PNG ))); 
+        alert.setTitle(Strings.SAFACILITATOR);
         alert.setHeaderText("Online Support");
         alert.setContentText("Support requests can be posted at\n" + 
                              "https://support.spazioit.com.");
@@ -252,7 +256,7 @@ public class MainFrameController implements Initializable {
     @FXML
     private void preProcess(ActionEvent event) {
         try {
-            PreprocessingFunctions preprocFunctions = new PreprocessingFunctions(SAFacilitator.myself);
+            PreprocessingFunctions preprocFunctions = new PreprocessingFunctions(SAFacilitator.getMyself());
             preprocFunctions.preProcess();
             applicationMessage.setText("Sources preprocessed.");
         } catch (Exception ex) {
@@ -267,7 +271,7 @@ public class MainFrameController implements Initializable {
     @FXML
     private void prepareAnalyzers(ActionEvent event) {
         try {
-            AnalyzersFunctions analyzersFunctions = new AnalyzersFunctions(SAFacilitator.myself);
+            AnalyzersFunctions analyzersFunctions = new AnalyzersFunctions(SAFacilitator.getMyself());
             analyzersFunctions.prepareAnalyzers();
             applicationMessage.setText("Analyzers prepared.");
         } catch (Exception ex) {
@@ -282,7 +286,7 @@ public class MainFrameController implements Initializable {
     @FXML
     private void executeAnalyzers(ActionEvent event) {
         try {
-            AnalyzersFunctions analyzersFunctions = new AnalyzersFunctions(SAFacilitator.myself);
+            AnalyzersFunctions analyzersFunctions = new AnalyzersFunctions(SAFacilitator.getMyself());
             analyzersFunctions.executeAnalyzers();
             applicationMessage.setText("Analyzer(s) launched.");
         } catch (Exception ex) {
@@ -297,7 +301,7 @@ public class MainFrameController implements Initializable {
     @FXML
     private void postProcessAnalyzers(ActionEvent event) {
         try {
-            AnalyzersFunctions analyzersFunctions = new AnalyzersFunctions(SAFacilitator.myself);
+            AnalyzersFunctions analyzersFunctions = new AnalyzersFunctions(SAFacilitator.getMyself());
             analyzersFunctions.postProcessAnalyzers();
             applicationMessage.setText("Analyzers post processed.");
         } catch (Exception ex) {
@@ -309,7 +313,7 @@ public class MainFrameController implements Initializable {
     @FXML
     private void prepareSonarQube(ActionEvent event) {
         try {
-            SonarQubeFunctions sonarQubeFunctions = new SonarQubeFunctions(SAFacilitator.myself);
+            SonarQubeFunctions sonarQubeFunctions = new SonarQubeFunctions(SAFacilitator.getMyself());
             sonarQubeFunctions.prepareSonarQube();
             applicationMessage.setText("SonarQube prepared.");
         } catch (Exception ex) {
@@ -321,7 +325,7 @@ public class MainFrameController implements Initializable {
     @FXML
     private void runSonarScanner(ActionEvent event) {
         try {
-            SonarQubeFunctions sonarQubeFunctions = new SonarQubeFunctions(SAFacilitator.myself);
+            SonarQubeFunctions sonarQubeFunctions = new SonarQubeFunctions(SAFacilitator.getMyself());
             sonarQubeFunctions.runSonarScanner();
             applicationMessage.setText("SonarScanner launched.");
         } catch (Exception ex) {
@@ -349,18 +353,18 @@ public class MainFrameController implements Initializable {
         fileChooser.setTitle("Save Log File");
         fileChooser.getExtensionFilters().addAll(
             new ExtensionFilter("Log Files", "*.log"),
-            new ExtensionFilter("All Files", "*.*"));
-        Project p = SAFacilitator.myself.currentProject;
+            new ExtensionFilter(Strings.ALL_FILES, "*.*"));
+        Project p = SAFacilitator.getMyself().getCurrentProject() ;
         if ((p != null) && 
             (p.getBaseDirectory() != null) && 
             (!p.getBaseDirectory().equals(""))) {
             fileChooser.setInitialDirectory(new File(p.getBaseDirectory()));
         }
-        fileChooser.setInitialFileName("SAFacilitator.log");
-        File selectedFile = fileChooser.showSaveDialog(MainFrame.mainWindow);
+        fileChooser.setInitialFileName(Strings.SAFACILITATOR + ".log");
+        File selectedFile = fileChooser.showSaveDialog(MainFrame.getMainWindow());
         try {
             String fileName = selectedFile.getCanonicalPath();
-            FileFunctions functions = new FileFunctions(SAFacilitator.myself);
+            FileFunctions functions = new FileFunctions(SAFacilitator.getMyself());
             functions.saveLog(fileName, textArea);
             applicationMessage.setText("Log Saved.");
         } catch (Exception ex) {
@@ -378,9 +382,9 @@ public class MainFrameController implements Initializable {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Save Project as Compile Comamnds File");
             fileChooser.getExtensionFilters().addAll(
-                new ExtensionFilter("JSON Files", "*.json"),
-                new ExtensionFilter("All Files", "*.*"));
-            Project p = SAFacilitator.myself.currentProject;
+                new ExtensionFilter(JSON_FILES, JSON_EXT),
+                new ExtensionFilter(Strings.ALL_FILES, "*.*"));
+            Project p = SAFacilitator.getMyself().getCurrentProject() ;
             if ((p == null) || 
                 (p.getBaseDirectory() == null) || 
                 (p.getBaseDirectory().equals("")) ||
@@ -398,9 +402,9 @@ public class MainFrameController implements Initializable {
                 (!p.getProjectName().equals(""))) {
                 fileChooser.setInitialFileName("compile_commands.json");
             }
-            File selectedFile = fileChooser.showSaveDialog(MainFrame.mainWindow);
+            File selectedFile = fileChooser.showSaveDialog(MainFrame.getMainWindow());
             String fileName = selectedFile.getCanonicalPath();
-            FileFunctions functions = new FileFunctions(SAFacilitator.myself);
+            FileFunctions functions = new FileFunctions(SAFacilitator.getMyself());
             functions.saveProjectAsCompileCommands(fileName);
             applicationMessage.setText("Project Saved as Compile Commands.");
         } catch (Exception ex) {
@@ -414,7 +418,7 @@ public class MainFrameController implements Initializable {
      */
     @FXML
     private void stopRunningProcess(ActionEvent event) {
-        Project p = SAFacilitator.myself.currentProject;
+        Project p = SAFacilitator.getMyself().getCurrentProject() ;
         if (p == null) {
             return;
         }
@@ -422,20 +426,24 @@ public class MainFrameController implements Initializable {
         extensions[0] = "running";
         if (!p.getPreProcessingEnabled()) {
             for (File file : FileUtils.listFiles(new File(p.getBaseDirectory()), extensions, false)) {
-                file.delete();
+                if (!file.delete()) {
+                    System.err.println("Could not delete file " + file.getName() + ".");
+                } 
             }
         } else {
             for (File file : FileUtils.listFiles(new File(p.getExplodedDirectory()), extensions, false)) {
-                file.delete();
+                if (!file.delete()) {
+                    System.err.println("Could not delete file " + file.getName() + ".");
+                } 
             }            
         }
         try {
-            MainFrame.runningExecutor.cancel();
+            MainFrame.getRunningExecutor().cancel();
         } catch (Exception ex) {
             // Absorbs exceptions
         }
-        MainFrame.stopRunningMenuItem.setText("Stop running process...");
-        MainFrame.stopRunningMenuItem.setDisable(true);
+        MainFrame.getStopRunningMenuItem().setText("Stop running process...");
+        MainFrame.getStopRunningMenuItem().setDisable(true);
     }
 
     /**
@@ -444,7 +452,7 @@ public class MainFrameController implements Initializable {
     @FXML
     private void preparePreprocessing(ActionEvent event) {
         try {
-            PreprocessingFunctions preprocFunctions = new PreprocessingFunctions(SAFacilitator.myself);
+            PreprocessingFunctions preprocFunctions = new PreprocessingFunctions(SAFacilitator.getMyself());
             preprocFunctions.preparePreprocess();
             applicationMessage.setText("Preprocessing prepared");
         } catch (Exception ex) {
@@ -459,7 +467,7 @@ public class MainFrameController implements Initializable {
     @FXML
     private void showCompilerDefines(ActionEvent event) {
         try {
-            PreprocessingFunctions preprocFunctions = new PreprocessingFunctions(SAFacilitator.myself);
+            PreprocessingFunctions preprocFunctions = new PreprocessingFunctions(SAFacilitator.getMyself());
             preprocFunctions.showCompilerDefines();
             applicationMessage.setText("Defines Shown");
         } catch (Exception ex) {
@@ -477,9 +485,9 @@ public class MainFrameController implements Initializable {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Save Project File");
             fileChooser.getExtensionFilters().addAll(
-                new ExtensionFilter("JSON Files", "*.json"),
-                new ExtensionFilter("All Files", "*.*"));
-            Project p = SAFacilitator.myself.currentProject;
+                new ExtensionFilter(JSON_FILES, JSON_EXT),
+                new ExtensionFilter(Strings.ALL_FILES, "*.*"));
+            Project p = SAFacilitator.getMyself().getCurrentProject() ;
             if ((p == null) || 
                 (p.getBaseDirectory() == null) || 
                 (p.getBaseDirectory().equals(""))) {
@@ -495,12 +503,12 @@ public class MainFrameController implements Initializable {
                 (!p.getProjectName().equals(""))) {
                 fileChooser.setInitialFileName(p.getProjectName() + ".json");
             }
-            File selectedFile = fileChooser.showSaveDialog(MainFrame.mainWindow);
+            File selectedFile = fileChooser.showSaveDialog(MainFrame.getMainWindow());
             String fileName = selectedFile.getCanonicalPath();
-            FileFunctions functions = new FileFunctions(SAFacilitator.myself);
+            FileFunctions functions = new FileFunctions(SAFacilitator.getMyself());
             functions.saveProject(fileName);
-            MainFrame.primaryStage.setTitle("SAFacilitator - " + fileName);
-            SAFacilitator.fileName = fileName;
+            MainFrame.getPrimaryStage().setTitle(Strings.SAFACILITATOR + " - " + fileName);
+            SAFacilitator.setFileName(fileName);
             applicationMessage.setText("Project Saved.");
         } catch (Exception ex) {
             applicationMessage.setText(ex.getMessage());

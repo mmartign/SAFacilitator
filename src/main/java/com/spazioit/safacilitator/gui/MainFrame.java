@@ -21,6 +21,7 @@
  */
 package com.spazioit.safacilitator.gui;
 
+import com.spazioit.safacilitator.Strings;
 import com.spazioit.safacilitator.functions.Executor;
 import java.util.Calendar;
 import javafx.application.Application;
@@ -40,14 +41,78 @@ import javafx.stage.Window;
  */
 public class MainFrame extends Application {
     
-    public static Window mainWindow;
-    public static Stage secondaryStage;
-    public static Stage primaryStage;
-    public static Stage tertiaryStage;
-    public static TextArea textArea;
-    public static Label applicationMessage;
-    public static MenuItem stopRunningMenuItem;
-    public static Executor runningExecutor = null;
+    private static Window mainWindow;
+    private static Stage secondaryStage;
+    private static Stage primaryStage;
+    private static Stage tertiaryStage;
+    private static TextArea textArea;
+    private static Label applicationMessage;
+    private static MenuItem stopRunningMenuItem;
+    private static Executor runningExecutor = null;
+
+    public static Window getMainWindow() {
+        return mainWindow;
+    }
+
+    public static void setMainWindow(Window mainWindow) {
+        MainFrame.mainWindow = mainWindow;
+    }
+
+    public static Stage getSecondaryStage() {
+        return secondaryStage;
+    }
+
+    public static void setSecondaryStage(Stage secondaryStage) {
+        MainFrame.secondaryStage = secondaryStage;
+    }
+
+    public static Stage getPrimaryStage() {
+        return primaryStage;
+    }
+
+    public static void setPrimaryStage(Stage primaryStage) {
+        MainFrame.primaryStage = primaryStage;
+    }
+
+    public static Stage getTertiaryStage() {
+        return tertiaryStage;
+    }
+
+    public static void setTertiaryStage(Stage tertiaryStage) {
+        MainFrame.tertiaryStage = tertiaryStage;
+    }
+
+    public static TextArea getTextArea() {
+        return textArea;
+    }
+
+    public static void setTextArea(TextArea textArea) {
+        MainFrame.textArea = textArea;
+    }
+
+    public static Label getApplicationMessage() {
+        return applicationMessage;
+    }
+
+    public static void setApplicationMessage(Label applicationMessage) {
+        MainFrame.applicationMessage = applicationMessage;
+    }
+
+    public static MenuItem getStopRunningMenuItem() {
+        return stopRunningMenuItem;
+    }
+
+    public static void setStopRunningMenuItem(MenuItem stopRunningMenuItem) {
+        MainFrame.stopRunningMenuItem = stopRunningMenuItem;
+    }
+
+    public static Executor getRunningExecutor() {
+        return runningExecutor;
+    }
+
+    public static void setRunningExecutor(Executor runningExecutor) {
+        MainFrame.runningExecutor = runningExecutor;
+    }
     
     
     
@@ -58,9 +123,9 @@ public class MainFrame extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/SplashScreen.fxml"));
         
         Scene scene = new Scene(root);
-        stage.getIcons().add(new Image(MainFrame.class.getResourceAsStream( "/images/Marvin.png" )));
+        stage.getIcons().add(new Image(MainFrame.class.getResourceAsStream( Strings.MARVIN_PNG )));
         // stage.setResizable(false);
-        stage.setTitle("SAFacilitator - Copyright (©) " + Calendar.getInstance().get(Calendar.YEAR) +  " - Spazio IT - https://www.spazioit.com");
+        stage.setTitle(Strings.SAFACILITATOR + " - Copyright (©) " + Calendar.getInstance().get(Calendar.YEAR) +  " - " + Strings.SPAZIOIT_WWW);
        
         stage.setScene(scene);
         stage.show();

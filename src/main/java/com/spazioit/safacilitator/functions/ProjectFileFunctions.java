@@ -22,6 +22,7 @@
 package com.spazioit.safacilitator.functions;
 
 import com.spazioit.safacilitator.SAFacilitator;
+import com.spazioit.safacilitator.Strings;
 import com.spazioit.safacilitator.model.PrFile;
 import com.spazioit.safacilitator.model.Project;
 import java.util.ArrayList;
@@ -50,12 +51,12 @@ public class ProjectFileFunctions {
      * (single file level)
      */
     public void setOrigBuilder(TextField origBuilder) throws Exception {
-        Project p = safacilitator.currentProject;
+        Project p = safacilitator.getCurrentProject();
         if (p == null) {
-            throw new Exception("Current project is null. Initialize it first!");
+            throw new Exception(Strings.CURRENT_PROJECT_IS_NULL);
         }
         if (selectedFile == null) {
-            throw new Exception("Selected project file is null. Initialize it first!");
+            throw new Exception(Strings.SELECTED_PROJECT_FILE_IS_NULL);
         }
         String myBuilder = origBuilder.getText();
         selectedFile.setPfOriginalBuilder(myBuilder);
@@ -72,12 +73,12 @@ public class ProjectFileFunctions {
      * (single file level)
      */
     public void getOrigBuilder(TextField origBuilder) throws Exception {
-        Project p = safacilitator.currentProject;
+        Project p = safacilitator.getCurrentProject();
         if (p == null) {
-            throw new Exception("Current project is null. Initialize it first!");
+            throw new Exception(Strings.CURRENT_PROJECT_IS_NULL);
         }
         if (selectedFile == null) {
-            throw new Exception("Selected project file is null. Initialize it first!");
+            throw new Exception(Strings.SELECTED_PROJECT_FILE_IS_NULL);
         }
         origBuilder.setText(selectedFile.getPfOriginalBuilder());
     }
@@ -89,12 +90,12 @@ public class ProjectFileFunctions {
      * (single file level)
      */
     public void setDefines(TextField defines) throws Exception {
-        Project p = safacilitator.currentProject;
+        Project p = safacilitator.getCurrentProject();
         if (p == null) {
-            throw new Exception("Current project is null. Initialize it first!");
+            throw new Exception(Strings.CURRENT_PROJECT_IS_NULL);
         }
         if (selectedFile == null) {
-            throw new Exception("Selected project file is null. Initialize it first!");
+            throw new Exception(Strings.SELECTED_PROJECT_FILE_IS_NULL);
         }
         String myDefines = defines.getText();
         List<String> myList = new ArrayList<String>();
@@ -116,12 +117,12 @@ public class ProjectFileFunctions {
      * (single file level)
      */
     public void getDefines(TextField defines) throws Exception {
-        Project p = safacilitator.currentProject;
+        Project p = safacilitator.getCurrentProject();
         if (p == null) {
-            throw new Exception("Current project is null. Initialize it first!");
+            throw new Exception(Strings.CURRENT_PROJECT_IS_NULL);
         }
         if (selectedFile == null) {
-            throw new Exception("Selected project file is null. Initialize it first!");
+            throw new Exception(Strings.SELECTED_PROJECT_FILE_IS_NULL);
         }
         String myDefines = "";
         for (int i = 0; i < selectedFile.getPfDefines().size(); i++) {
@@ -141,12 +142,12 @@ public class ProjectFileFunctions {
      * (single file level)
      */
     public void setAdditionalArguments(TextField additionalArguments) throws Exception {
-        Project p = safacilitator.currentProject;
+        Project p = safacilitator.getCurrentProject();
         if (p == null) {
-            throw new Exception("Current project is null. Initialize it first!");
+            throw new Exception(Strings.CURRENT_PROJECT_IS_NULL);
         }
         if (selectedFile == null) {
-            throw new Exception("Selected project file is null. Initialize it first!");
+            throw new Exception(Strings.SELECTED_PROJECT_FILE_IS_NULL);
         }
         String myArguments = additionalArguments.getText();
         List<String> myList = new ArrayList<String>();
@@ -169,12 +170,12 @@ public class ProjectFileFunctions {
      * (single file level)
      */
     public void getAdditionalArguments(TextField additionalArguments) throws Exception {
-        Project p = safacilitator.currentProject;
+        Project p = safacilitator.getCurrentProject();
         if (p == null) {
-            throw new Exception("Current project is null. Initialize it first!");
+            throw new Exception(Strings.CURRENT_PROJECT_IS_NULL);
         }
         if (selectedFile == null) {
-            throw new Exception("Selected project file is null. Initialize it first!");
+            throw new Exception(Strings.SELECTED_PROJECT_FILE_IS_NULL);
         }
         String myArguments = "";
         for (int i = 0; i < selectedFile.getPfAdditionalArguments().size(); i++) {
@@ -193,12 +194,12 @@ public class ProjectFileFunctions {
      * (single file level)
      */
     public void setIncludeDirectories(ListView<String> includeDirectories) throws Exception {
-        Project p = safacilitator.currentProject;
+        Project p = safacilitator.getCurrentProject();
         if (p == null) {
-            throw new Exception("Current project is null. Initialize it first!");
+            throw new Exception(Strings.CURRENT_PROJECT_IS_NULL);
         }
         if (selectedFile == null) {
-            throw new Exception("Selected project file is null. Initialize it first!");
+            throw new Exception(Strings.SELECTED_PROJECT_FILE_IS_NULL);
         }
         if (includeDirectories == null) {
             return;
@@ -224,12 +225,12 @@ public class ProjectFileFunctions {
      * (single file level)
      */
     public void getIncludeDirectories(ListView<String> includeDirectories) throws Exception {
-        Project p = safacilitator.currentProject;
+        Project p = safacilitator.getCurrentProject();
         if (p == null) {
-            throw new Exception("Current project is null. Initialize it first!");
+            throw new Exception(Strings.CURRENT_PROJECT_IS_NULL);
         }
         if (selectedFile == null) {
-            throw new Exception("Selected project file is null. Initialize it first!");
+            throw new Exception(Strings.SELECTED_PROJECT_FILE_IS_NULL);
         }
         if (selectedFile.getPfIncludeDirectories() == null) {
             return;

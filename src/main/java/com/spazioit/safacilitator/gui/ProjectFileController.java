@@ -22,6 +22,7 @@
 package com.spazioit.safacilitator.gui;
 
 import com.spazioit.safacilitator.SAFacilitator;
+import com.spazioit.safacilitator.Strings;
 import com.spazioit.safacilitator.functions.EditFunctions;
 import com.spazioit.safacilitator.functions.FileFunctions;
 import com.spazioit.safacilitator.functions.ProjectFileFunctions;
@@ -83,9 +84,9 @@ public class ProjectFileController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            Project p = SAFacilitator.myself.currentProject;
+            Project p = SAFacilitator.getMyself().getCurrentProject() ;
             if (p == null) {
-                throw new Exception("Current project cannot be null.  Initialize it first!");
+                throw new Exception(Strings.CURRENT_PROJECT_IS_NULL);
             }
             if (p.getpFiles() == null) {
                 throw new Exception("Project files list cannot be null.  Initialize it first!");
@@ -102,7 +103,7 @@ public class ProjectFileController implements Initializable {
             if (selectedProjectFile == null) {
                 throw new Exception("The selected file hasn't been saved yet. Press Ok in the edit panel.");                
             }
-            projectFunctions = new ProjectFileFunctions(SAFacilitator.myself, selectedProjectFile);
+            projectFunctions = new ProjectFileFunctions(SAFacilitator.getMyself(), selectedProjectFile);
             projectFunctions.getOrigBuilder(originalBuilder);
             projectFunctions.getDefines(defines);
             projectFunctions.getAdditionalArguments(additionalArguments);
@@ -120,17 +121,17 @@ public class ProjectFileController implements Initializable {
     @FXML
     private void addInclude(ActionEvent event) {
         try {
-            Project p = SAFacilitator.myself.currentProject;
+            Project p = SAFacilitator.getMyself().getCurrentProject() ;
             if (p == null) {
-                throw new Exception("Project cannot be null.");
+                throw new Exception(Strings.PROJECT_CANNOT_BE_NULL);
             } 
             if (p.getBaseDirectory() == null) {
-                throw new Exception("Base Directory cannot be null.");
+                throw new Exception(Strings.BASE_DIRECTORY_CANNOT_BE_NULL);
             } 
             DirectoryChooser chooser = new DirectoryChooser();
             chooser.setTitle("Add Include Directory");
             chooser.setInitialDirectory(new File(p.getBaseDirectory()));
-            File selectedDirectory = chooser.showDialog(MainFrame.mainWindow);
+            File selectedDirectory = chooser.showDialog(MainFrame.getMainWindow());
             String normDirectory = selectedDirectory.getCanonicalPath().replace("\\", "/").replace("c:", "C:");
             if (normDirectory.equals(p.getBaseDirectory())) {
                 normDirectory = ".";
@@ -153,12 +154,12 @@ public class ProjectFileController implements Initializable {
     @FXML
     private void editInclude(ActionEvent event) {
         try {
-            Project p = SAFacilitator.myself.currentProject;
+            Project p = SAFacilitator.getMyself().getCurrentProject() ;
             if (p == null) {
-                throw new Exception("Project cannot be null.");
+                throw new Exception(Strings.PROJECT_CANNOT_BE_NULL);
             } 
             if (p.getBaseDirectory() == null) {
-                throw new Exception("Base Directory cannot be null.");
+                throw new Exception(Strings.BASE_DIRECTORY_CANNOT_BE_NULL);
             } 
             int selectedIdx = includeDirectories.getSelectionModel().getSelectedIndex();
             if (selectedIdx != -1) {
@@ -166,7 +167,7 @@ public class ProjectFileController implements Initializable {
                 DirectoryChooser chooser = new DirectoryChooser();
                 chooser.setTitle("Edit Include Directory");
                 chooser.setInitialDirectory(new File(p.getBaseDirectory() + "/" + itemToEdit));
-                File selectedDirectory = chooser.showDialog(MainFrame.mainWindow);
+                File selectedDirectory = chooser.showDialog(MainFrame.getMainWindow());
                 String normDirectory = selectedDirectory.getCanonicalPath().replace("\\", "/").replace("c:", "C:");
                 if (normDirectory.equals(p.getBaseDirectory())) {
                     normDirectory = ".";
@@ -259,7 +260,7 @@ public class ProjectFileController implements Initializable {
             projectFunctions.setDefines(defines);
             projectFunctions.setAdditionalArguments(additionalArguments);
             projectFunctions.setIncludeDirectories(includeDirectories);
-            MainFrame.tertiaryStage.close();
+            MainFrame.getTertiaryStage().close();
         } catch (Exception ex) {
             applicationMessage.setText(ex.getMessage());
             CommonGuiFunctions.displayError(ex.getMessage());
@@ -268,7 +269,7 @@ public class ProjectFileController implements Initializable {
 
     @FXML
     private void cancel(ActionEvent event) {
-        MainFrame.tertiaryStage.close();
+        MainFrame.getTertiaryStage().close();
     }
     
 }

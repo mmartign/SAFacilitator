@@ -22,6 +22,7 @@
 package com.spazioit.safacilitator.functions;
 
 import com.spazioit.safacilitator.SAFacilitator;
+import com.spazioit.safacilitator.Strings;
 import com.spazioit.safacilitator.model.PrFile;
 import com.spazioit.safacilitator.model.Project;
 import java.nio.file.Path;
@@ -50,9 +51,9 @@ public class EditFunctions {
      * normalize it as it was a file name
      */
     public void setProjectName(TextField projectName) throws Exception {
-        Project p = safacilitator.currentProject;
+        Project p = safacilitator.getCurrentProject();
         if (p == null) {
-            throw new Exception("Current project is null. Initialize it first!");
+            throw new Exception(Strings.CURRENT_PROJECT_IS_NULL);
         }
         Path path = Paths.get(projectName.getText());
         p.setProjectName(path.normalize().toString());
@@ -64,9 +65,9 @@ public class EditFunctions {
      * copy "projectName" from POJO to GUI
      */
     public void getProjectName(TextField projectName) throws Exception {
-        Project p = safacilitator.currentProject;
+        Project p = safacilitator.getCurrentProject();
         if (p == null) {
-            throw new Exception("Current project is null. Initialize it first!");
+            throw new Exception(Strings.CURRENT_PROJECT_IS_NULL);
         }
         projectName.setText(p.getProjectName());
     }
@@ -77,9 +78,9 @@ public class EditFunctions {
      * copy "projectKey" from GUI to POJO
      */
     public void setProjectKey(TextField projectKey) throws Exception {
-        Project p = safacilitator.currentProject;
+        Project p = safacilitator.getCurrentProject();
         if (p == null) {
-            throw new Exception("Current project is null. Initialize it first!");
+            throw new Exception(Strings.CURRENT_PROJECT_IS_NULL);
         }
         p.setProjectKey(projectKey.getText());
     }
@@ -90,9 +91,9 @@ public class EditFunctions {
      * move "projectKey" from POJO to GUI
      */
     public void getProjectKey(TextField projectKey) throws Exception {
-        Project p = safacilitator.currentProject;
+        Project p = safacilitator.getCurrentProject();
         if (p == null) {
-            throw new Exception("Current project is null. Initialize it first!");
+            throw new Exception(Strings.CURRENT_PROJECT_IS_NULL);
         }
         projectKey.setText(p.getProjectKey());
     }
@@ -103,9 +104,9 @@ public class EditFunctions {
      * copy "projectVersion" from GUI to POJO
      */
     public void setProjectVersion(TextField projectVersion) throws Exception {
-        Project p = safacilitator.currentProject;
+        Project p = safacilitator.getCurrentProject();
         if (p == null) {
-            throw new Exception("Current project is null. Initialize it first!");
+            throw new Exception(Strings.CURRENT_PROJECT_IS_NULL);
         }
         p.setProjectVersion(projectVersion.getText());
     }
@@ -116,9 +117,9 @@ public class EditFunctions {
      * copy "projectVersion" from POJO to GUI
      */
     public void getProjectVersion(TextField projectVersion) throws Exception {
-        Project p = safacilitator.currentProject;
+        Project p = safacilitator.getCurrentProject();
         if (p == null) {
-            throw new Exception("Current project is null. Initialize it first!");
+            throw new Exception(Strings.CURRENT_PROJECT_IS_NULL);
         }
         projectVersion.setText(p.getProjectVersion());
     }
@@ -129,9 +130,9 @@ public class EditFunctions {
      * copy "baseDirectory" from GUI to POJO
      */
     public void setBaseDirectory(TextField baseDirectory) throws Exception {
-        Project p = safacilitator.currentProject;
+        Project p = safacilitator.getCurrentProject();
         if (p == null) {
-            throw new Exception("Current project is null. Initialize it first!");
+            throw new Exception(Strings.CURRENT_PROJECT_IS_NULL);
         }
         p.setBaseDirectory(baseDirectory.getText());
     }
@@ -142,9 +143,9 @@ public class EditFunctions {
      * copy "baseDirectory" from POJO to GUI
      */
     public void getBaseDirectory(TextField baseDirectory) throws Exception {
-        Project p = safacilitator.currentProject;
+        Project p = safacilitator.getCurrentProject();
         if (p == null) {
-            throw new Exception("Current project is null. Initialize it first!");
+            throw new Exception(Strings.CURRENT_PROJECT_IS_NULL);
         }
         baseDirectory.setText(p.getBaseDirectory());
     }
@@ -156,9 +157,9 @@ public class EditFunctions {
      * copy "explodedDirectory" from GUI to POJO
      */
     public void setExplodedDirectory(TextField explodedDirectory) throws Exception {
-        Project p = safacilitator.currentProject;
+        Project p = safacilitator.getCurrentProject();
         if (p == null) {
-            throw new Exception("Current project is null. Initialize it first!");
+            throw new Exception(Strings.CURRENT_PROJECT_IS_NULL);
         }
         p.setExplodedDirectory(explodedDirectory.getText());
     }
@@ -170,9 +171,9 @@ public class EditFunctions {
      * copy "explodedDirectory" from POJO to GUI
      */
     public void getExplodedDirectory(TextField explodedDirectory) throws Exception {
-        Project p = safacilitator.currentProject;
+        Project p = safacilitator.getCurrentProject();
         if (p == null) {
-            throw new Exception("Current project is null. Initialize it first!");
+            throw new Exception(Strings.CURRENT_PROJECT_IS_NULL);
         }
         explodedDirectory.setText(p.getExplodedDirectory());
     }
@@ -184,9 +185,9 @@ public class EditFunctions {
      * copy "compileCommands" from GUI to POJO
      */
     public void setCompileCommands(TextField compileCommands) throws Exception {
-        Project p = safacilitator.currentProject;
+        Project p = safacilitator.getCurrentProject();
         if (p == null) {
-            throw new Exception("Current project is null. Initialize it first!");
+            throw new Exception(Strings.CURRENT_PROJECT_IS_NULL);
         }
         p.setCompileCommands(compileCommands.getText());
     }
@@ -198,9 +199,9 @@ public class EditFunctions {
      * copy "compileCommands" from POJO to GUI
      */
     public void getCompileCommands(TextField compileCommands) throws Exception {
-        Project p = safacilitator.currentProject;
+        Project p = safacilitator.getCurrentProject();
         if (p == null) {
-            throw new Exception("Current project is null. Initialize it first!");
+            throw new Exception(Strings.CURRENT_PROJECT_IS_NULL);
         }
         compileCommands.setText(p.getCompileCommands());
     }
@@ -212,9 +213,9 @@ public class EditFunctions {
      * copy "sourceDirectories" from GUI to POJO
      */
     public void setSourceDirectories(ListView<String> sourceDirectories) throws Exception {
-        Project p = safacilitator.currentProject;
+        Project p = safacilitator.getCurrentProject();
         if (p == null) {
-            throw new Exception("Current project is null. Initialize it first!");
+            throw new Exception(Strings.CURRENT_PROJECT_IS_NULL);
         }
         if (sourceDirectories == null) {
             return;
@@ -235,9 +236,9 @@ public class EditFunctions {
      * copy "sourceDirectories" from POJO to GUI
      */
     public void getSourceDirectories(ListView<String> sourceDirectories) throws Exception {
-        Project p = safacilitator.currentProject;
+        Project p = safacilitator.getCurrentProject();
         if (p == null) {
-            throw new Exception("Current project is null. Initialize it first!");
+            throw new Exception(Strings.CURRENT_PROJECT_IS_NULL);
         }
         if (p.getSourceDirectories() == null) {
             return;
@@ -254,9 +255,9 @@ public class EditFunctions {
      * copy "sourceFiles" from GUI to POJO
      */
     public void setSourceFiles(ListView<String> sourceFiles)  throws Exception {         
-        Project p = safacilitator.currentProject;
+        Project p = safacilitator.getCurrentProject();
         if (p == null) {
-            throw new Exception("Current project is null. Initialize it first!");
+            throw new Exception(Strings.CURRENT_PROJECT_IS_NULL);
         }
         if (p.getpFiles() == null) {
             return;
@@ -303,9 +304,9 @@ public class EditFunctions {
      * copy "sourceFiles" from POJO to GUI
      */
     public void getSourceFiles(ListView<String> sourceFiles) throws Exception {
-        Project p = safacilitator.currentProject;
+        Project p = safacilitator.getCurrentProject();
         if (p == null) {
-            throw new Exception("Current project is null. Initialize it first!");
+            throw new Exception(Strings.CURRENT_PROJECT_IS_NULL);
         }
         if (p.getpFiles() == null) {
             return;
@@ -323,9 +324,9 @@ public class EditFunctions {
      * copy "origBuilders" from GUI to POJO
      */
     public void setOrigBuilders(TextField origBuilders) throws Exception {
-        Project p = safacilitator.currentProject;
+        Project p = safacilitator.getCurrentProject();
         if (p == null) {
-            throw new Exception("Current project is null. Initialize it first!");
+            throw new Exception(Strings.CURRENT_PROJECT_IS_NULL);
         }
         String myBuilders = origBuilders.getText();
         List<String> myList = new ArrayList<String>();
@@ -341,9 +342,9 @@ public class EditFunctions {
      * copy "origBuilders" from POJO to GUI
      */
     public void getOrigBuilders(TextField origBuilders) throws Exception {
-        Project p = safacilitator.currentProject;
+        Project p = safacilitator.getCurrentProject();
         if (p == null) {
-            throw new Exception("Current project is null. Initialize it first!");
+            throw new Exception(Strings.CURRENT_PROJECT_IS_NULL);
         }
         String myBuilders = "";
         for (int i = 0; i < p.getOrigBuilders().size(); i++) {
@@ -361,9 +362,9 @@ public class EditFunctions {
      * copy "defines" from GUI to POJO
      */
     public void setDefines(TextField defines) throws Exception {
-        Project p = safacilitator.currentProject;
+        Project p = safacilitator.getCurrentProject();
         if (p == null) {
-            throw new Exception("Current project is null. Initialize it first!");
+            throw new Exception(Strings.CURRENT_PROJECT_IS_NULL);
         }
         String myDefines = defines.getText();
         List<String> myList = new ArrayList<String>();
@@ -379,9 +380,9 @@ public class EditFunctions {
      * copy "defines" from POJO to GUI
      */
     public void getDefines(TextField defines) throws Exception {
-        Project p = safacilitator.currentProject;
+        Project p = safacilitator.getCurrentProject();
         if (p == null) {
-            throw new Exception("Current project is null. Initialize it first!");
+            throw new Exception(Strings.CURRENT_PROJECT_IS_NULL);
         }
         String myDefines = "";
         for (int i = 0; i < p.getDefines().size(); i++) {
@@ -400,9 +401,9 @@ public class EditFunctions {
      * copy "additionalArguments" from GUI to POJO
      */
     public void setAdditionalArguments(TextField additionalArguments) throws Exception {
-        Project p = safacilitator.currentProject;
+        Project p = safacilitator.getCurrentProject();
         if (p == null) {
-            throw new Exception("Current project is null. Initialize it first!");
+            throw new Exception(Strings.CURRENT_PROJECT_IS_NULL);
         }
         String myArguments = additionalArguments.getText();
         List<String> myList = new ArrayList<String>();
@@ -419,9 +420,9 @@ public class EditFunctions {
      * copy "additionalArguments" from POJO to GUI
      */
     public void getAdditionalArguments(TextField additionalArguments) throws Exception {
-        Project p = safacilitator.currentProject;
+        Project p = safacilitator.getCurrentProject();
         if (p == null) {
-            throw new Exception("Current project is null. Initialize it first!");
+            throw new Exception(Strings.CURRENT_PROJECT_IS_NULL);
         }
         String myArguments = "";
         for (int i = 0; i < p.getAdditionalArguments().size(); i++) {
@@ -439,9 +440,9 @@ public class EditFunctions {
      * copy "includeDirectories" from GUI to POJO
      */
     public void setIncludeDirectories(ListView<String> includeDirectories) throws Exception {
-        Project p = safacilitator.currentProject;
+        Project p = safacilitator.getCurrentProject();
         if (p == null) {
-            throw new Exception("Current project is null. Initialize it first!");
+            throw new Exception(Strings.CURRENT_PROJECT_IS_NULL);
         }
         if (includeDirectories == null) {
             return;
@@ -461,9 +462,9 @@ public class EditFunctions {
      * copy "includeDirectories" from POJO to GUI
      */
     public void getIncludeDirectories(ListView<String> includeDirectories) throws Exception {
-        Project p = safacilitator.currentProject;
+        Project p = safacilitator.getCurrentProject();
         if (p == null) {
-            throw new Exception("Current project is null. Initialize it first!");
+            throw new Exception(Strings.CURRENT_PROJECT_IS_NULL);
         }
         if (p.getIncludeDirectories() == null) {
             return;
@@ -480,9 +481,9 @@ public class EditFunctions {
      * copy "preprocessingEnabled" from GUI to POJO
      */
     public void setPreprocessingEnabled(CheckBox preprocessingEnabled) throws Exception {
-        Project p = safacilitator.currentProject;
+        Project p = safacilitator.getCurrentProject();
         if (p == null) {
-            throw new Exception("Current project is null. Initialize it first!");
+            throw new Exception(Strings.CURRENT_PROJECT_IS_NULL);
         }
         p.setPreProcessingEnabled(preprocessingEnabled.isSelected());
     }
@@ -493,9 +494,9 @@ public class EditFunctions {
      * copy "preprocessingEnabled" from POJO to GUI
      */
     public void getPreprocessingEnabled(CheckBox preprocessingEnabled) throws Exception {
-        Project p = safacilitator.currentProject;
+        Project p = safacilitator.getCurrentProject();
         if (p == null) {
-            throw new Exception("Current project is null. Initialize it first!");
+            throw new Exception(Strings.CURRENT_PROJECT_IS_NULL);
         }
         preprocessingEnabled.setSelected(p.getPreProcessingEnabled());
     }
@@ -511,25 +512,25 @@ public class EditFunctions {
      */
     public void setActiveAnalyzers(CheckBox pcLintEnabled, CheckBox cppcheckEnabled, 
                             CheckBox clangSaEnabled, CheckBox clangTidyEnabled, CheckBox compEnabled) throws Exception {
-        Project p = safacilitator.currentProject;
+        Project p = safacilitator.getCurrentProject();
         if (p == null) {
-            throw new Exception("Current project is null. Initialize it first!");
+            throw new Exception(Strings.CURRENT_PROJECT_IS_NULL);
         }
         List<String> myList = new ArrayList<String>();
         if (pcLintEnabled.isSelected()) {
-            myList.add("PC-Lint");
+            myList.add(Strings.PC_LINT);
         }
         if (cppcheckEnabled.isSelected()) {
-            myList.add("Cppcheck");
+            myList.add(Strings.CPPCHECK);
         }
         if (clangSaEnabled.isSelected()) {
-            myList.add("Clang-SA");
+            myList.add(Strings.CLANG_SA);
         }
         if (clangTidyEnabled.isSelected()) {
-            myList.add("Clang-Tidy");
+            myList.add(Strings.CLANG_TIDY);
         }
         if (compEnabled.isSelected()) {
-            myList.add("COMP");
+            myList.add(Strings.COMP);
         }
         p.setActiveAnalyzers(myList);
     }
@@ -545,32 +546,32 @@ public class EditFunctions {
      */
     public void getActiveAnalyzers(CheckBox pcLintEnabled, CheckBox cppcheckEnabled, 
                             CheckBox clangSaEnabled, CheckBox clangTidyEnabled, CheckBox compEnabled) throws Exception {
-        Project p = safacilitator.currentProject;
+        Project p = safacilitator.getCurrentProject();
         if (p == null) {
-            throw new Exception("Current project is null. Initialize it first!");
+            throw new Exception(Strings.CURRENT_PROJECT_IS_NULL);
         }
         List<String> myList = p.getActiveAnalyzers();
-        if (myList.contains("PC-Lint")) {
+        if (myList.contains(Strings.PC_LINT)) {
             pcLintEnabled.setSelected(true);
         } else {
             pcLintEnabled.setSelected(false);            
         }
-        if (myList.contains("Cppcheck")) {
+        if (myList.contains(Strings.CPPCHECK)) {
             cppcheckEnabled.setSelected(true);
         } else {
             cppcheckEnabled.setSelected(false);            
         }
-        if (myList.contains("Clang-SA")) {
+        if (myList.contains(Strings.CLANG_SA)) {
             clangSaEnabled.setSelected(true);
         } else {
             clangSaEnabled.setSelected(false);            
         }
-        if (myList.contains("Clang-Tidy")) {
+        if (myList.contains(Strings.CLANG_TIDY)) {
             clangTidyEnabled.setSelected(true);
         } else {
             clangTidyEnabled.setSelected(false);            
         }
-        if (myList.contains("COMP")) {
+        if (myList.contains(Strings.COMP)) {
             compEnabled.setSelected(true);
         } else {
             compEnabled.setSelected(false);            
@@ -583,9 +584,9 @@ public class EditFunctions {
      * copy "sonarQubeUrl" from GUI to POJO
      */
     public void setSonarQubeUrl(TextField sonarQubeUrl) throws Exception {
-        Project p = safacilitator.currentProject;
+        Project p = safacilitator.getCurrentProject();
         if (p == null) {
-            throw new Exception("Current project is null. Initialize it first!");
+            throw new Exception(Strings.CURRENT_PROJECT_IS_NULL);
         }
         p.setSonarQubeUrl(sonarQubeUrl.getText());
     }
@@ -596,9 +597,9 @@ public class EditFunctions {
      * copy "sonarQubeUrl" from POJO to GUI
      */
     public void getSonarQubeUrl(TextField sonarQubeUrl) throws Exception {
-        Project p = safacilitator.currentProject;
+        Project p = safacilitator.getCurrentProject();
         if (p == null) {
-            throw new Exception("Current project is null. Initialize it first!");
+            throw new Exception(Strings.CURRENT_PROJECT_IS_NULL);
         }
         sonarQubeUrl.setText(p.getSonarQubeUrl());
     }
@@ -609,9 +610,9 @@ public class EditFunctions {
      * copy "sonarQubeUserName" from GUI to POJO
      */
     public void setSonarQubeUserName(TextField sonarQubeUserName) throws Exception {
-        Project p = safacilitator.currentProject;
+        Project p = safacilitator.getCurrentProject();
         if (p == null) {
-            throw new Exception("Current project is null. Initialize it first!");
+            throw new Exception(Strings.CURRENT_PROJECT_IS_NULL);
         }
         p.setSonarQubeUserName(sonarQubeUserName.getText());
     }
@@ -622,9 +623,9 @@ public class EditFunctions {
      * copy "sonarQubeUserName" from POJO to GUI
      */
     public void getSonarQubeUserName(TextField sonarQubeUserName) throws Exception {
-        Project p = safacilitator.currentProject;
+        Project p = safacilitator.getCurrentProject();
         if (p == null) {
-            throw new Exception("Current project is null. Initialize it first!");
+            throw new Exception(Strings.CURRENT_PROJECT_IS_NULL);
         }
         sonarQubeUserName.setText(p.getSonarQubeUserName());
     }
@@ -635,9 +636,9 @@ public class EditFunctions {
      * copy "sonarQubeUserPassword" from GUI to POJO
      */
     public void setSonarQubeUserPassword(TextField sonarQubeUserPassword) throws Exception {
-        Project p = safacilitator.currentProject;
+        Project p = safacilitator.getCurrentProject();
         if (p == null) {
-            throw new Exception("Current project is null. Initialize it first!");
+            throw new Exception(Strings.CURRENT_PROJECT_IS_NULL);
         }
         p.setSonarQubeUserPassword(sonarQubeUserPassword.getText());
     }
@@ -648,9 +649,9 @@ public class EditFunctions {
      * copy "sonarQubeUserPassword" from POJO to GUI
      */
     public void getSonarQubeUserPassword(TextField sonarQubeUserPassword) throws Exception {
-        Project p = safacilitator.currentProject;
+        Project p = safacilitator.getCurrentProject();
         if (p == null) {
-            throw new Exception("Current project is null. Initialize it first!");
+            throw new Exception(Strings.CURRENT_PROJECT_IS_NULL);
         }
         sonarQubeUserPassword.setText(p.getSonarQubeUserPassword());
     }
@@ -661,9 +662,9 @@ public class EditFunctions {
      * copy "sonarScanner" from GUI to POJO
      */
     public void setSonarScanner(TextField sonarScanner) throws Exception {
-        Project p = safacilitator.currentProject;
+        Project p = safacilitator.getCurrentProject();
         if (p == null) {
-            throw new Exception("Current project is null. Initialize it first!");
+            throw new Exception(Strings.CURRENT_PROJECT_IS_NULL);
         }
         p.setSonarScanner(sonarScanner.getText());
     }
@@ -674,9 +675,9 @@ public class EditFunctions {
      * copy "sonarScanner" from POJO to GUI
      */
     public void getSonarScanner(TextField sonarScanner) throws Exception {
-        Project p = safacilitator.currentProject;
+        Project p = safacilitator.getCurrentProject();
         if (p == null) {
-            throw new Exception("Current project is null. Initialize it first!");
+            throw new Exception(Strings.CURRENT_PROJECT_IS_NULL);
         }
         sonarScanner.setText(p.getSonarScanner());
     }
@@ -688,9 +689,9 @@ public class EditFunctions {
      * lists is taken out)
      */
     public void normalizeFileDetails() throws Exception {
-        Project p = safacilitator.currentProject;
+        Project p = safacilitator.getCurrentProject();
         if (p == null) {
-            throw new Exception("Current project is null. Initialize it first!");
+            throw new Exception(Strings.CURRENT_PROJECT_IS_NULL);
         }
         if (p.getpFiles() == null) {
             throw new Exception("In current project is null the project files list is null. Initialize it first!");

@@ -42,18 +42,18 @@ import org.apache.commons.io.FilenameUtils;
  * @author Maurizio Martignano
  */
 public class FileFunctions {
-    
+
     SAFacilitator safacilitator = null;
-    
+
     public FileFunctions(SAFacilitator safacilitator) {
         this.safacilitator = safacilitator;
     }
-    
+
     /**
-     * 
+     *
      * @param fileName - the file to be read
-     * @throws Exception in case of application error
-     * De-serialize "compileCommands" from "fileName"
+     * @throws Exception in case of application error De-serialize
+     * "compileCommands" from "fileName"
      */
     public void readCompileCommands(String fileName) throws Exception {
         try {
@@ -65,7 +65,7 @@ public class FileFunctions {
             for (int i = 0; i < ccFiles.length; i++) {
                 listCcFiles.add(ccFiles[i]);
             }
-            if (safacilitator.currentProject == null) {
+            if (safacilitator.getCurrentProject() == null) {
                 throw new Exception("Current Project is null and cannot receive Compile Commands info!");
             }
             List<String> sourceFiles = new ArrayList<String>();
@@ -74,7 +74,7 @@ public class FileFunctions {
             List<String> defines = new ArrayList<String>();
             List<String> additionalArguments = new ArrayList<String>();
             List<String> origBuilders = new ArrayList<String>();
-            Project p = safacilitator.currentProject;
+            Project p = safacilitator.getCurrentProject();
             List<PrFile> pfFiles = new ArrayList<PrFile>();
             for (CcFile ccFile : listCcFiles) {
                 PrFile pFile = new PrFile();
@@ -86,7 +86,7 @@ public class FileFunctions {
                     normDirectory = ".";
                 } else {
                     if (normDirectory.startsWith(p.getBaseDirectory())) {
-                        normDirectory = normDirectory.substring(p.getBaseDirectory().length()+1);
+                        normDirectory = normDirectory.substring(p.getBaseDirectory().length() + 1);
                     }
                 }
                 if (!sourceFiles.contains(sDirectory + "/" + sFile)) {
@@ -105,8 +105,8 @@ public class FileFunctions {
                 List<String> pfIncludes = new ArrayList<String>();
                 List<String> pfAdditionalArguments = new ArrayList<String>();
                 for (int i = 1; i < arguments.size(); i++) {
-                    if (arguments.get(i).startsWith("-D") || 
-                        arguments.get(i).startsWith("-U")) {
+                    if (arguments.get(i).startsWith("-D")
+                            || arguments.get(i).startsWith("-U")) {
                         String define = arguments.get(i);
                         if (!defines.contains(define)) {
                             defines.add(define);
@@ -134,18 +134,18 @@ public class FileFunctions {
                             pfIncludes.add(includeDirectory);
                         }
                     }
-                    if ((!arguments.get(i).startsWith("-D")) && 
-                        (!arguments.get(i).startsWith("-U")) &&
-                        (!arguments.get(i).startsWith("-I"))) {
+                    if ((!arguments.get(i).startsWith("-D"))
+                            && (!arguments.get(i).startsWith("-U"))
+                            && (!arguments.get(i).startsWith("-I"))) {
                         String additionalArgument = arguments.get(i);
-                        if ((!additionalArgument.toLowerCase().contains(".o")) &&
-                            (!additionalArgument.toLowerCase().contains("-c")) &&
-                            (!additionalArgument.toLowerCase().contains("-o")) &&
-                            (!additionalArgument.toLowerCase().contains(".c")) &&    
-                            (!additionalArgument.toLowerCase().contains(".cc")) &&    
-                            (!additionalArgument.toLowerCase().contains(".cpp")) &&    
-                            (!additionalArgument.toLowerCase().contains(".cxx")) &&    
-                            (!additionalArgument.toLowerCase().contains(".h"))) {                           
+                        if ((!additionalArgument.toLowerCase().contains(".o"))
+                                && (!additionalArgument.toLowerCase().contains("-c"))
+                                && (!additionalArgument.toLowerCase().contains("-o"))
+                                && (!additionalArgument.toLowerCase().contains(".c"))
+                                && (!additionalArgument.toLowerCase().contains(".cc"))
+                                && (!additionalArgument.toLowerCase().contains(".cpp"))
+                                && (!additionalArgument.toLowerCase().contains(".cxx"))
+                                && (!additionalArgument.toLowerCase().contains(".h"))) {
                             if (!additionalArguments.contains(additionalArgument)) {
                                 additionalArguments.add(additionalArgument);
                             }
@@ -168,35 +168,35 @@ public class FileFunctions {
             p.setOrigBuilders(origBuilders);
             p.setCompileCommands(fileName.replace("\\", "/").replace("c:", "C:"));
         } catch (Exception ex) {
-            throw ex;    
-        }        
+            throw ex;
+        }
     }
 
     /**
-     * 
+     *
      * @param fileName - the file to be read
-     * @throws Exception in case of application error
-     * De-serialize "currentProject" from "fileName"
+     * @throws Exception in case of application error De-serialize
+     * "currentProject" from "fileName"
      */
     public void readProject(String fileName) throws Exception {
         try {
             FileInputStream file = new FileInputStream(fileName);
             ObjectMapper mapper = new ObjectMapper();
-            safacilitator.currentProject = mapper.readValue(file , Project.class);
+            safacilitator.setCurrentProject(mapper.readValue(file, Project.class));
             file.close();
         } catch (Exception ex) {
-            throw ex;    
-        }        
+            throw ex;
+        }
     }
 
     /**
-     * 
+     *
      * @param fileName - the file to be saved
-     * @throws Exception in case of application error
-     * Serialize "currentProject" into "fileName"
+     * @throws Exception in case of application error Serialize "currentProject"
+     * into "fileName"
      */
     public void saveProject(String fileName) throws Exception {
-        if (safacilitator.currentProject == null) {
+        if (safacilitator.getCurrentProject() == null) {
             throw new Exception("Current Project is null and cannot be saved!");
         } else {
             try {
@@ -204,27 +204,28 @@ public class FileFunctions {
                 PrintStream printer = new PrintStream(file);
                 ObjectMapper mapper = new ObjectMapper();
                 mapper.enable(SerializationFeature.INDENT_OUTPUT);
-                String outputString = mapper.writeValueAsString(safacilitator.currentProject);
+                String outputString = mapper.writeValueAsString(safacilitator.getCurrentProject());
                 printer.println(outputString);
                 printer.close();
+                file.close();
             } catch (Exception ex) {
-                throw ex;    
+                throw ex;
             }
-        }        
+        }
     }
 
     /**
-     * 
+     *
      * @param fileName - the file to be read
-     * @throws Exception in case of application error
-     * Serialize Project into "compileCommands" "fileName"
+     * @throws Exception in case of application error Serialize Project into
+     * "compileCommands" "fileName"
      */
     public void saveProjectAsCompileCommands(String fileName) throws Exception {
-        if (safacilitator.currentProject == null) {
+        if (safacilitator.getCurrentProject() == null) {
             throw new Exception("Current Project is null and cannot be saved!");
         } else {
             try {
-                Project p = safacilitator.currentProject;
+                Project p = safacilitator.getCurrentProject();
                 CcFile[] ccFiles = new CcFile[p.getpFiles().size()];
                 for (int i = 0; i < ccFiles.length; i++) {
                     ccFiles[i] = new CcFile();
@@ -233,18 +234,18 @@ public class FileFunctions {
                         ccFiles[i].setFile(p.getpFiles().get(i).getPfFileName());
                     } else {
                         ccFiles[i].setDirectory(p.getExplodedDirectory());
-                        ccFiles[i].setFile(p.getpFiles().get(i).getPfFileName().replace(p.getBaseDirectory(), p.getExplodedDirectory()));                        
+                        ccFiles[i].setFile(p.getpFiles().get(i).getPfFileName().replace(p.getBaseDirectory(), p.getExplodedDirectory()));
                     }
                     List<String> myArgs = new ArrayList<String>();
                     myArgs.add(p.getpFiles().get(i).getPfOriginalBuilder());
-                    for (String arg: p.getpFiles().get(i).getPfDefines()) {
+                    for (String arg : p.getpFiles().get(i).getPfDefines()) {
                         myArgs.add(arg);
                     }
-                    for (String arg: p.getpFiles().get(i).getPfAdditionalArguments()) {
+                    for (String arg : p.getpFiles().get(i).getPfAdditionalArguments()) {
                         myArgs.add(arg);
                     }
-                    for (String arg: p.getpFiles().get(i).getPfIncludeDirectories()) {
-                        myArgs.add("-I"+ arg);
+                    for (String arg : p.getpFiles().get(i).getPfIncludeDirectories()) {
+                        myArgs.add("-I" + arg);
                     }
                     myArgs.add("-c");
                     myArgs.add(ccFiles[i].getFile());
@@ -257,18 +258,19 @@ public class FileFunctions {
                 String outputString = mapper.writeValueAsString(ccFiles);
                 printer.println(outputString);
                 printer.close();
+                file.close();
             } catch (Exception ex) {
-                throw ex;    
+                throw ex;
             }
-        }        
+        }
     }
 
     /**
-     * 
+     *
      * @param fileName - the file in which the text is going to be saved
      * @param textArea - the text to be saved into "fileName"
-     * @throws Exception in case of application error
-     * Save "textArea" into "fileName"
+     * @throws Exception in case of application error Save "textArea" into
+     * "fileName"
      */
     public void saveLog(String fileName, TextArea textArea) throws Exception {
         try {
@@ -276,11 +278,10 @@ public class FileFunctions {
             PrintStream printer = new PrintStream(file);
             String outputString = textArea.getText();
             printer.println(outputString);
-            printer.close();
+            printer.close();            
+            file.close();
         } catch (Exception ex) {
-            throw ex;    
+            throw ex;
         }
     }
-
-    
 }

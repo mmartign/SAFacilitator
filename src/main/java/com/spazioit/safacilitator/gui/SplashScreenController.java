@@ -21,8 +21,8 @@
  */
 package com.spazioit.safacilitator.gui;
 
-import static com.spazioit.safacilitator.gui.MainFrame.mainWindow;
-import static com.spazioit.safacilitator.gui.MainFrame.primaryStage;
+import com.spazioit.safacilitator.Strings;
+import com.spazioit.safacilitator.gui.MainFrame;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Calendar;
@@ -64,13 +64,13 @@ public class SplashScreenController implements Initializable {
                         System.err.println(ex.getMessage());
                     }
                     Scene scene = new Scene(root);      
-                    mainWindow = scene.getWindow();
+                    MainFrame.setMainWindow(scene.getWindow());
         
                     stage.setScene(scene);
-                    primaryStage = stage;
-                    stage.getIcons().add(new Image(MainFrame.class.getResourceAsStream("/images/Marvin.png")));
+                    MainFrame.setPrimaryStage(stage);
+                    stage.getIcons().add(new Image(MainFrame.class.getResourceAsStream(Strings.MARVIN_PNG)));
                     // stage.setResizable(false);
-                    stage.setTitle("SAFacilitator - Copyright (©) " + Calendar.getInstance().get(Calendar.YEAR) +  " - Spazio IT - https://www.spazioit.com");
+                    stage.setTitle(Strings.SAFACILITATOR + " - Copyright (©) " + Calendar.getInstance().get(Calendar.YEAR) +  " - " + Strings.SPAZIOIT_WWW);
                     stage.show();
 
                     ap.getScene().getWindow().hide();

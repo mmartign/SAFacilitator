@@ -21,6 +21,7 @@
  */
 package com.spazioit.safacilitator.gui;
 
+import com.spazioit.safacilitator.Strings;
 import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
@@ -38,8 +39,8 @@ public class CommonGuiFunctions {
     public static void displayMessage(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-        stage.getIcons().add(new Image(MainFrame.class.getResourceAsStream( "/images/Marvin.png" ))); 
-        alert.setTitle("SAFacilitator");
+        stage.getIcons().add(new Image(MainFrame.class.getResourceAsStream( Strings.MARVIN_PNG ))); 
+        alert.setTitle(Strings.SAFACILITATOR);
         alert.setHeaderText("Application Info");
         alert.setContentText(message);
         alert.showAndWait();
@@ -56,8 +57,8 @@ public class CommonGuiFunctions {
         }
         Alert alert = new Alert(Alert.AlertType.ERROR);
         Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-        stage.getIcons().add(new Image(MainFrame.class.getResourceAsStream( "/images/Marvin.png" ))); 
-        alert.setTitle("SAFacilitator");
+        stage.getIcons().add(new Image(MainFrame.class.getResourceAsStream( Strings.MARVIN_PNG ))); 
+        alert.setTitle(Strings.SAFACILITATOR);
         alert.setHeaderText("Application Error");
         alert.setContentText(message);
         alert.showAndWait();

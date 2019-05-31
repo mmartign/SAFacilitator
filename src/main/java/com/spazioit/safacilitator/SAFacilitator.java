@@ -38,12 +38,60 @@ import java.util.Calendar;
  * @author Maurizio Martignano
  */
 public class SAFacilitator {
-    public Project currentProject = null;
-    public static SAFacilitator myself = null;
-    public static boolean guiEnabled = true;
-    public static String version = "0.7";
-    public static int MAX_LINES = 24576;
-    public static String fileName = "";
+    private Project currentProject = null;
+    private static SAFacilitator myself = null;
+    private static boolean guiEnabled = true;
+    private static String version = "0.8";
+    private static int MAX_LINES = 24576;
+    private static String fileName = "";
+
+    public Project getCurrentProject() {
+        return currentProject;
+    }
+
+    public void setCurrentProject(Project currentProject) {
+        this.currentProject = currentProject;
+    }
+
+    public static SAFacilitator getMyself() {
+        return myself;
+    }
+
+    public static void setMyself(SAFacilitator myself) {
+        SAFacilitator.myself = myself;
+    }
+
+    public static boolean isGuiEnabled() {
+        return guiEnabled;
+    }
+
+    public static void setGuiEnabled(boolean guiEnabled) {
+        SAFacilitator.guiEnabled = guiEnabled;
+    }
+
+    public static String getVersion() {
+        return version;
+    }
+
+    public static void setVersion(String version) {
+        SAFacilitator.version = version;
+    }
+
+    public static int getMAX_LINES() {
+        return MAX_LINES;
+    }
+
+    public static void setMAX_LINES(int MAX_LINES) {
+        SAFacilitator.MAX_LINES = MAX_LINES;
+    }
+
+    public static String getFileName() {
+        return fileName;
+    }
+
+    public static void setFileName(String fileName) {
+        SAFacilitator.fileName = fileName;
+    }
     
     /**
      * @param args the command line arguments
@@ -124,7 +172,7 @@ public class SAFacilitator {
             }
             if (args[i].equals("-l")) {
                 if (i == (args.length - 1)) {
-                    System.err.println("Wrong command line!");
+                    System.err.println(Strings.WRONG_COMMAND_LINE);
                     System.err.println("Arg \"-l\" expects to be followed by a file name.");
                     System.exit(-1);
                 }
@@ -138,7 +186,7 @@ public class SAFacilitator {
             }
             if (args[i].equals("-lcc")) {
                 if (i == (args.length - 1)) {
-                    System.err.println("Wrong command line!");
+                    System.err.println(Strings.WRONG_COMMAND_LINE);
                     System.err.println("Arg \"-lcc\" expects to be followed by a file name.");
                     System.exit(-1);
                 }
@@ -192,7 +240,7 @@ public class SAFacilitator {
             }
             if (args[i].equals("-s")) {
                 if (i == (args.length - 1)) {
-                    System.err.println("Wrong command line!");
+                    System.err.println(Strings.WRONG_COMMAND_LINE);
                     System.err.println("Arg \"-s\" expects to be followed by a file name.");
                     System.exit(-1);
                 }
@@ -206,7 +254,7 @@ public class SAFacilitator {
             }
             if (args[i].equals("-scc")) {
                 if (i == (args.length - 1)) {
-                    System.err.println("Wrong command line!");
+                    System.err.println(Strings.WRONG_COMMAND_LINE);
                     System.err.println("Arg \"-scc\" expects to be followed by a file name.");
                     System.exit(-1);
                 }
@@ -240,7 +288,7 @@ public class SAFacilitator {
                 (!args[i].equals("-scc")) &&
                 (!args[i].equals("-scd")) &&
                 checkArgument) {
-                System.err.println("Wrong command line!");
+                System.err.println(Strings.WRONG_COMMAND_LINE);
                 System.err.println("Available commands:");                    
                 System.err.println("-ea:               execute analyzers");
                 System.err.println("-ep:               execute preprocessing");
