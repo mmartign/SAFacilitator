@@ -222,8 +222,8 @@ public class EditFunctions {
         }
         List<String> listSourceDirectories = new ArrayList<String>();
         for (int i = 0; i < sourceDirectories.getItems().size() ; i++) {
-            if (!listSourceDirectories.contains(sourceDirectories.getItems().get(i).toString())) {
-                listSourceDirectories.add(sourceDirectories.getItems().get(i).toString());
+            if (!listSourceDirectories.contains(sourceDirectories.getItems().get(i))) {
+                listSourceDirectories.add(sourceDirectories.getItems().get(i));
             }
         }
         p.setSourceDirectories(listSourceDirectories);        
@@ -267,8 +267,8 @@ public class EditFunctions {
         }
         List<String> listSourceFiles = new ArrayList<String>();
         for (int i = 0; i < sourceFiles.getItems().size() ; i++) {
-            if (!listSourceFiles.contains(sourceFiles.getItems().get(i).toString())) {
-                listSourceFiles.add(sourceFiles.getItems().get(i).toString());
+            if (!listSourceFiles.contains(sourceFiles.getItems().get(i))) {
+                listSourceFiles.add(sourceFiles.getItems().get(i));
             }
         }
         

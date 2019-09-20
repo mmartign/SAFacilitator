@@ -26,12 +26,17 @@ import com.spazioit.safacilitator.Strings;
 import com.spazioit.safacilitator.functions.AnalyzersFunctions;
 import com.spazioit.safacilitator.functions.CommonFunctions;
 import com.spazioit.safacilitator.functions.FileFunctions;
+import com.spazioit.safacilitator.functions.JavaFunctions;
 import com.spazioit.safacilitator.functions.PreprocessingFunctions;
 import com.spazioit.safacilitator.functions.SonarQubeFunctions;
 import com.spazioit.safacilitator.model.Project;
+import java.awt.Desktop;
 import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.Calendar;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -51,14 +56,13 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import org.apache.commons.io.FileUtils;
 
-
 /**
  * FXML Controller class
  *
  * @author Maurizio Martignano
  */
 public class MainFrameController implements Initializable {
-    
+
     @FXML
     private Label applicationMessage;
 
@@ -66,7 +70,7 @@ public class MainFrameController implements Initializable {
     private javafx.scene.control.TextArea textArea;
     @FXML
     private MenuItem stopRunningMenuItem;
-    
+
     private static final String JSON_FILES = "JSON Files";
     private static final String JSON_EXT = "*.json";
 
@@ -78,8 +82,8 @@ public class MainFrameController implements Initializable {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Project File");
         fileChooser.getExtensionFilters().addAll(
-            new ExtensionFilter(JSON_FILES, JSON_EXT),
-            new ExtensionFilter(Strings.ALL_FILES, "*.*"));
+                new ExtensionFilter(JSON_FILES, JSON_EXT),
+                new ExtensionFilter(Strings.ALL_FILES, "*.*"));
         File selectedFile = fileChooser.showOpenDialog(MainFrame.getMainWindow());
         try {
             String fileName = selectedFile.getCanonicalPath();
@@ -93,7 +97,7 @@ public class MainFrameController implements Initializable {
             CommonGuiFunctions.displayError(ex.getMessage());
         }
     }
-    
+
     /**
      * Initializes the controller class.
      */
@@ -121,16 +125,16 @@ public class MainFrameController implements Initializable {
             applicationMessage.setText("Editing Project.");
             Stage stage = new Stage();
             Parent root = FXMLLoader.load(getClass().getResource("/fxml/EditProject.fxml"));
-            Scene scene = new Scene(root);        
+            Scene scene = new Scene(root);
             stage.setScene(scene);
-            stage.getIcons().add(new Image(MainFrame.class.getResourceAsStream( Strings.MARVIN_PNG )));
-            Project p = SAFacilitator.getMyself().getCurrentProject() ;
-            if ((p == null) || 
-                (p.getProjectName() == null) || 
-                (p.getProjectName().equals(""))) {
+            stage.getIcons().add(new Image(MainFrame.class.getResourceAsStream(Strings.MARVIN_PNG)));
+            Project p = SAFacilitator.getMyself().getCurrentProject();
+            if ((p == null)
+                    || (p.getProjectName() == null)
+                    || (p.getProjectName().equals(""))) {
                 stage.setTitle("Editing Project - (Empty)");
             } else {
-                stage.setTitle("Editing Project - " + p.getProjectName());                
+                stage.setTitle("Editing Project - " + p.getProjectName());
             }
             stage.show();
             MainFrame.setSecondaryStage(stage);
@@ -139,16 +143,16 @@ public class MainFrameController implements Initializable {
             CommonGuiFunctions.displayError(ex.getMessage());
         }
     }
-    
+
     /**
      * Saves default project file
      */
     @FXML
-    private void saveProject(ActionEvent event) {        
+    private void saveProject(ActionEvent event) {
         try {
             String fileName = SAFacilitator.getFileName();
-            if ((fileName == null) || 
-                (fileName.equals(""))) {
+            if ((fileName == null)
+                    || (fileName.equals(""))) {
                 saveProjectAs(event);
                 return;
             }
@@ -161,7 +165,7 @@ public class MainFrameController implements Initializable {
             CommonGuiFunctions.displayError(ex.getMessage());
         }
     }
-    
+
     /**
      * Creates new project
      */
@@ -177,23 +181,23 @@ public class MainFrameController implements Initializable {
      * Imports compile commands file
      */
     @FXML
-    private void compileCommands(ActionEvent event) {        
+    private void compileCommands(ActionEvent event) {
         try {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Import Compile Commands File");
             fileChooser.getExtensionFilters().addAll(
-                new ExtensionFilter(JSON_FILES, JSON_EXT),
-                new ExtensionFilter(Strings.ALL_FILES, "*.*"));
+                    new ExtensionFilter(JSON_FILES, JSON_EXT),
+                    new ExtensionFilter(Strings.ALL_FILES, "*.*"));
             fileChooser.setInitialFileName("compile_commands.json");
-            Project p = SAFacilitator.getMyself().getCurrentProject() ;
-            if ((p == null) || 
-                (p.getBaseDirectory() == null) || 
-                (p.getBaseDirectory().equals(""))) {
+            Project p = SAFacilitator.getMyself().getCurrentProject();
+            if ((p == null)
+                    || (p.getBaseDirectory() == null)
+                    || (p.getBaseDirectory().equals(""))) {
                 throw new Exception("Project and Base Directory cannot be null");
             }
-            if ((p != null) && 
-                (p.getBaseDirectory() != null) && 
-                (!p.getBaseDirectory().equals(""))) {
+            if ((p != null)
+                    && (p.getBaseDirectory() != null)
+                    && (!p.getBaseDirectory().equals(""))) {
                 fileChooser.setInitialDirectory(new File(p.getBaseDirectory()));
             }
             File selectedFile = fileChooser.showOpenDialog(MainFrame.getMainWindow());
@@ -220,17 +224,17 @@ public class MainFrameController implements Initializable {
     private void aboutDialog(ActionEvent event) {
         Alert alert = new Alert(AlertType.INFORMATION);
         Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-        stage.getIcons().add(new Image(MainFrame.class.getResourceAsStream( Strings.MARVIN_PNG ))); 
+        stage.getIcons().add(new Image(MainFrame.class.getResourceAsStream(Strings.MARVIN_PNG)));
         alert.setTitle(Strings.SAFACILITATOR);
         alert.setHeaderText("Static Analysis Facilitator - version " + SAFacilitator.getVersion());
-        alert.setContentText("Copyright (©) "  + Calendar.getInstance().get(Calendar.YEAR) +  "\n" + 
-                             "Spazio IT - Soluzioni Informatiche s.a.s.\n" +
-                             "https://www.spazioit.com\n\n" +
-                             "Used technologies: Java FX,\n" +
-                             "Jackson, JSON, CompileDB.\n\n" +
-                             "This work has been funded by the ESA\n" +
-                             "Contract # RFP/3-15558/18/NL/FE/as."
-        ); 
+        alert.setContentText("Copyright (©) " + LocalDate.now().getYear() + "\n"
+                + "Spazio IT - Soluzioni Informatiche s.a.s.\n"
+                + "https://www.spazioit.com\n\n"
+                + "Used technologies: Java FX,\n"
+                + "Jackson, JSON, CompileDB.\n\n"
+                + "This work has been funded by the ESA\n"
+                + "Contract # RFP/3-15558/18/NL/FE/as."
+        );
 
         alert.showAndWait();
     }
@@ -239,15 +243,18 @@ public class MainFrameController implements Initializable {
      * Shows support dialog
      */
     @FXML
-    private void supportDialog(ActionEvent event) {
-        Alert alert = new Alert(AlertType.INFORMATION);
+    private void onlineSupport(ActionEvent event) {
+        /* Alert alert = new Alert(AlertType.INFORMATION);
         Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-        stage.getIcons().add(new Image(MainFrame.class.getResourceAsStream( Strings.MARVIN_PNG ))); 
+        stage.getIcons().add(new Image(MainFrame.class.getResourceAsStream(Strings.MARVIN_PNG)));
         alert.setTitle(Strings.SAFACILITATOR);
         alert.setHeaderText("Online Support");
-        alert.setContentText("Support requests can be posted at\n" + 
-                             "https://support.spazioit.com.");
+        alert.setContentText("Support requests can be posted at\n"
+                + "https://support.spazioit.com.");
         alert.showAndWait();
+        */
+        String url = "https://support.spazioit.com";
+        callBrowser(url);
     }
 
     /**
@@ -352,12 +359,12 @@ public class MainFrameController implements Initializable {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save Log File");
         fileChooser.getExtensionFilters().addAll(
-            new ExtensionFilter("Log Files", "*.log"),
-            new ExtensionFilter(Strings.ALL_FILES, "*.*"));
-        Project p = SAFacilitator.getMyself().getCurrentProject() ;
-        if ((p != null) && 
-            (p.getBaseDirectory() != null) && 
-            (!p.getBaseDirectory().equals(""))) {
+                new ExtensionFilter("Log Files", "*.log"),
+                new ExtensionFilter(Strings.ALL_FILES, "*.*"));
+        Project p = SAFacilitator.getMyself().getCurrentProject();
+        if ((p != null)
+                && (p.getBaseDirectory() != null)
+                && (!p.getBaseDirectory().equals(""))) {
             fileChooser.setInitialDirectory(new File(p.getBaseDirectory()));
         }
         fileChooser.setInitialFileName(Strings.SAFACILITATOR + ".log");
@@ -382,24 +389,24 @@ public class MainFrameController implements Initializable {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Save Project as Compile Comamnds File");
             fileChooser.getExtensionFilters().addAll(
-                new ExtensionFilter(JSON_FILES, JSON_EXT),
-                new ExtensionFilter(Strings.ALL_FILES, "*.*"));
-            Project p = SAFacilitator.getMyself().getCurrentProject() ;
-            if ((p == null) || 
-                (p.getBaseDirectory() == null) || 
-                (p.getBaseDirectory().equals("")) ||
-                (p.getpFiles() == null) || 
-                (p.getpFiles().size() == 0 )) {
+                    new ExtensionFilter(JSON_FILES, JSON_EXT),
+                    new ExtensionFilter(Strings.ALL_FILES, "*.*"));
+            Project p = SAFacilitator.getMyself().getCurrentProject();
+            if ((p == null)
+                    || (p.getBaseDirectory() == null)
+                    || (p.getBaseDirectory().equals(""))
+                    || (p.getpFiles() == null)
+                    || (p.getpFiles().size() == 0)) {
                 throw new Exception("Project, Base Directory and Project Files cannot be null");
             }
-            if ((p != null) && 
-            (p.getBaseDirectory() != null) && 
-                (!p.getBaseDirectory().equals(""))) {
+            if ((p != null)
+                    && (p.getBaseDirectory() != null)
+                    && (!p.getBaseDirectory().equals(""))) {
                 fileChooser.setInitialDirectory(new File(p.getBaseDirectory()));
             }
-            if ((p != null) && 
-                (p.getProjectName() != null) && 
-                (!p.getProjectName().equals(""))) {
+            if ((p != null)
+                    && (p.getProjectName() != null)
+                    && (!p.getProjectName().equals(""))) {
                 fileChooser.setInitialFileName("compile_commands.json");
             }
             File selectedFile = fileChooser.showSaveDialog(MainFrame.getMainWindow());
@@ -418,7 +425,7 @@ public class MainFrameController implements Initializable {
      */
     @FXML
     private void stopRunningProcess(ActionEvent event) {
-        Project p = SAFacilitator.getMyself().getCurrentProject() ;
+        Project p = SAFacilitator.getMyself().getCurrentProject();
         if (p == null) {
             return;
         }
@@ -428,14 +435,14 @@ public class MainFrameController implements Initializable {
             for (File file : FileUtils.listFiles(new File(p.getBaseDirectory()), extensions, false)) {
                 if (!file.delete()) {
                     System.err.println("Could not delete file " + file.getName() + ".");
-                } 
+                }
             }
         } else {
             for (File file : FileUtils.listFiles(new File(p.getExplodedDirectory()), extensions, false)) {
                 if (!file.delete()) {
                     System.err.println("Could not delete file " + file.getName() + ".");
-                } 
-            }            
+                }
+            }
         }
         try {
             MainFrame.getRunningExecutor().cancel();
@@ -485,22 +492,22 @@ public class MainFrameController implements Initializable {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Save Project File");
             fileChooser.getExtensionFilters().addAll(
-                new ExtensionFilter(JSON_FILES, JSON_EXT),
-                new ExtensionFilter(Strings.ALL_FILES, "*.*"));
-            Project p = SAFacilitator.getMyself().getCurrentProject() ;
-            if ((p == null) || 
-                (p.getBaseDirectory() == null) || 
-                (p.getBaseDirectory().equals(""))) {
+                    new ExtensionFilter(JSON_FILES, JSON_EXT),
+                    new ExtensionFilter(Strings.ALL_FILES, "*.*"));
+            Project p = SAFacilitator.getMyself().getCurrentProject();
+            if ((p == null)
+                    || (p.getBaseDirectory() == null)
+                    || (p.getBaseDirectory().equals(""))) {
                 throw new Exception("Project and Base Directory cannot be null");
             }
-            if ((p != null) && 
-            (p.getBaseDirectory() != null) && 
-                (!p.getBaseDirectory().equals(""))) {
+            if ((p != null)
+                    && (p.getBaseDirectory() != null)
+                    && (!p.getBaseDirectory().equals(""))) {
                 fileChooser.setInitialDirectory(new File(p.getBaseDirectory()));
             }
-            if ((p != null) && 
-                (p.getProjectName() != null) && 
-                (!p.getProjectName().equals(""))) {
+            if ((p != null)
+                    && (p.getProjectName() != null)
+                    && (!p.getProjectName().equals(""))) {
                 fileChooser.setInitialFileName(p.getProjectName() + ".json");
             }
             File selectedFile = fileChooser.showSaveDialog(MainFrame.getMainWindow());
@@ -514,5 +521,44 @@ public class MainFrameController implements Initializable {
             applicationMessage.setText(ex.getMessage());
             CommonGuiFunctions.displayError(ex.getMessage());
         }
+    }
+
+    @FXML
+    private void prepareForMaven(ActionEvent event) {
+        JavaFunctions functions = new JavaFunctions(SAFacilitator.getMyself());
+        functions.prepareForMaven();
+    }
+
+    @FXML
+    private void prepareForGradle(ActionEvent event) {
+        JavaFunctions functions = new JavaFunctions(SAFacilitator.getMyself());
+        functions.prepareForGradle();
+    }
+
+    @FXML
+    private void showHelp(ActionEvent event) {
+        String url = "https://www.spazioit.com/SAFeToolsetHelp";
+        callBrowser(url);
+    }
+    
+    private void callBrowser(String url) {
+        applicationMessage.setText("Consulting Help.");
+        if (Desktop.isDesktopSupported()) {
+            Desktop desktop = Desktop.getDesktop();
+            try {
+                desktop.browse(new URI(url));
+            } catch (IOException | URISyntaxException e) {
+                applicationMessage.setText(e.getMessage());
+                CommonGuiFunctions.displayError(e.getMessage());
+            }
+        } else {
+            Runtime runtime = Runtime.getRuntime();
+            try {
+                runtime.exec("xdg-open " + url);
+            } catch (IOException e) {
+                applicationMessage.setText(e.getMessage());
+                CommonGuiFunctions.displayError(e.getMessage());
+            }
+        }        
     }
 }

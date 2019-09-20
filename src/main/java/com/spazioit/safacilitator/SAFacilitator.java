@@ -24,10 +24,12 @@ package com.spazioit.safacilitator;
 import com.spazioit.safacilitator.functions.AnalyzersFunctions;
 import com.spazioit.safacilitator.model.Project;
 import com.spazioit.safacilitator.functions.FileFunctions;
+import com.spazioit.safacilitator.functions.JavaFunctions;
 import com.spazioit.safacilitator.functions.PreprocessingFunctions;
 import com.spazioit.safacilitator.functions.SonarQubeFunctions;
 import com.spazioit.safacilitator.gui.MainFrame;
-import java.util.Calendar;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 
 
@@ -38,12 +40,14 @@ import java.util.Calendar;
  * @author Maurizio Martignano
  */
 public class SAFacilitator {
+
     private Project currentProject = null;
     private static SAFacilitator myself = null;
     private static boolean guiEnabled = true;
-    private static String version = "0.8";
+    private static String version = "0.9";
     private static int MAX_LINES = 24576;
     private static String fileName = "";
+    private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     public Project getCurrentProject() {
         return currentProject;
@@ -93,13 +97,20 @@ public class SAFacilitator {
         SAFacilitator.fileName = fileName;
     }
     
+    public static DateTimeFormatter getFormatter() {
+        return formatter;
+    }
+
+    public static void setFormatter(DateTimeFormatter formatter) {
+        SAFacilitator.formatter = formatter;
+    }
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         myself = new SAFacilitator();
         if (args.length == 0) {
-            myself.startGui(myself, args);
+            myself.startGui(args);
         } else {
             guiEnabled = false;
             myself.processCommandLine(args);
@@ -109,7 +120,7 @@ public class SAFacilitator {
     /**
      * Start GUI
      */
-    void startGui(SAFacilitator saf, String[] args) {
+    void startGui(String[] args) {
         try {
             MainFrame mainFrame = new MainFrame();
             mainFrame.dynamicLaunch(args);
@@ -130,6 +141,7 @@ public class SAFacilitator {
         AnalyzersFunctions analyzersFunctions = new AnalyzersFunctions(this);
         SonarQubeFunctions sonarQubeFunctions = new SonarQubeFunctions(this);
         PreprocessingFunctions preproFunctions = new PreprocessingFunctions(this);
+        JavaFunctions javaFunctions = new JavaFunctions(this);
         for(int i = 0; i < args.length; i++) {
             checkArgument = true;
             if (args[i].equals("-ea")) {
@@ -150,7 +162,7 @@ public class SAFacilitator {
             }
             if (args[i].equals("-h")) {
                 System.out.println("\nStatic Analsys Facilitator - version " + version);
-                System.out.println("Copyright (©) "  + Calendar.getInstance().get(Calendar.YEAR));
+                System.out.println("Copyright (©) "  + LocalDate.now().getYear());
                 System.out.println("Spazio IT - Soluzioni Informatiche s.a.s.");
                 System.out.println("https://www.spazioit.com\n");
                 System.out.println("Used technologies: Java FX, Jackson, JSON, CompileDB\n");
@@ -159,6 +171,8 @@ public class SAFacilitator {
                 System.out.println("-ep:               execute preprocessing");
                 System.out.println("-h:                print this text");
                 System.out.println("-l <file name>:    load project file");
+                System.out.println("-jpg:              (Java) prepare for Gradle");
+                System.out.println("-jpm:              (Java) prepare for Maven");
                 System.out.println("-lcc <file name>:  load compile_commands file into project");
                 System.out.println("-pa:               prepare analyzers");
                 System.out.println("-pp:               prepare preprocessing");
@@ -169,6 +183,22 @@ public class SAFacilitator {
                 System.out.println("-scc <file name>:  save project as compile_commands file");
                 System.out.println("-scd:              show compiler defines\n");
                 System.out.println("No argument starts the GUI\n");
+            }
+            if (args[i].equals("-jpg")) {
+                try {
+                    javaFunctions.prepareForGradle();
+                } catch (Exception ex) {
+                    System.err.println(ex.getMessage());
+                    System.exit(-1);
+                }
+            }
+            if (args[i].equals("-jpm")) {
+                try {
+                    javaFunctions.prepareForMaven();
+                } catch (Exception ex) {
+                    System.err.println(ex.getMessage());
+                    System.exit(-1);
+                }
             }
             if (args[i].equals("-l")) {
                 if (i == (args.length - 1)) {
@@ -277,6 +307,8 @@ public class SAFacilitator {
             if ((!args[i].equals("-ea")) &&
                 (!args[i].equals("-ep")) &&
                 (!args[i].equals("-h")) &&
+                (!args[i].equals("-jpg")) &&
+                (!args[i].equals("-jpm")) &&
                 (!args[i].equals("-l")) &&
                 (!args[i].equals("-lcc")) &&
                 (!args[i].equals("-pa")) && 
@@ -293,6 +325,8 @@ public class SAFacilitator {
                 System.err.println("-ea:               execute analyzers");
                 System.err.println("-ep:               execute preprocessing");
                 System.err.println("-h:                print this text");
+                System.out.println("-jpg:              (Java) prepare for Gradle");
+                System.out.println("-jpm:              (Java) prepare for Maven");
                 System.err.println("-l <file name>:    load project file");
                 System.out.println("-lcc <file name>:  load compile_commands file into project");
                 System.err.println("-pa:               prepare analyzers");

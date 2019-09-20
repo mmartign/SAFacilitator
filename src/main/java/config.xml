@@ -1,0 +1,5 @@
+<module name="Checker">
+  <module name="TreeWalker">
+    <property name="fileExtensions" value="java,ejb,jpf"/>
+  </module>
+</module>

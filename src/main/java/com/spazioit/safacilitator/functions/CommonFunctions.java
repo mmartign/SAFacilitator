@@ -23,8 +23,7 @@ package com.spazioit.safacilitator.functions;
 
 import com.spazioit.safacilitator.SAFacilitator;
 import com.spazioit.safacilitator.gui.MainFrame;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.time.LocalDateTime;
 import javafx.application.Platform;
 
 /**
@@ -66,9 +65,7 @@ public class CommonFunctions {
      * print the log message either onto the application textArea or to STDOUT
      */
     public static void printLogMessage(String message) {
-        Calendar cal = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String myMessage = sdf.format(cal.getTime()) + " - " + message;
+        String myMessage = LocalDateTime.now().format(SAFacilitator.getFormatter()) + " - " + message;
         if (SAFacilitator.isGuiEnabled()) {
             Platform.runLater(new Runnable() {
                 @Override

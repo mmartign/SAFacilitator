@@ -56,120 +56,116 @@ public class FileFunctions {
      * "compileCommands" from "fileName"
      */
     public void readCompileCommands(String fileName) throws Exception {
-        try {
-            FileInputStream file = new FileInputStream(fileName);
-            ObjectMapper mapper = new ObjectMapper();
-            CcFile[] ccFiles = mapper.readValue(file, CcFile[].class);
-            file.close();
-            List<CcFile> listCcFiles = new ArrayList<CcFile>();
-            for (int i = 0; i < ccFiles.length; i++) {
-                listCcFiles.add(ccFiles[i]);
-            }
-            if (safacilitator.getCurrentProject() == null) {
-                throw new Exception("Current Project is null and cannot receive Compile Commands info!");
-            }
-            List<String> sourceFiles = new ArrayList<String>();
-            List<String> sourceDirectories = new ArrayList<String>();
-            List<String> includeDirectories = new ArrayList<String>();
-            List<String> defines = new ArrayList<String>();
-            List<String> additionalArguments = new ArrayList<String>();
-            List<String> origBuilders = new ArrayList<String>();
-            Project p = safacilitator.getCurrentProject();
-            List<PrFile> pfFiles = new ArrayList<PrFile>();
-            for (CcFile ccFile : listCcFiles) {
-                PrFile pFile = new PrFile();
-                String sDirectory = ccFile.getDirectory().replace("\\", "/").replace("c:", "C:");
-                String sFile = ccFile.getFile().replace("\\", "/").replace("c:", "C:");
-                File fsFile = new File(sDirectory + "/" + sFile);
-                String normDirectory = fsFile.getParent().replace("\\", "/").replace("c:", "C:");
-                if (normDirectory.equals(p.getBaseDirectory())) {
-                    normDirectory = ".";
-                } else {
-                    if (normDirectory.startsWith(p.getBaseDirectory())) {
-                        normDirectory = normDirectory.substring(p.getBaseDirectory().length() + 1);
-                    }
-                }
-                if (!sourceFiles.contains(sDirectory + "/" + sFile)) {
-                    sourceFiles.add(sDirectory + "/" + sFile);
-                }
-                pFile.setPfFileName(sDirectory + "/" + sFile);
-                if (!sourceDirectories.contains(normDirectory)) {
-                    sourceDirectories.add(normDirectory);
-                }
-                if (!origBuilders.contains(ccFile.getArguments().get(0))) {
-                    origBuilders.add(ccFile.getArguments().get(0));
-                }
-                pFile.setPfOriginalBuilder(ccFile.getArguments().get(0));
-                List<String> arguments = ccFile.getArguments();
-                List<String> pfDefines = new ArrayList<String>();
-                List<String> pfIncludes = new ArrayList<String>();
-                List<String> pfAdditionalArguments = new ArrayList<String>();
-                for (int i = 1; i < arguments.size(); i++) {
-                    if (arguments.get(i).startsWith("-D")
-                            || arguments.get(i).startsWith("-U")) {
-                        String define = arguments.get(i);
-                        if (!defines.contains(define)) {
-                            defines.add(define);
-                        }
-                        if (!pfDefines.contains(define)) {
-                            pfDefines.add(define);
-                        }
-                    }
-                    if (arguments.get(i).equals("-I")) {
-                        String includeDirectory = arguments.get(++i);
-                        if (!includeDirectories.contains(includeDirectory)) {
-                            includeDirectories.add(includeDirectory);
-                        }
-                        if (!pfIncludes.contains(includeDirectory)) {
-                            pfIncludes.add(includeDirectory);
-                        }
-                        continue;
-                    }
-                    if (arguments.get(i).startsWith("-I")) {
-                        String includeDirectory = arguments.get(i).substring(2);
-                        if (!includeDirectories.contains(includeDirectory)) {
-                            includeDirectories.add(includeDirectory);
-                        }
-                        if (!pfIncludes.contains(includeDirectory)) {
-                            pfIncludes.add(includeDirectory);
-                        }
-                    }
-                    if ((!arguments.get(i).startsWith("-D"))
-                            && (!arguments.get(i).startsWith("-U"))
-                            && (!arguments.get(i).startsWith("-I"))) {
-                        String additionalArgument = arguments.get(i);
-                        if ((!additionalArgument.toLowerCase().contains(".o"))
-                                && (!additionalArgument.toLowerCase().contains("-c"))
-                                && (!additionalArgument.toLowerCase().contains("-o"))
-                                && (!additionalArgument.toLowerCase().contains(".c"))
-                                && (!additionalArgument.toLowerCase().contains(".cc"))
-                                && (!additionalArgument.toLowerCase().contains(".cpp"))
-                                && (!additionalArgument.toLowerCase().contains(".cxx"))
-                                && (!additionalArgument.toLowerCase().contains(".h"))) {
-                            if (!additionalArguments.contains(additionalArgument)) {
-                                additionalArguments.add(additionalArgument);
-                            }
-                            if (!pfAdditionalArguments.contains(additionalArgument)) {
-                                pfAdditionalArguments.add(additionalArgument);
-                            }
-                        }
-                    }
-                    pFile.setPfDefines(pfDefines);
-                    pFile.setPfIncludeDirectories(pfIncludes);
-                    pFile.setPfAdditionalArguments(pfAdditionalArguments);
-                }
-                pfFiles.add(pFile);
-            }
-            p.setpFiles(pfFiles);
-            p.setSourceDirectories(sourceDirectories);
-            p.setIncludeDirectories(includeDirectories);
-            p.setDefines(defines);
-            p.setAdditionalArguments(additionalArguments);
-            p.setOrigBuilders(origBuilders);
-            p.setCompileCommands(fileName.replace("\\", "/").replace("c:", "C:"));
-        } catch (Exception ex) {
-            throw ex;
+        FileInputStream file = new FileInputStream(fileName);
+        ObjectMapper mapper = new ObjectMapper();
+        CcFile[] ccFiles = mapper.readValue(file, CcFile[].class);
+        file.close();
+        List<CcFile> listCcFiles = new ArrayList<CcFile>();
+        for (int i = 0; i < ccFiles.length; i++) {
+            listCcFiles.add(ccFiles[i]);
         }
+        if (safacilitator.getCurrentProject() == null) {
+            throw new Exception("Current Project is null and cannot receive Compile Commands info!");
+        }
+        List<String> sourceFiles = new ArrayList<String>();
+        List<String> sourceDirectories = new ArrayList<String>();
+        List<String> includeDirectories = new ArrayList<String>();
+        List<String> defines = new ArrayList<String>();
+        List<String> additionalArguments = new ArrayList<String>();
+        List<String> origBuilders = new ArrayList<String>();
+        Project p = safacilitator.getCurrentProject();
+        List<PrFile> pfFiles = new ArrayList<PrFile>();
+        for (CcFile ccFile : listCcFiles) {
+            PrFile pFile = new PrFile();
+            String sDirectory = ccFile.getDirectory().replace("\\", "/").replace("c:", "C:");
+            String sFile = ccFile.getFile().replace("\\", "/").replace("c:", "C:");
+            File fsFile = new File(sDirectory + "/" + sFile);
+            String normDirectory = fsFile.getParent().replace("\\", "/").replace("c:", "C:");
+            if (normDirectory.equals(p.getBaseDirectory())) {
+                normDirectory = ".";
+            } else {
+                if (normDirectory.startsWith(p.getBaseDirectory())) {
+                    normDirectory = normDirectory.substring(p.getBaseDirectory().length() + 1);
+                }
+            }
+            if (!sourceFiles.contains(sDirectory + "/" + sFile)) {
+                sourceFiles.add(sDirectory + "/" + sFile);
+            }
+            pFile.setPfFileName(sDirectory + "/" + sFile);
+            if (!sourceDirectories.contains(normDirectory)) {
+                sourceDirectories.add(normDirectory);
+            }
+            if (!origBuilders.contains(ccFile.getArguments().get(0))) {
+                origBuilders.add(ccFile.getArguments().get(0));
+            }
+            pFile.setPfOriginalBuilder(ccFile.getArguments().get(0));
+            List<String> arguments = ccFile.getArguments();
+            List<String> pfDefines = new ArrayList<String>();
+            List<String> pfIncludes = new ArrayList<String>();
+            List<String> pfAdditionalArguments = new ArrayList<String>();
+            for (int i = 1; i < arguments.size(); i++) {
+                if (arguments.get(i).startsWith("-D")
+                        || arguments.get(i).startsWith("-U")) {
+                    String define = arguments.get(i);
+                    if (!defines.contains(define)) {
+                        defines.add(define);
+                    }
+                    if (!pfDefines.contains(define)) {
+                        pfDefines.add(define);
+                    }
+                }
+                if (arguments.get(i).equals("-I")) {
+                    String includeDirectory = arguments.get(++i);
+                    if (!includeDirectories.contains(includeDirectory)) {
+                        includeDirectories.add(includeDirectory);
+                    }
+                    if (!pfIncludes.contains(includeDirectory)) {
+                        pfIncludes.add(includeDirectory);
+                    }
+                    continue;
+                }
+                if (arguments.get(i).startsWith("-I")) {
+                    String includeDirectory = arguments.get(i).substring(2);
+                    if (!includeDirectories.contains(includeDirectory)) {
+                        includeDirectories.add(includeDirectory);
+                    }
+                    if (!pfIncludes.contains(includeDirectory)) {
+                        pfIncludes.add(includeDirectory);
+                    }
+                }
+                if ((!arguments.get(i).startsWith("-D"))
+                        && (!arguments.get(i).startsWith("-U"))
+                        && (!arguments.get(i).startsWith("-I"))) {
+                    String additionalArgument = arguments.get(i);
+                    if ((!additionalArgument.toLowerCase().contains(".o"))
+                            && (!additionalArgument.toLowerCase().contains("-c"))
+                            && (!additionalArgument.toLowerCase().contains("-o"))
+                            && (!additionalArgument.toLowerCase().contains(".c"))
+                            && (!additionalArgument.toLowerCase().contains(".cc"))
+                            && (!additionalArgument.toLowerCase().contains(".cpp"))
+                            && (!additionalArgument.toLowerCase().contains(".cxx"))
+                            && (!additionalArgument.toLowerCase().contains(".h"))) {
+                        if (!additionalArguments.contains(additionalArgument)) {
+                            additionalArguments.add(additionalArgument);
+                        }
+                        if (!pfAdditionalArguments.contains(additionalArgument)) {
+                            pfAdditionalArguments.add(additionalArgument);
+                        }
+                    }
+                }
+                pFile.setPfDefines(pfDefines);
+                pFile.setPfIncludeDirectories(pfIncludes);
+                pFile.setPfAdditionalArguments(pfAdditionalArguments);
+            }
+            pfFiles.add(pFile);
+        }
+        p.setpFiles(pfFiles);
+        p.setSourceDirectories(sourceDirectories);
+        p.setIncludeDirectories(includeDirectories);
+        p.setDefines(defines);
+        p.setAdditionalArguments(additionalArguments);
+        p.setOrigBuilders(origBuilders);
+        p.setCompileCommands(fileName.replace("\\", "/").replace("c:", "C:"));
     }
 
     /**
@@ -179,14 +175,10 @@ public class FileFunctions {
      * "currentProject" from "fileName"
      */
     public void readProject(String fileName) throws Exception {
-        try {
-            FileInputStream file = new FileInputStream(fileName);
-            ObjectMapper mapper = new ObjectMapper();
-            safacilitator.setCurrentProject(mapper.readValue(file, Project.class));
-            file.close();
-        } catch (Exception ex) {
-            throw ex;
-        }
+        FileInputStream file = new FileInputStream(fileName);
+        ObjectMapper mapper = new ObjectMapper();
+        safacilitator.setCurrentProject(mapper.readValue(file, Project.class));
+        file.close();
     }
 
     /**
@@ -199,18 +191,14 @@ public class FileFunctions {
         if (safacilitator.getCurrentProject() == null) {
             throw new Exception("Current Project is null and cannot be saved!");
         } else {
-            try {
-                FileOutputStream file = new FileOutputStream(fileName);
-                PrintStream printer = new PrintStream(file);
-                ObjectMapper mapper = new ObjectMapper();
-                mapper.enable(SerializationFeature.INDENT_OUTPUT);
-                String outputString = mapper.writeValueAsString(safacilitator.getCurrentProject());
-                printer.println(outputString);
-                printer.close();
-                file.close();
-            } catch (Exception ex) {
-                throw ex;
-            }
+            FileOutputStream file = new FileOutputStream(fileName);
+            PrintStream printer = new PrintStream(file);
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.enable(SerializationFeature.INDENT_OUTPUT);
+            String outputString = mapper.writeValueAsString(safacilitator.getCurrentProject());
+            printer.println(outputString);
+            printer.close();
+            file.close();
         }
     }
 
@@ -224,44 +212,40 @@ public class FileFunctions {
         if (safacilitator.getCurrentProject() == null) {
             throw new Exception("Current Project is null and cannot be saved!");
         } else {
-            try {
-                Project p = safacilitator.getCurrentProject();
-                CcFile[] ccFiles = new CcFile[p.getpFiles().size()];
-                for (int i = 0; i < ccFiles.length; i++) {
-                    ccFiles[i] = new CcFile();
-                    if (!p.getPreProcessingEnabled()) {
-                        ccFiles[i].setDirectory(p.getBaseDirectory());
-                        ccFiles[i].setFile(p.getpFiles().get(i).getPfFileName());
-                    } else {
-                        ccFiles[i].setDirectory(p.getExplodedDirectory());
-                        ccFiles[i].setFile(p.getpFiles().get(i).getPfFileName().replace(p.getBaseDirectory(), p.getExplodedDirectory()));
-                    }
-                    List<String> myArgs = new ArrayList<String>();
-                    myArgs.add(p.getpFiles().get(i).getPfOriginalBuilder());
-                    for (String arg : p.getpFiles().get(i).getPfDefines()) {
-                        myArgs.add(arg);
-                    }
-                    for (String arg : p.getpFiles().get(i).getPfAdditionalArguments()) {
-                        myArgs.add(arg);
-                    }
-                    for (String arg : p.getpFiles().get(i).getPfIncludeDirectories()) {
-                        myArgs.add("-I" + arg);
-                    }
-                    myArgs.add("-c");
-                    myArgs.add(ccFiles[i].getFile());
-                    ccFiles[i].setArguments(myArgs);
+            Project p = safacilitator.getCurrentProject();
+            CcFile[] ccFiles = new CcFile[p.getpFiles().size()];
+            for (int i = 0; i < ccFiles.length; i++) {
+                ccFiles[i] = new CcFile();
+                if (!p.getPreProcessingEnabled()) {
+                    ccFiles[i].setDirectory(p.getBaseDirectory());
+                    ccFiles[i].setFile(p.getpFiles().get(i).getPfFileName());
+                } else {
+                    ccFiles[i].setDirectory(p.getExplodedDirectory());
+                    ccFiles[i].setFile(p.getpFiles().get(i).getPfFileName().replace(p.getBaseDirectory(), p.getExplodedDirectory()));
                 }
-                FileOutputStream file = new FileOutputStream(fileName);
-                PrintStream printer = new PrintStream(file);
-                ObjectMapper mapper = new ObjectMapper();
-                mapper.enable(SerializationFeature.INDENT_OUTPUT);
-                String outputString = mapper.writeValueAsString(ccFiles);
-                printer.println(outputString);
-                printer.close();
-                file.close();
-            } catch (Exception ex) {
-                throw ex;
+                List<String> myArgs = new ArrayList<String>();
+                myArgs.add(p.getpFiles().get(i).getPfOriginalBuilder());
+                for (String arg : p.getpFiles().get(i).getPfDefines()) {
+                    myArgs.add(arg);
+                }
+                for (String arg : p.getpFiles().get(i).getPfAdditionalArguments()) {
+                    myArgs.add(arg);
+                }
+                for (String arg : p.getpFiles().get(i).getPfIncludeDirectories()) {
+                    myArgs.add("-I" + arg);
+                }
+                myArgs.add("-c");
+                myArgs.add(ccFiles[i].getFile());
+                ccFiles[i].setArguments(myArgs);
             }
+            FileOutputStream file = new FileOutputStream(fileName);
+            PrintStream printer = new PrintStream(file);
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.enable(SerializationFeature.INDENT_OUTPUT);
+            String outputString = mapper.writeValueAsString(ccFiles);
+            printer.println(outputString);
+            printer.close();
+            file.close();
         }
     }
 
@@ -273,15 +257,11 @@ public class FileFunctions {
      * "fileName"
      */
     public void saveLog(String fileName, TextArea textArea) throws Exception {
-        try {
-            FileOutputStream file = new FileOutputStream(fileName);
-            PrintStream printer = new PrintStream(file);
-            String outputString = textArea.getText();
-            printer.println(outputString);
-            printer.close();            
-            file.close();
-        } catch (Exception ex) {
-            throw ex;
-        }
+        FileOutputStream file = new FileOutputStream(fileName);
+        PrintStream printer = new PrintStream(file);
+        String outputString = textArea.getText();
+        printer.println(outputString);
+        printer.close();
+        file.close();
     }
 }

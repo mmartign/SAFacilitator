@@ -13,12 +13,12 @@
             <Image url="@../images/Marvin.png" />
          </image>
       </ImageView>
-      <Label layoutX="251.0" layoutY="232.0" text="SAFacilitator">
+      <Label layoutX="245.0" layoutY="232.0" text="SAFacilitator">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="221.0" layoutY="259.0" text="(Static Analysis Facilitator)">
+      <Label layoutX="220.0" layoutY="259.0" text="(Static Analysis Facilitator)">
          <font>
             <Font size="14.0" />
          </font>

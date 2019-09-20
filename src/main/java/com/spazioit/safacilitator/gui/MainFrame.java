@@ -23,7 +23,7 @@ package com.spazioit.safacilitator.gui;
 
 import com.spazioit.safacilitator.Strings;
 import com.spazioit.safacilitator.functions.Executor;
-import java.util.Calendar;
+import java.time.LocalDate;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -124,8 +124,7 @@ public class MainFrame extends Application {
         
         Scene scene = new Scene(root);
         stage.getIcons().add(new Image(MainFrame.class.getResourceAsStream( Strings.MARVIN_PNG )));
-        // stage.setResizable(false);
-        stage.setTitle(Strings.SAFACILITATOR + " - Copyright (©) " + Calendar.getInstance().get(Calendar.YEAR) +  " - " + Strings.SPAZIOIT_WWW);
+        stage.setTitle(Strings.SAFACILITATOR + " - Copyright (©) " + LocalDate.now().getYear() +  " - " + Strings.SPAZIOIT_WWW);
        
         stage.setScene(scene);
         stage.show();

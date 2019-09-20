@@ -251,6 +251,7 @@ public class ProjectFileController implements Initializable {
 
     @FXML
     private void tabChanged(Event event) {
+        // Do nothing
     }
 
     @FXML

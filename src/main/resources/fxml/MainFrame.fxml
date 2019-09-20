@@ -53,6 +53,12 @@
                 <MenuItem fx:id="stopRunningMenuItem" disable="true" mnemonicParsing="false" onAction="#stopRunningProcess" text="Stop running process..." />
               </items>
             </Menu>
+            <Menu mnemonicParsing="false" text="Java">
+              <items>
+                  <MenuItem mnemonicParsing="false" onAction="#prepareForGradle" text="Cheat Sheet for Gradle" />
+                <MenuItem mnemonicParsing="false" onAction="#prepareForMaven" text="Cheat Sheet for Maven" />
+              </items>
+            </Menu>
             <Menu mnemonicParsing="false" text="Log">
               <items>
                 <MenuItem mnemonicParsing="false" onAction="#clearLog" text="Clear Log" />
@@ -61,7 +67,9 @@
             </Menu>
         <Menu mnemonicParsing="false" text="Help">
           <items>
-            <MenuItem mnemonicParsing="false" onAction="#supportDialog" text="Support" />
+                  <MenuItem mnemonicParsing="false" onAction="#showHelp" text="Online Help" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" onAction="#onlineSupport" text="Online Support" />
                   <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem mnemonicParsing="false" onAction="#aboutDialog" text="About" />
           </items>
@@ -70,7 +78,7 @@
     </MenuBar>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
          <children>
-            <TextArea fx:id="textArea" editable="false" prefHeight="346.0" prefWidth="640.0" AnchorPane.bottomAnchor="29.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <TextArea fx:id="textArea" prefHeight="346.0" prefWidth="640.0" AnchorPane.bottomAnchor="29.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
             <FlowPane nodeOrientation="LEFT_TO_RIGHT" prefHeight="25.0" prefWidth="641.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <children>
                   <Label text=" Application Message:" />

@@ -22,10 +22,9 @@
 package com.spazioit.safacilitator.gui;
 
 import com.spazioit.safacilitator.Strings;
-import com.spazioit.safacilitator.gui.MainFrame;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Calendar;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -69,8 +68,7 @@ public class SplashScreenController implements Initializable {
                     stage.setScene(scene);
                     MainFrame.setPrimaryStage(stage);
                     stage.getIcons().add(new Image(MainFrame.class.getResourceAsStream(Strings.MARVIN_PNG)));
-                    // stage.setResizable(false);
-                    stage.setTitle(Strings.SAFACILITATOR + " - Copyright (©) " + Calendar.getInstance().get(Calendar.YEAR) +  " - " + Strings.SPAZIOIT_WWW);
+                    stage.setTitle(Strings.SAFACILITATOR + " - Copyright (©) " + LocalDate.now().getYear() +  " - " + Strings.SPAZIOIT_WWW);
                     stage.show();
 
                     ap.getScene().getWindow().hide();

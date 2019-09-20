@@ -613,22 +613,27 @@ public class EditProjectController implements Initializable {
 
     @FXML
     private void pcLintChanged(ActionEvent event) {
+        //Do nothing
     }
 
     @FXML
     private void cppcheckEnabled(ActionEvent event) {
+        //Do nothing
     }
 
     @FXML
     private void clangSaChanged(ActionEvent event) {
+        //Do nothing
     }
 
     @FXML
     private void clangTidyChanged(ActionEvent event) {
+        //Do nothing
     }
 
     @FXML
     private void compChanged(ActionEvent event) {
+        //Do nothing
     }
 
     /**
