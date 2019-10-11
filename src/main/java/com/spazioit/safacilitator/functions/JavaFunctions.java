@@ -111,7 +111,7 @@ public class JavaFunctions {
         CommonFunctions.printMessage("File: build.gradle\n");
         CommonFunctions.printMessage("Using the plugins DSL:");
         CommonFunctions.printMessage("plugins {");
-        CommonFunctions.printMessage("  id \"org.sonarqube\" version \"2.7.1\"");
+        CommonFunctions.printMessage("  id \"org.sonarqube\" version \"2.8\"");
         CommonFunctions.printMessage("}\n");
         CommonFunctions.printMessage("Using legacy plugin application:");
         CommonFunctions.printMessage("buildscript {");
@@ -121,12 +121,15 @@ public class JavaFunctions {
         CommonFunctions.printMessage("    }");
         CommonFunctions.printMessage("  }");
         CommonFunctions.printMessage("  dependencies {");
-        CommonFunctions.printMessage("    classpath \"org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.7.1\"");
+        CommonFunctions.printMessage("    classpath \"org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.8\"");
         CommonFunctions.printMessage("  }");
         CommonFunctions.printMessage("}");
         CommonFunctions.printMessage("");
         CommonFunctions.printMessage("apply plugin: \"org.sonarqube\"\n");
         CommonFunctions.printMessage("To run the analysis:");
+        CommonFunctions.printMessage("gradle sonarqube");
+        CommonFunctions.printMessage("or, to get also coverage information:");
+        CommonFunctions.printMessage("gradle jacocoTestReport");
         CommonFunctions.printMessage("gradle sonarqube\n");
         CommonFunctions.printMessage("More details at https://docs.sonarqube.org/display/SCAN/Analyzing+with+SonarQube+Scanner+for+Gradle");        
     }   

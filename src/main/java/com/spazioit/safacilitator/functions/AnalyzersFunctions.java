@@ -52,6 +52,7 @@ public class AnalyzersFunctions {
     private static final String PCLINT_OUT_REP_UNX = "pclint-reports/pclint-result-01.xml";
     private static final String PCLINT_OUT_REP_WIN = "pclint-reports\\pclint-result-01.xml";
     private static final String CPPCHECK_OUT_DIR = "cppcheck-reports";
+    private static String cppcheckBuildDir = "";
     private static final String CPPCHECK_OUT_REP_UNX = "cppcheck-reports/cppcheck-result-01.xml";
     private static final String CPPCHECK_OUT_REP_WIN = "cppcheck-reports\\cppcheck-result-01.xml";
     private static final String CLANGSA_OUT_DIR = "clangsa";
@@ -281,7 +282,8 @@ public class AnalyzersFunctions {
         bw.newLine();
         bw.write("<project version=\"1\">");
         bw.newLine();
-        bw.write("    <builddir>" + p.getProjectName() + "-cppcheck-build-dir</builddir>");
+        cppcheckBuildDir = p.getProjectName() + "-cppcheck-build-dir";
+        bw.write("    <builddir>" + cppcheckBuildDir + "</builddir>");
         bw.newLine();
         bw.write("    <platform>unix64</platform>");
         bw.newLine();
@@ -848,6 +850,8 @@ public class AnalyzersFunctions {
             commandLine = Strings.BASH + p.getBaseDirectory() + "/run_cppcheck.sh";
         }
         FileUtils.forceMkdir(new File(p.getBaseDirectory() + "/" + CPPCHECK_OUT_DIR));
+        FileUtils.forceMkdir(new File(p.getBaseDirectory() + "/" + cppcheckBuildDir));
+        FileUtils.cleanDirectory(new File(p.getBaseDirectory() + "/" + cppcheckBuildDir));
         if (SAFacilitator.isGuiEnabled()) {
             MainFrame.getStopRunningMenuItem().setText("Stop Cppcheck");
             MainFrame.getStopRunningMenuItem().setDisable(false);
