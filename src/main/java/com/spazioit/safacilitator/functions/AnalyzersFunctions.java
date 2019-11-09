@@ -850,6 +850,7 @@ public class AnalyzersFunctions {
             commandLine = Strings.BASH + p.getBaseDirectory() + "/run_cppcheck.sh";
         }
         FileUtils.forceMkdir(new File(p.getBaseDirectory() + "/" + CPPCHECK_OUT_DIR));
+        cppcheckBuildDir = p.getProjectName() + "-cppcheck-build-dir";
         FileUtils.forceMkdir(new File(p.getBaseDirectory() + "/" + cppcheckBuildDir));
         FileUtils.cleanDirectory(new File(p.getBaseDirectory() + "/" + cppcheckBuildDir));
         if (SAFacilitator.isGuiEnabled()) {
