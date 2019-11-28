@@ -118,9 +118,11 @@ public class SonarQubeFunctions {
         bw.newLine();
         bw.write("sonar.cxx.defines=");
         for (int i = 0; i < p.getDefines().size(); i++) {
-            bw.write(p.getDefines().get(i).substring(2));
-            if (i < (p.getDefines().size() - 1)) {
-                bw.write(",");
+            if (p.getDefines().get(i).length() > 2 && p.getDefines().get(i).startsWith("-D")) { 
+                bw.write(p.getDefines().get(i).substring(2));
+                if (i < (p.getDefines().size() - 1)) {
+                    bw.write(",");
+                }
             }
         }
         bw.newLine();
