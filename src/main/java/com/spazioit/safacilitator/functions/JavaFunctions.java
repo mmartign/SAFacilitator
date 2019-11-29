@@ -77,7 +77,7 @@ public class JavaFunctions {
         CommonFunctions.printMessage("mvn sonar:sonar");
         CommonFunctions.printMessage("the usual Maven options do apply, e.g.");
         CommonFunctions.printMessage("to skip the tests:");
-        CommonFunctions.printMessage("mvn clean install sonar:sonar -Dskip.tests=true");
+        CommonFunctions.printMessage("mvn clean install sonar:sonar -DskipTests=true");
         CommonFunctions.printMessage("or, to perform the tests:");
         CommonFunctions.printMessage("mvn clean install sonar:sonar -Dmaven.test.failure.ignore=true");
         CommonFunctions.printMessage("or, to get also coverage information:");
