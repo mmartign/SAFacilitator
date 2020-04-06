@@ -82,7 +82,8 @@ public class JavaFunctions {
         CommonFunctions.printMessage("mvn clean install sonar:sonar -Dmaven.test.failure.ignore=true");
         CommonFunctions.printMessage("or, to get also coverage information:");
         CommonFunctions.printMessage("mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install -Dmaven.test.failure.ignore=true");
-        CommonFunctions.printMessage("mvn sonar:sonar -Dsonar.jacoco.reportPaths=target/jacoco.exec\n");
+        CommonFunctions.printMessage("mvn org.jacoco:jacoco-maven-plugin:report");
+        CommonFunctions.printMessage("mvn sonar:sonar -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml\n");
         CommonFunctions.printMessage("More details at https://docs.sonarqube.org/display/SCAN/Analyzing+with+SonarQube+Scanner+for+Maven");
         
     }

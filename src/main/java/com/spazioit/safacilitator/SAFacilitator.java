@@ -44,7 +44,7 @@ public class SAFacilitator {
     private Project currentProject = null;
     private static SAFacilitator myself = null;
     private static boolean guiEnabled = true;
-    private static String version = "1.0";
+    private static String version = "1.1";
     private static int MAX_LINES = 24576;
     private static String fileName = "";
     private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
