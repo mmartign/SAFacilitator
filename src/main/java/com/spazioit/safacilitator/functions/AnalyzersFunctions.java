@@ -1007,44 +1007,20 @@ public class AnalyzersFunctions {
             throw new Exception(Strings.CURRENT_PROJECT_IS_NULL);
         }
         if (!System.getProperty(Strings.OS_NAME).toLowerCase().startsWith(Strings.WINDOWS)) {
-            String fileName = p.getBaseDirectory() + "/vi.inp";
-            FileWriter fw = new FileWriter(fileName);
+            FileReader fr = new FileReader(PCLINT_OUT_REP_UNX);
+            FileWriter fw = new FileWriter(PCLINT_OUT_REP_UNX + ".tmp");
+            BufferedReader br = new BufferedReader(fr);
             BufferedWriter bw = new BufferedWriter(fw);
-            bw.write(":1,$s/\\\\/\\//g");
-            bw.newLine();
-            bw.write(":wq");
-            bw.newLine();
-            bw.flush();
-            bw.close();
-            fileName = p.getBaseDirectory() + "/vi_cmd.sh";
-            fw = new FileWriter(fileName);
-            bw = new BufferedWriter(fw);
-            bw.write(BIN_BASH_UNX);
-            bw.newLine();
-            bw.write("# VI launch script for project " + p.getProjectName());
-            bw.newLine();
-            bw.write(GENERATED_BY_UNX + LocalDateTime.now().format(SAFacilitator.getFormatter()));
-            bw.newLine();
-            bw.newLine();
-            bw.write("cd " + p.getBaseDirectory());
-            bw.newLine();
-            bw.write("dos2unix " + PCLINT_OUT_REP_UNX);
-            bw.newLine();
-            bw.write("vi " + PCLINT_OUT_REP_UNX + " < vi.inp");
-            bw.newLine();
-            bw.flush();
-            bw.close();
-            String commandLine = Strings.BASH + p.getBaseDirectory() + "/vi_cmd.sh";
-            if (SAFacilitator.isGuiEnabled()) {
-                MainFrame.getStopRunningMenuItem().setText("Stop Vi");
-                MainFrame.getStopRunningMenuItem().setDisable(false);
+            String line = br.readLine();
+            while (line != null) {
+                bw.write(line.replace("\\", "/"));
+                bw.newLine();
+                line = br.readLine();
             }
-            executor = new Executor(commandLine, "Vi executed", true);
-            executor.setPriority(Thread.MAX_PRIORITY);
-            executor.start();
-            if (!SAFacilitator.isGuiEnabled()) {
-                executor.join();
-            }
+            bw.close();
+            br.close();
+            FileUtils.deleteQuietly(new File(PCLINT_OUT_REP_UNX));
+            FileUtils.moveFile(new File(PCLINT_OUT_REP_UNX + ".tmp"), new File(PCLINT_OUT_REP_UNX ));
         }
         CommonFunctions.printLogMessage("PC-Lint post processed.");
     }
