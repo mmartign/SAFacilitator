@@ -112,7 +112,7 @@ public class JavaFunctions {
         CommonFunctions.printMessage("File: build.gradle\n");
         CommonFunctions.printMessage("Using the plugins DSL:");
         CommonFunctions.printMessage("plugins {");
-        CommonFunctions.printMessage("  id \"org.sonarqube\" version \"2.8\"");
+        CommonFunctions.printMessage("  id \"org.sonarqube\" version \"3.0\"");
         CommonFunctions.printMessage("}\n");
         CommonFunctions.printMessage("Using legacy plugin application:");
         CommonFunctions.printMessage("buildscript {");
@@ -122,7 +122,7 @@ public class JavaFunctions {
         CommonFunctions.printMessage("    }");
         CommonFunctions.printMessage("  }");
         CommonFunctions.printMessage("  dependencies {");
-        CommonFunctions.printMessage("    classpath \"org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.8\"");
+        CommonFunctions.printMessage("    classpath \"org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.0\"");
         CommonFunctions.printMessage("  }");
         CommonFunctions.printMessage("}");
         CommonFunctions.printMessage("");
