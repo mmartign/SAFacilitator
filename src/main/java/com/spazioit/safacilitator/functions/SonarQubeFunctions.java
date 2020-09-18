@@ -39,11 +39,11 @@ public class SonarQubeFunctions {
     private SAFacilitator safacilitator = null;
     private Executor executor = null;
 
-    private static final String PCLINT_REP_PATH = "pclint-reports/pclint-result-*.xml";
-    private static final String CPPCHECK_REP_PATH = "cppcheck-reports/cppcheck-result-*.xml";
-    private static final String CLANGSA_REP_PATH = "clangsa/*plist";
-    private static final String CLANGTIDY_REP_PATH = "clangtidy-reports/clangtidy-result-*.txt";
-    private static final String COMP_REP_PATH = "comp-reports/comp-result-*.txt";
+    private static final String PCLINT_REP_PATH = "pclint-reports/*";
+    private static final String CPPCHECK_REP_PATH = "cppcheck-reports/*";
+    private static final String CLANGSA_REP_PATH = "clangsa/*";
+    private static final String CLANGTIDY_REP_PATH = "clangtidy-reports/*";
+    private static final String COMP_REP_PATH = "comp-reports/*";
 
     private static final String EXPLODED = "_EXPLODED";
 
@@ -159,30 +159,24 @@ public class SonarQubeFunctions {
         bw.write("#  Report files information");
         bw.newLine();
         if (!p.getPreProcessingEnabled()) {
-            bw.write("sonar.cxx.pclint.reportPath=" + p.getBaseDirectory() + "/" + PCLINT_REP_PATH);
+            bw.write("sonar.cxx.pclint.reportPaths=" + p.getBaseDirectory() + "/" + PCLINT_REP_PATH);
             bw.newLine();
-            bw.write("sonar.cxx.cppcheck.reportPath=" + p.getBaseDirectory() + "/" + CPPCHECK_REP_PATH);
+            bw.write("sonar.cxx.cppcheck.reportPaths=" + p.getBaseDirectory() + "/" + CPPCHECK_REP_PATH);
             bw.newLine();
-            bw.write("sonar.cxx.clangsa.reportPath=" + p.getBaseDirectory() + "/" + CLANGSA_REP_PATH);
+            bw.write("sonar.cxx.clangsa.reportPaths=" + p.getBaseDirectory() + "/" + CLANGSA_REP_PATH);
             bw.newLine();
-            bw.write("sonar.cxx.clangtidy.reportPath=" + p.getBaseDirectory() + "/" + CLANGTIDY_REP_PATH);
+            bw.write("sonar.cxx.clangtidy.reportPatsh=" + p.getBaseDirectory() + "/" + CLANGTIDY_REP_PATH);
             bw.newLine();
-            bw.write("sonar.cxx.compiler.reportPath=" + p.getBaseDirectory() + "/" + COMP_REP_PATH);
+            bw.write("sonar.cxx.gcc.reportPaths=" + p.getBaseDirectory() + "/" + COMP_REP_PATH);
             bw.newLine();
         } else {
-            bw.write("sonar.cxx.clangsa.reportPath=" + p.getExplodedDirectory() + "/" + CLANGSA_REP_PATH);
+            bw.write("sonar.cxx.clangsa.reportPaths=" + p.getExplodedDirectory() + "/" + CLANGSA_REP_PATH);
             bw.newLine();
         }
         bw.newLine();
         bw.write("#  Language information");
         bw.newLine();
         bw.write("sonar.language=c++");
-        bw.newLine();
-        bw.write("sonar.lang.patterns.c++ : **/*.c,**/*.c++,**/*.cc,**/*.cpp,**/*.cxx");
-        bw.newLine();
-        bw.write("sonar.lang.patterns.c : **/*.x");
-        bw.newLine();
-        bw.write("sonar.cxx.compiler.parser=GCC");
         bw.newLine();
         bw.newLine();
         bw.write("#  Sonar URL and login");
