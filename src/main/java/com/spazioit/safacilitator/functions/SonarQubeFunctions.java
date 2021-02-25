@@ -176,7 +176,7 @@ public class SonarQubeFunctions {
         bw.newLine();
         bw.write("#  Language information");
         bw.newLine();
-        bw.write("sonar.language=c++");
+        bw.write("sonar.cxx.file.suffixes=.h,.hpp,.hxx,.c,.cpp,.cxx");
         bw.newLine();
         bw.newLine();
         bw.write("#  Sonar URL and login");
