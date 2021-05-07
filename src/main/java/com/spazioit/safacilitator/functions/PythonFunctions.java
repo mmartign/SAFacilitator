@@ -48,12 +48,12 @@ public class PythonFunctions {
         }
         CommonFunctions.printMessage("NOTE: the SAFacilitator itself does not run the Python static analyzers, you have to do that yourself beforehand.\n");
         CommonFunctions.printMessage("In order to run these alyzers and generate fitting reports, make sure to call them from the project root directory,");
-        CommonFunctions.printMessage("so that the paths in the report fit.\n");
+        CommonFunctions.printMessage("so that the paths in the reports fit.\n");
         CommonFunctions.printMessage("Run Bandit as follows:");
         CommonFunctions.printMessage("bandit --format json --recursive <source_directory> --output ./bandit-reports/bandit-report-01.json\n");
         CommonFunctions.printMessage("Run Pylint as follows:");
         CommonFunctions.printMessage("pylint <pyton file name> -r n --msg-template=\"{path}:{line}: [{msg_id}({symbol}), {obj}] {msg}\" > ./pylint-reports/pylint-report-01.txt");
-        CommonFunctions.printMessage("(an utility applying the above command recurdively to all python files in a directory could be very useful).\n");
+        CommonFunctions.printMessage("(an utility applying the above command recursively to all python files in a directory could be very useful).\n");
         CommonFunctions.printMessage("Run Flake8 as follows:");
         CommonFunctions.printMessage("flake8 > ./flake8-reports/flake8-report-01.json.");
     }
