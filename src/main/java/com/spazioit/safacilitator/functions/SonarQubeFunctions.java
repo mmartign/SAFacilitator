@@ -44,6 +44,10 @@ public class SonarQubeFunctions {
     private static final String CLANGSA_REP_PATH = "clangsa/*";
     private static final String CLANGTIDY_REP_PATH = "clangtidy-reports/*";
     private static final String COMP_REP_PATH = "comp-reports/*";
+    private static final String FBINFER_REP_PATH = "fbinfer-reports/*";
+    private static final String BANDIT_REP_PATH = "bandit-reports/*";
+    private static final String PYLINT_REP_PATH = "pylint-reports/*";
+    private static final String FLAKE8_REP_PATH = "flake8-reports/*";
 
     private static final String EXPLODED = "_EXPLODED";
 
@@ -169,12 +173,22 @@ public class SonarQubeFunctions {
             bw.newLine();
             bw.write("sonar.cxx.gcc.reportPaths=" + p.getBaseDirectory() + "/" + COMP_REP_PATH);
             bw.newLine();
+            bw.write("sonar.cxx.infer.reportPaths=" + p.getBaseDirectory() + "/" + FBINFER_REP_PATH);
+            bw.newLine();
+            bw.write("sonar.python.bandit.reportPaths=" + p.getBaseDirectory() + "/" + BANDIT_REP_PATH);
+            bw.newLine();
+            bw.write("sonar.python.pylint.reportPaths=" + p.getBaseDirectory() + "/" + PYLINT_REP_PATH);
+            bw.newLine();
+            bw.write("sonar.python.flake8.reportPaths=" + p.getBaseDirectory() + "/" + FLAKE8_REP_PATH);
+            bw.newLine();
         } else {
             bw.write("sonar.cxx.clangsa.reportPaths=" + p.getExplodedDirectory() + "/" + CLANGSA_REP_PATH);
             bw.newLine();
         }
         bw.newLine();
         bw.write("#  Language information");
+        bw.newLine();
+        bw.write("sonar.language=java,js,c++,c,py,python");
         bw.newLine();
         bw.write("sonar.cxx.file.suffixes=.h,.hpp,.hxx,.c,.cpp,.cxx");
         bw.newLine();

@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.spazioit.safacilitator.gui.ProjectFileController">
+<VBox prefHeight="450.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.spazioit.safacilitator.gui.ProjectFileController">
    <children>
       <TitledPane animated="false" prefHeight="414.0" prefWidth="640.0" text="Editing Single Project File">
          <content>

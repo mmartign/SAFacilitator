@@ -25,6 +25,8 @@ import com.spazioit.safacilitator.functions.AnalyzersFunctions;
 import com.spazioit.safacilitator.model.Project;
 import com.spazioit.safacilitator.functions.FileFunctions;
 import com.spazioit.safacilitator.functions.JavaFunctions;
+import com.spazioit.safacilitator.functions.FbInferFunctions;
+import com.spazioit.safacilitator.functions.PythonFunctions;
 import com.spazioit.safacilitator.functions.PreprocessingFunctions;
 import com.spazioit.safacilitator.functions.SonarQubeFunctions;
 import com.spazioit.safacilitator.gui.MainFrame;
@@ -44,7 +46,7 @@ public class SAFacilitator {
     private Project currentProject = null;
     private static SAFacilitator myself = null;
     private static boolean guiEnabled = true;
-    private static String version = "1.4";
+    private static String version = "1.5";
     private static int MAX_LINES = 24576;
     private static String fileName = "";
     private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -142,6 +144,8 @@ public class SAFacilitator {
         SonarQubeFunctions sonarQubeFunctions = new SonarQubeFunctions(this);
         PreprocessingFunctions preproFunctions = new PreprocessingFunctions(this);
         JavaFunctions javaFunctions = new JavaFunctions(this);
+        FbInferFunctions fbInferFunctions = new FbInferFunctions(this);
+        PythonFunctions pythonFunctions = new PythonFunctions(this);
         for(int i = 0; i < args.length; i++) {
             checkArgument = true;
             if (args[i].equals("-ea")) {
@@ -160,27 +164,37 @@ public class SAFacilitator {
                     System.exit(-1);
                 }
             }
+            if (args[i].equals("-fip")) {
+                try {
+                    fbInferFunctions.prepareForFbInfer();
+                } catch (Exception ex) {
+                    System.err.println(ex.getMessage());
+                    System.exit(-1);
+                }
+            }
             if (args[i].equals("-h")) {
                 System.out.println("\nStatic Analsys Facilitator - version " + version);
                 System.out.println("Copyright (©) "  + LocalDate.now().getYear());
                 System.out.println("Spazio IT - Soluzioni Informatiche s.a.s.");
                 System.out.println("https://www.spazioit.com\n");
                 System.out.println("Used technologies: Java FX, Jackson, JSON, CompileDB\n");
-                System.out.println("Available commands:");
-                System.out.println("-ea:               execute analyzers");
-                System.out.println("-ep:               execute preprocessing");
-                System.out.println("-h:                print this text");
-                System.out.println("-l <file name>:    load project file");
+                System.err.println("Available commands:");                    
+                System.err.println("-ea:               execute analyzers");
+                System.err.println("-ep:               execute preprocessing");
+                System.err.println("-fip:              (FB Infer)prepare for FB Infer");                
+                System.err.println("-h:                print this text");
                 System.out.println("-jpg:              (Java) prepare for Gradle");
                 System.out.println("-jpm:              (Java) prepare for Maven");
+                System.err.println("-l <file name>:    load project file");
                 System.out.println("-lcc <file name>:  load compile_commands file into project");
-                System.out.println("-pa:               prepare analyzers");
-                System.out.println("-pp:               prepare preprocessing");
-                System.out.println("-ppa:              post process analyzers");
-                System.out.println("-psq:              prepare SonarQube");
-                System.out.println("-rss:              run SonarScanner");
-                System.out.println("-s <file name>:    save project file");
-                System.out.println("-scc <file name>:  save project as compile_commands file");
+                System.err.println("-pa:               prepare analyzers");
+                System.err.println("-pp:               prepare preprocessing");
+                System.err.println("-ppa:              post process analyzers");
+                System.err.println("-psq:              prepare SonarQube");
+                System.err.println("-pyp:              (Pyhton) prepare for Python analyzers");
+                System.err.println("-rss:              run SonarScanner");
+                System.err.println("-s <file name>:    save project file");
+                System.err.println("-scc <file name>:  save project as compile_commands file");
                 System.out.println("-scd:              show compiler defines\n");
                 System.out.println("No argument starts the GUI\n");
             }
@@ -260,6 +274,14 @@ public class SAFacilitator {
                     System.exit(-1);
                 }
             }
+            if (args[i].equals("-pyp")) {
+                try {
+                    pythonFunctions.prepareForPython();
+                } catch (Exception ex) {
+                    System.err.println(ex.getMessage());
+                    System.exit(-1);
+                }
+            }
             if (args[i].equals("-rss")) {
                 try {
                     sonarQubeFunctions.runSonarScanner();
@@ -306,6 +328,7 @@ public class SAFacilitator {
             }
             if ((!args[i].equals("-ea")) &&
                 (!args[i].equals("-ep")) &&
+                (!args[i].equals("-fip")) &&
                 (!args[i].equals("-h")) &&
                 (!args[i].equals("-jpg")) &&
                 (!args[i].equals("-jpm")) &&
@@ -315,6 +338,7 @@ public class SAFacilitator {
                 (!args[i].equals("-pp")) && 
                 (!args[i].equals("-ppa")) &&
                 (!args[i].equals("-psq")) &&
+                (!args[i].equals("-pyp")) &&
                 (!args[i].equals("-rss")) &&
                 (!args[i].equals("-s")) &&
                 (!args[i].equals("-scc")) &&
@@ -324,6 +348,7 @@ public class SAFacilitator {
                 System.err.println("Available commands:");                    
                 System.err.println("-ea:               execute analyzers");
                 System.err.println("-ep:               execute preprocessing");
+                System.err.println("-fip:              (FB Infer)prepare for FB Infer");                
                 System.err.println("-h:                print this text");
                 System.out.println("-jpg:              (Java) prepare for Gradle");
                 System.out.println("-jpm:              (Java) prepare for Maven");
@@ -333,6 +358,7 @@ public class SAFacilitator {
                 System.err.println("-pp:               prepare preprocessing");
                 System.err.println("-ppa:              post process analyzers");
                 System.err.println("-psq:              prepare SonarQube");
+                System.err.println("-pyp:              (Pyhton) prepare for Python analyzers");
                 System.err.println("-rss:              run SonarScanner");
                 System.err.println("-s <file name>:    save project file");
                 System.err.println("-scc <file name>:  save project as compile_commands file");

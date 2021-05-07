@@ -134,7 +134,7 @@ public class EditProjectController implements Initializable {
         Project p = SAFacilitator.getMyself().getCurrentProject() ;
         if ((p == null) || 
             (p.getProjectName() == null) || 
-            (p.getProjectName().equals(""))) {
+            ((p.getProjectName() != null) && (p.getProjectName().equals("")))) {
             titledPane.setText("Editing Project - (Empty)");
         } else {
             titledPane.setText("Editing Project - " + p.getProjectName());                
@@ -159,10 +159,10 @@ public class EditProjectController implements Initializable {
             editFunctions.getSonarQubeUserPassword(sonarQubePassword);
             editFunctions.getSonarScanner(sonarScanner);
         } catch (Exception ex) {
-            applicationMessage.setText(ex.getMessage());
-            if ((ex.getMessage() != null) && (!ex.getMessage().equals(""))) {
-                CommonGuiFunctions.displayError(ex.getMessage());
-            }
+        //    applicationMessage.setText(ex.getMessage());
+        //    if ((ex.getMessage() != null) && (!ex.getMessage().equals(""))) {
+        //        CommonGuiFunctions.displayError(ex.getMessage());
+        //    }
         }
     }    
 

@@ -26,7 +26,9 @@ import com.spazioit.safacilitator.Strings;
 import com.spazioit.safacilitator.functions.AnalyzersFunctions;
 import com.spazioit.safacilitator.functions.CommonFunctions;
 import com.spazioit.safacilitator.functions.FileFunctions;
+import com.spazioit.safacilitator.functions.FbInferFunctions;
 import com.spazioit.safacilitator.functions.JavaFunctions;
+import com.spazioit.safacilitator.functions.PythonFunctions;
 import com.spazioit.safacilitator.functions.PreprocessingFunctions;
 import com.spazioit.safacilitator.functions.SonarQubeFunctions;
 import com.spazioit.safacilitator.model.Project;
@@ -533,6 +535,18 @@ public class MainFrameController implements Initializable {
     private void prepareForGradle(ActionEvent event) {
         JavaFunctions functions = new JavaFunctions(SAFacilitator.getMyself());
         functions.prepareForGradle();
+    }
+
+    @FXML
+    private void prepareForFbInfer(ActionEvent event) {
+        FbInferFunctions functions = new FbInferFunctions(SAFacilitator.getMyself());
+        functions.prepareForFbInfer();
+    }
+
+    @FXML
+    private void prepareForPython(ActionEvent event) {
+        PythonFunctions functions = new PythonFunctions(SAFacilitator.getMyself());
+        functions.prepareForPython();
     }
 
     @FXML

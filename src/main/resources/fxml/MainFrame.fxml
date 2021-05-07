@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.spazioit.safacilitator.gui.MainFrameController">
+<VBox prefHeight="450.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.spazioit.safacilitator.gui.MainFrameController">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
@@ -53,10 +53,20 @@
                 <MenuItem fx:id="stopRunningMenuItem" disable="true" mnemonicParsing="false" onAction="#stopRunningProcess" text="Stop running process..." />
               </items>
             </Menu>
+            <Menu mnemonicParsing="false" text="FB Infer">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#prepareForFbInfer" text="Cheat Sheet for FB Infer" />
+              </items>
+            </Menu>
             <Menu mnemonicParsing="false" text="Java">
               <items>
                   <MenuItem mnemonicParsing="false" onAction="#prepareForGradle" text="Cheat Sheet for Gradle" />
                 <MenuItem mnemonicParsing="false" onAction="#prepareForMaven" text="Cheat Sheet for Maven" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Python">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#prepareForPython" text="Cheat Sheet for Python" />
               </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Log">
