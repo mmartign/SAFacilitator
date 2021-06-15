@@ -336,7 +336,13 @@ public class AnalyzersFunctions {
         bw.write("    <paths>");
         bw.newLine();
         for (int i = 0; i < p.getSourceDirectories().size(); i++) {
-            bw.write("        <dir name=\"" + p.getBaseDirectory() + "/" + p.getSourceDirectories().get(i) + "\"/>");
+            if (p.getSourceDirectories().get(i).startsWith("/")
+                    || p.getSourceDirectories().get(i).startsWith("C:")
+                    || p.getSourceDirectories().get(i).startsWith("c:")) {
+                bw.write("        <dir name=\"" + p.getSourceDirectories().get(i) + "\"/>");
+            } else {
+                bw.write("        <dir name=\"" + p.getBaseDirectory() + "/" + p.getSourceDirectories().get(i) + "\"/>");
+            }
             bw.newLine();
         }
         bw.write("    </paths>");

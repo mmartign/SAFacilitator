@@ -88,10 +88,17 @@ public class FileFunctions {
                     normDirectory = normDirectory.substring(p.getBaseDirectory().length() + 1);
                 }
             }
-            if (!sourceFiles.contains(sDirectory + "/" + sFile)) {
-                sourceFiles.add(sDirectory + "/" + sFile);
+            if (sFile.startsWith(sDirectory)) {
+                if (!sourceFiles.contains(sFile)) {
+                    sourceFiles.add(sFile);
+                }                
+                pFile.setPfFileName(sFile);
+            } else {
+                if (!sourceFiles.contains(sDirectory + "/" + sFile)) {
+                    sourceFiles.add(sDirectory + "/" + sFile);
+                }                
+                pFile.setPfFileName(sDirectory + "/" + sFile);
             }
-            pFile.setPfFileName(sDirectory + "/" + sFile);
             if (!sourceDirectories.contains(normDirectory)) {
                 sourceDirectories.add(normDirectory);
             }
