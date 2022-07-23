@@ -43,13 +43,24 @@ import java.time.format.DateTimeFormatter;
  */
 public class SAFacilitator {
 
+    public enum PCLintType {PCLint, PCLintPlus};
     private Project currentProject = null;
     private static SAFacilitator myself = null;
     private static boolean guiEnabled = true;
-    private static String version = "1.6";
+    private static String version = "1.8";
     private static int MAX_LINES = 24576;
     private static String fileName = "";
     private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private PCLintType pclt = PCLintType.PCLintPlus;
+
+    
+    public PCLintType getPclt() {
+        return pclt;
+    }
+
+    public void setPclt(PCLintType pclt) {
+        this.pclt = pclt;
+    }
 
     public Project getCurrentProject() {
         return currentProject;
@@ -188,6 +199,7 @@ public class SAFacilitator {
                 System.err.println("-l <file name>:    load project file");
                 System.out.println("-lcc <file name>:  load compile_commands file into project");
                 System.err.println("-pa:               prepare analyzers");
+                System.err.println("-pclt PCLint[Plus]:select PCLint Type");
                 System.err.println("-pp:               prepare preprocessing");
                 System.err.println("-ppa:              post process analyzers");
                 System.err.println("-psq:              prepare SonarQube");
@@ -249,6 +261,22 @@ public class SAFacilitator {
                     System.err.println(ex.getMessage());
                     System.exit(-1);
                 }
+            }
+            if (args[i].equals("-pclt")) {
+                if (i == (args.length - 1)) {
+                    System.err.println(Strings.WRONG_COMMAND_LINE);
+                    System.err.println("Arg \"-pclt\" expects to be followed by PClint Type.");
+                    System.exit(-1);
+                }
+                if (args[++i].equals("PCLint")) {
+                    pclt = PCLintType.PCLint;
+                } else if (args[i].equals("PCLintPlus")) {
+                    pclt = PCLintType.PCLintPlus;
+                } else {
+                    pclt = PCLintType.PCLintPlus;
+                
+                }
+                checkArgument = false;
             }
             if (args[i].equals("-pp")) {
                 try {
@@ -335,6 +363,7 @@ public class SAFacilitator {
                 (!args[i].equals("-l")) &&
                 (!args[i].equals("-lcc")) &&
                 (!args[i].equals("-pa")) && 
+                (!args[i].equals("-pclt")) && 
                 (!args[i].equals("-pp")) && 
                 (!args[i].equals("-ppa")) &&
                 (!args[i].equals("-psq")) &&
@@ -355,6 +384,7 @@ public class SAFacilitator {
                 System.err.println("-l <file name>:    load project file");
                 System.out.println("-lcc <file name>:  load compile_commands file into project");
                 System.err.println("-pa:               prepare analyzers");
+                System.err.println("-pclt PCLint[Plus]:select PCLint Type");
                 System.err.println("-pp:               prepare preprocessing");
                 System.err.println("-ppa:              post process analyzers");
                 System.err.println("-psq:              prepare SonarQube");

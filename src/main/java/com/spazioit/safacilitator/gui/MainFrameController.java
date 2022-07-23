@@ -32,7 +32,6 @@ import com.spazioit.safacilitator.functions.PythonFunctions;
 import com.spazioit.safacilitator.functions.PreprocessingFunctions;
 import com.spazioit.safacilitator.functions.SonarQubeFunctions;
 import com.spazioit.safacilitator.model.Project;
-import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -53,6 +52,9 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
+import javafx.scene.layout.StackPane;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
@@ -557,22 +559,15 @@ public class MainFrameController implements Initializable {
     
     private void callBrowser(String url) {
         applicationMessage.setText("Consulting Help.");
-        if (Desktop.isDesktopSupported()) {
-            Desktop desktop = Desktop.getDesktop();
-            try {
-                desktop.browse(new URI(url));
-            } catch (IOException | URISyntaxException e) {
-                applicationMessage.setText(e.getMessage());
-                CommonGuiFunctions.displayError(e.getMessage());
-            }
-        } else {
-            Runtime runtime = Runtime.getRuntime();
-            try {
-                runtime.exec("xdg-open " + url);
-            } catch (IOException e) {
-                applicationMessage.setText(e.getMessage());
-                CommonGuiFunctions.displayError(e.getMessage());
-            }
-        }        
+        
+        StackPane root = new StackPane();
+        WebView view = new WebView();
+        WebEngine engine = view.getEngine();
+        engine.load(url);
+        root.getChildren().add(view);
+        Scene scene = new Scene(root, 800, 600);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.show();
     }
 }

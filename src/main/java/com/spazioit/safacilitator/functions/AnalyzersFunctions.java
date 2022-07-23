@@ -137,6 +137,7 @@ public class AnalyzersFunctions {
      * @throws Exception in case of application error prepare PC-Lint
      */
     void preparePcLint() throws Exception {
+        SAFacilitator.PCLintType pclt = safacilitator.getPclt();
         CommonFunctions.printLogMessage("Preparing PC-Lint...");
         Project p = safacilitator.getCurrentProject();
         if (p == null) {
@@ -154,20 +155,33 @@ public class AnalyzersFunctions {
         bw.newLine();
         bw.write("//  Spazio IT recommendations and checks recommended by industry bodies");
         bw.newLine();
-        bw.write("au-barr10.lnt");
+        if (pclt == SAFacilitator.PCLintType.PCLint) {
+          bw.write("au-barr10.lnt");
+        } else {
+          bw.write("au-barr.lnt");
+          bw.newLine();
+          bw.write("au-certc.lnt");
+          bw.newLine();
+          bw.write("au-autosar.lnt");
+          bw.newLine();
+        }
         bw.newLine();
         bw.write("au-misra2.lnt");
         bw.newLine();
         bw.write("au-misra3.lnt");
         bw.newLine();
-        bw.write("au-sm123.lnt");
+        if (pclt == SAFacilitator.PCLintType.PCLint) {
+          bw.write("au-sm123.lnt");
+          bw.newLine();
+        }
         bw.newLine();
-        bw.newLine();
-        bw.write("// Compiler configuration");
-        bw.newLine();
-        bw.write("co-gcc.lnt");
-        bw.newLine();
-        bw.newLine();
+        if (pclt == SAFacilitator.PCLintType.PCLint) {
+          bw.write("// Compiler configuration");
+          bw.newLine();
+          bw.write("co-gcc.lnt");
+          bw.newLine();
+          bw.newLine();
+        }
         bw.write("//  PC-lint warning level (0 through 4)");
         bw.newLine();
         bw.write("-w3");
@@ -178,11 +192,13 @@ public class AnalyzersFunctions {
         bw.write("-e309 -e98 -e322 -e952 -e953 -e956 +fqb +e970");
         bw.newLine();
         bw.newLine();
-        bw.write("//  Do not stop on error");
-        bw.newLine();
-        bw.write("+fce");
-        bw.newLine();
-        bw.newLine();
+        if (pclt == SAFacilitator.PCLintType.PCLint) {
+          bw.write("//  Do not stop on error");
+          bw.newLine();
+          bw.write("+fce");
+          bw.newLine();
+          bw.newLine();
+        }
         bw.write("//  Defines");
         bw.newLine();
         for (int i = 0; i < p.getDefines().size(); i++) {
@@ -232,8 +248,13 @@ public class AnalyzersFunctions {
             bw.newLine();
             bw.write("cd " + p.getBaseDirectory());
             bw.newLine();
-            bw.write("C:\\lint\\lint-nt.exe -IC:\\lint\\scripts " + p.getProjectName()
-                    + ".lnt > " + PCLINT_OUT_REP_WIN);
+            if (pclt == SAFacilitator.PCLintType.PCLint) {
+              bw.write("C:\\lint\\lint-nt.exe -IC:\\lint\\scripts " + p.getProjectName()
+                      + ".lnt > " + PCLINT_OUT_REP_WIN);
+            } else {
+              bw.write("C:\\pclp\\pclp32.exe -IC:\\pclp\\scripts " + p.getProjectName()
+                      + ".lnt > " + PCLINT_OUT_REP_WIN);
+            }
             bw.newLine();
         } else {
             fileName = p.getBaseDirectory() + "/run_pclint.sh";
@@ -250,8 +271,13 @@ public class AnalyzersFunctions {
             bw.newLine();
             bw.write("cd " + p.getBaseDirectory());
             bw.newLine();
-            bw.write("wine /opt/lint/lint-nt.exe -I/opt/lint/scripts " + p.getProjectName()
-                    + ".lnt > " + PCLINT_OUT_REP_UNX);
+            if (pclt == SAFacilitator.PCLintType.PCLint) {
+              bw.write("wine /opt/lint/lint-nt.exe -I/opt/lint/scripts " + p.getProjectName()
+                      + ".lnt > " + PCLINT_OUT_REP_UNX);
+            } else {
+              bw.write("wine /opt/pclp/pclp32.exe -I/opt/pclp/scripts " + p.getProjectName()
+                      + ".lnt > " + PCLINT_OUT_REP_UNX);                
+            }
             bw.newLine();
         }
         bw.newLine();
@@ -269,6 +295,7 @@ public class AnalyzersFunctions {
         if (p == null) {
             throw new Exception(Strings.CURRENT_PROJECT_IS_NULL);
         }
+        /* 
         String fileName = p.getBaseDirectory() + "/" + p.getProjectName() + ".cppcheck";
         FileWriter fw = new FileWriter(fileName);
         BufferedWriter bw = new BufferedWriter(fw);
@@ -370,9 +397,11 @@ public class AnalyzersFunctions {
         bw.newLine();
         bw.flush();
         bw.close();
+        */
+        BufferedWriter bw;
         if (System.getProperty(Strings.OS_NAME).toLowerCase().startsWith(Strings.WINDOWS)) {
-            fileName = p.getBaseDirectory() + "/run_cppcheck.bat";
-            fw = new FileWriter(fileName);
+            String fileName = p.getBaseDirectory() + "/run_cppcheck.bat";
+            FileWriter fw = new FileWriter(fileName);
             bw = new BufferedWriter(fw);
             bw.write(ECHO_OFF_WIN);
             bw.newLine();
@@ -385,12 +414,12 @@ public class AnalyzersFunctions {
             bw.newLine();
             bw.write("cd " + p.getBaseDirectory());
             bw.newLine();
-            bw.write("\"C:\\Program Files\\Cppcheck\\cppcheck.exe\" --project=" + p.getProjectName()
-                    + ".cppcheck --enable=all --xml --quiet --output-file=" + CPPCHECK_OUT_REP_WIN);
+            bw.write("\"C:\\Program Files\\Cppcheck\\cppcheck.exe\" --project=compile_commands.json " +
+                     "--enable=all --xml --quiet --output-file=" + CPPCHECK_OUT_REP_WIN);
             bw.newLine();
         } else {
-            fileName = p.getBaseDirectory() + "/run_cppcheck.sh";
-            fw = new FileWriter(fileName);
+            String fileName = p.getBaseDirectory() + "/run_cppcheck.sh";
+            FileWriter fw = new FileWriter(fileName);
             bw = new BufferedWriter(fw);
             bw.write(BIN_BASH_UNX);
             bw.newLine();
@@ -403,8 +432,8 @@ public class AnalyzersFunctions {
             bw.newLine();
             bw.write("cd " + p.getBaseDirectory());
             bw.newLine();
-            bw.write("cppcheck --project=" + p.getProjectName()
-                    + ".cppcheck --enable=all --xml --quiet --output-file=" + CPPCHECK_OUT_REP_UNX);
+            bw.write("cppcheck --project=compile_commands.json " + 
+                     "--enable=all --xml --quiet --output-file=" + CPPCHECK_OUT_REP_UNX);
             bw.newLine();
         }
         bw.newLine();
@@ -423,7 +452,7 @@ public class AnalyzersFunctions {
             throw new Exception(Strings.CURRENT_PROJECT_IS_NULL);
         }
         if (System.getProperty(Strings.OS_NAME).toLowerCase().startsWith(Strings.WINDOWS)) {
-            String fileName = null;
+            String fileName;
             if (!p.getPreProcessingEnabled()) {
                 fileName = p.getBaseDirectory() + "/" + p.getProjectName() + CLANG_SA_SUFF_WIN;
             } else {
@@ -856,9 +885,11 @@ public class AnalyzersFunctions {
             commandLine = Strings.BASH + p.getBaseDirectory() + "/run_cppcheck.sh";
         }
         FileUtils.forceMkdir(new File(p.getBaseDirectory() + "/" + CPPCHECK_OUT_DIR));
+        /*
         cppcheckBuildDir = p.getProjectName() + "-cppcheck-build-dir";
         FileUtils.forceMkdir(new File(p.getBaseDirectory() + "/" + cppcheckBuildDir));
         FileUtils.cleanDirectory(new File(p.getBaseDirectory() + "/" + cppcheckBuildDir));
+        */
         if (SAFacilitator.isGuiEnabled()) {
             MainFrame.getStopRunningMenuItem().setText("Stop Cppcheck");
             MainFrame.getStopRunningMenuItem().setDisable(false);
