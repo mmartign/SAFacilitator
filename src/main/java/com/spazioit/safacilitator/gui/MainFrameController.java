@@ -233,7 +233,7 @@ public class MainFrameController implements Initializable {
         alert.setHeaderText("Static Analysis Facilitator - version " + SAFacilitator.getVersion());
         alert.setContentText("Copyright (©) " + LocalDate.now().getYear() + "\n"
                 + "Spazio IT - Soluzioni Informatiche s.a.s.\n"
-                + "https://www.spazioit.com\n\n"
+                + "https://spazioit.com\n\n"
                 + "Used technologies: Java FX,\n"
                 + "Jackson, JSON, CompileDB.\n\n"
                 + "This work has been funded by the ESA\n"
@@ -553,7 +553,7 @@ public class MainFrameController implements Initializable {
 
     @FXML
     private void showHelp(ActionEvent event) {
-        String url = "https://www.spazioit.com/SAFeToolsetHelp";
+        String url = "https://spazioit.com/SAFeToolsetHelp";
         callBrowser(url);
     }
     

@@ -23,6 +23,6 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="139.0" layoutY="296.0" text="Spazio IT - Soluzioni Informatiche - https://www.spazioit.com" />
+      <Label layoutX="139.0" layoutY="296.0" text="Spazio IT - Soluzioni Informatiche - https://spazioit.com" />
    </children>
 </AnchorPane>

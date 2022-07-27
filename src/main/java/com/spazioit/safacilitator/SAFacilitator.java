@@ -187,7 +187,7 @@ public class SAFacilitator {
                 System.out.println("\nStatic Analsys Facilitator - version " + version);
                 System.out.println("Copyright (©) "  + LocalDate.now().getYear());
                 System.out.println("Spazio IT - Soluzioni Informatiche s.a.s.");
-                System.out.println("https://www.spazioit.com\n");
+                System.out.println("https://spazioit.com\n");
                 System.out.println("Used technologies: Java FX, Jackson, JSON, CompileDB\n");
                 System.err.println("Available commands:");                    
                 System.err.println("-ea:               execute analyzers");

@@ -42,7 +42,7 @@ public class Strings {
     public static final String REMOVED = " removed.";
     public static final String SAFACILITATOR = "SAFacilitator";
     public static final String SELECTED_PROJECT_FILE_IS_NULL = "Selected project file is null. Initialize it first!";
-    public static final String SPAZIOIT_WWW = "Spazio IT - https://www.spazioit.com";
+    public static final String SPAZIOIT_WWW = "Spazio IT - https://spazioit.com";
     public static final String WINDOWS = "windows";
     public static final String WRONG_COMMAND_LINE = "Wrong command line!";
 }
