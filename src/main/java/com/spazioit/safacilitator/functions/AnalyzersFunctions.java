@@ -252,7 +252,7 @@ public class AnalyzersFunctions {
               bw.write("C:\\lint\\lint-nt.exe -IC:\\lint\\scripts " + p.getProjectName()
                       + ".lnt > " + PCLINT_OUT_REP_WIN);
             } else {
-              bw.write("C:\\pclp\\pclp32.exe -IC:\\pclp\\scripts " + p.getProjectName()
+              bw.write("C:\\pclp\\pclp64.exe -IC:\\pclp\\scripts " + p.getProjectName()
                       + ".lnt > " + PCLINT_OUT_REP_WIN);
             }
             bw.newLine();
@@ -275,7 +275,7 @@ public class AnalyzersFunctions {
               bw.write("wine /opt/lint/lint-nt.exe -I/opt/lint/scripts " + p.getProjectName()
                       + ".lnt > " + PCLINT_OUT_REP_UNX);
             } else {
-              bw.write("wine /opt/pclp/pclp32.exe -I/opt/pclp/scripts " + p.getProjectName()
+              bw.write("/opt/pclp/pclp64_linux -I/opt/pclp/scripts " + p.getProjectName()
                       + ".lnt > " + PCLINT_OUT_REP_UNX);                
             }
             bw.newLine();
@@ -1038,12 +1038,13 @@ public class AnalyzersFunctions {
      * @throws Exception in case of application error post-process PC-Lint
      */
     void postProcessPcLint() throws Exception {
+        SAFacilitator.PCLintType pclt = safacilitator.getPclt();
         CommonFunctions.printLogMessage("Post processing PC-Lint...");
         Project p = safacilitator.getCurrentProject();
         if (p == null) {
             throw new Exception(Strings.CURRENT_PROJECT_IS_NULL);
         }
-        if (!System.getProperty(Strings.OS_NAME).toLowerCase().startsWith(Strings.WINDOWS)) {
+        if ((pclt == SAFacilitator.PCLintType.PCLint) && (!System.getProperty(Strings.OS_NAME).toLowerCase().startsWith(Strings.WINDOWS))) {
             FileReader fr = new FileReader(PCLINT_OUT_REP_UNX);
             FileWriter fw = new FileWriter(PCLINT_OUT_REP_UNX + ".tmp");
             BufferedReader br = new BufferedReader(fr);
