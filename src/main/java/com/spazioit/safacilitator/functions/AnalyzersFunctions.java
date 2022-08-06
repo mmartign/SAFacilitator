@@ -173,6 +173,9 @@ public class AnalyzersFunctions {
         if (pclt == SAFacilitator.PCLintType.PCLint) {
           bw.write("au-sm123.lnt");
           bw.newLine();
+        } else {
+          bw.write("au-misra-cpp.lnt");
+          bw.newLine();  
         }
         bw.newLine();
         if (pclt == SAFacilitator.PCLintType.PCLint) {
