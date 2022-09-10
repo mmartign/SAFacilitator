@@ -169,7 +169,7 @@ public class SonarQubeFunctions {
             bw.newLine();
             bw.write("sonar.cxx.clangsa.reportPaths=" + p.getBaseDirectory() + "/" + CLANGSA_REP_PATH);
             bw.newLine();
-            bw.write("sonar.cxx.clangtidy.reportPatsh=" + p.getBaseDirectory() + "/" + CLANGTIDY_REP_PATH);
+            bw.write("sonar.cxx.clangtidy.reportPaths=" + p.getBaseDirectory() + "/" + CLANGTIDY_REP_PATH);
             bw.newLine();
             bw.write("sonar.cxx.gcc.reportPaths=" + p.getBaseDirectory() + "/" + COMP_REP_PATH);
             bw.newLine();
