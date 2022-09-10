@@ -259,9 +259,6 @@ public class EditFunctions {
         if (p == null) {
             throw new Exception(Strings.CURRENT_PROJECT_IS_NULL);
         }
-        if (p.getpFiles() == null) {
-            return;
-        }
         if (sourceFiles == null) {
             return;
         }
@@ -271,29 +268,15 @@ public class EditFunctions {
                 listSourceFiles.add(sourceFiles.getItems().get(i));
             }
         }
-        
         List<PrFile> myPrFiles = new ArrayList<PrFile>();
-        for (int i = 0; i < p.getpFiles().size(); i++) {
-            if (listSourceFiles.contains(p.getpFiles().get(i).getPfFileName())) {
-                myPrFiles.add(p.getpFiles().get(i));
-            }
-        }
         for (int i = 0; i < listSourceFiles.size(); i++) {
-            int j;
-            for (j = 0; j < p.getpFiles().size(); j++) {
-                if (listSourceFiles.get(i).equals(p.getpFiles().get(j).getPfFileName())) {
-                    break;
-                }
-            }
-            if (j == p.getpFiles().size()) {
-                PrFile pFile = new PrFile();
-                pFile.setPfFileName(listSourceFiles.get(i));
-                pFile.setPfOriginalBuilder(p.getOrigBuilders().get(0));
-                pFile.setPfDefines(p.getDefines());
-                pFile.setPfIncludeDirectories(p.getIncludeDirectories());
-                pFile.setPfAdditionalArguments(p.getAdditionalArguments());
-                myPrFiles.add(pFile);
-            }
+            PrFile pFile = new PrFile();
+            pFile.setPfFileName(listSourceFiles.get(i));
+            pFile.setPfOriginalBuilder(p.getOrigBuilders().get(0));
+            pFile.setPfDefines(p.getDefines());
+            pFile.setPfIncludeDirectories(p.getIncludeDirectories());
+            pFile.setPfAdditionalArguments(p.getAdditionalArguments());
+            myPrFiles.add(pFile);
         } 
         p.setpFiles(myPrFiles);
     }

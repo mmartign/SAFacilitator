@@ -190,7 +190,7 @@ public class SonarQubeFunctions {
         bw.newLine();
         bw.write("sonar.language=java,js,c++,c,py,python");
         bw.newLine();
-        bw.write("sonar.cxx.file.suffixes=.h,.hpp,.hxx,.c,.cpp,.cxx");
+        bw.write("sonar.cxx.file.suffixes=.h,.hpp,.hxx,.c,.cc,.cpp,.cxx");
         bw.newLine();
         bw.newLine();
         bw.write("#  Sonar URL and login");

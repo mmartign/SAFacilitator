@@ -733,6 +733,7 @@ public class EditProjectController implements Initializable {
             editFunctions.getDefines(defines);
             editFunctions.getAdditionalArguments(additionalArguments);
             editFunctions.getIncludeDirectories(includeDirectories);
+            editFunctions.getSourceFiles(sourceFiles);
         } catch (Exception ex) {
             applicationMessage.setText(ex.getMessage());
             CommonGuiFunctions.displayError(ex.getMessage());
