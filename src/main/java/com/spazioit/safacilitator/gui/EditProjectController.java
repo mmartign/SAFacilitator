@@ -451,8 +451,15 @@ public class EditProjectController implements Initializable {
             extensions[7] = "CXX";
             extensions[8] = "c++";
             extensions[9] = "C++";
+            File dir;
             for (int i = 0; i < sourceDirectories.getItems().size(); i++) {
-                File dir = new File(baseDirectory.getText() + "/" + sourceDirectories.getItems().get(i));
+                if (sourceDirectories.getItems().get(i).startsWith("/") || 
+                    sourceDirectories.getItems().get(i).startsWith("c:") ||
+                    sourceDirectories.getItems().get(i).startsWith("C:")) {
+                    dir = new File(sourceDirectories.getItems().get(i));
+                } else {
+                    dir = new File(baseDirectory.getText() + "/" + sourceDirectories.getItems().get(i));
+                }
                 for (File file: FileUtils.listFiles(dir, extensions, true)) {
                   ol.add(file.getCanonicalPath().replace("\\", "/").replace("c:", "C:"));
                 }
