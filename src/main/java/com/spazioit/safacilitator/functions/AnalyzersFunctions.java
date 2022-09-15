@@ -493,6 +493,10 @@ public class AnalyzersFunctions {
                     bw.write("-extra-arg-before=\"" + p.getpFiles().get(i).getPfDefines().get(j).replace("\"", "\\\"") + "\"");
                     bw.write(" ");
                 }
+                for (int j = 0; j < p.getpFiles().get(i).getPfAdditionalArguments().size(); j++) {
+                    bw.write("-extra-arg-before=\"" + p.getpFiles().get(i).getPfAdditionalArguments().get(j).replace("\"", "\\\"") + "\"");
+                    bw.write(" ");
+                }
                 bw.write("-extra-arg-before=\"-ferror-limit=0\" ");
                 for (int j = 0; j < p.getpFiles().get(i).getPfIncludeDirectories().size(); j++) {
                     if (p.getpFiles().get(i).getPfIncludeDirectories().get(j).startsWith("/")
@@ -550,6 +554,10 @@ public class AnalyzersFunctions {
                 }
                 for (int j = 0; j < p.getpFiles().get(i).getPfDefines().size(); j++) {
                     bw.write("-extra-arg-before=\"" + p.getpFiles().get(i).getPfDefines().get(j).replace("\"", "\\\"") + "\"");
+                    bw.write(" ");
+                }
+                for (int j = 0; j < p.getpFiles().get(i).getPfAdditionalArguments().size(); j++) {
+                    bw.write("-extra-arg-before=\"" + p.getpFiles().get(i).getPfAdditionalArguments().get(j).replace("\"", "\\\"") + "\"");
                     bw.write(" ");
                 }
                 bw.write("-extra-arg-before=\"-ferror-limit=0\" ");
@@ -613,6 +621,10 @@ public class AnalyzersFunctions {
                     bw.write(p.getpFiles().get(i).getPfDefines().get(j).replace("\"", "\\\""));
                     bw.write(" ");
                 }
+                for (int j = 0; j < p.getpFiles().get(i).getPfAdditionalArguments().size(); j++) {
+                    bw.write(p.getpFiles().get(i).getPfAdditionalArguments().get(j).replace("\"", "\\\""));
+                    bw.write(" ");
+                }
                 bw.write("-ferror-limit=0 ");
                 for (int j = 0; j < p.getpFiles().get(i).getPfIncludeDirectories().size(); j++) {
                     if (p.getpFiles().get(i).getPfIncludeDirectories().get(j).startsWith("/")
@@ -660,6 +672,10 @@ public class AnalyzersFunctions {
                 bw.write(p.getpFiles().get(i).getPfFileName() + " -- ");
                 for (int j = 0; j < p.getpFiles().get(i).getPfDefines().size(); j++) {
                     bw.write(p.getpFiles().get(i).getPfDefines().get(j).replace("\"", "\\\""));
+                    bw.write(" ");
+                }
+                for (int j = 0; j < p.getpFiles().get(i).getPfAdditionalArguments().size(); j++) {
+                    bw.write(p.getpFiles().get(i).getPfAdditionalArguments().get(j).replace("\"", "\\\""));
                     bw.write(" ");
                 }
                 bw.write("-ferror-limit=0 ");
