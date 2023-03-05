@@ -137,6 +137,7 @@ public class AnalyzersFunctions {
      * @throws Exception in case of application error prepare PC-Lint
      */
     void preparePcLint() throws Exception {
+        SAFacilitator.MisraVersion misv = safacilitator.getMisv();
         SAFacilitator.PCLintType pclt = safacilitator.getPclt();
         CommonFunctions.printLogMessage("Preparing PC-Lint...");
         Project p = safacilitator.getCurrentProject();
@@ -157,6 +158,7 @@ public class AnalyzersFunctions {
         bw.newLine();
         if (pclt == SAFacilitator.PCLintType.PCLint) {
           bw.write("au-barr10.lnt");
+            bw.newLine();
         } else {
           bw.write("au-barr.lnt");
           bw.newLine();
@@ -166,9 +168,27 @@ public class AnalyzersFunctions {
           bw.newLine();
         }
         bw.newLine();
-        bw.write("au-misra2.lnt");
-        bw.newLine();
-        bw.write("au-misra3.lnt");
+        if (misv == SAFacilitator.MisraVersion.MisC1998) {
+            if (pclt == SAFacilitator.PCLintType.PCLint) {
+                bw.write("au-misra1.lnt");
+            } else {
+                bw.write("au-misra2.lnt");
+                bw.newLine();
+                bw.write("au-misra3.lnt");
+            }
+        } else if (misv == SAFacilitator.MisraVersion.MisC2004) {
+            bw.write("au-misra2.lnt"); 
+        } else if (misv == SAFacilitator.MisraVersion.MisC2012) {
+            bw.write("au-misra3.lnt"); 
+        } else if (misv == SAFacilitator.MisraVersion.MisC0412) {
+            bw.write("au-misra2.lnt");
+            bw.newLine();
+            bw.write("au-misra3.lnt");
+        } else {
+            bw.write("au-misra2.lnt");
+            bw.newLine();
+            bw.write("au-misra3.lnt");            
+        }
         bw.newLine();
         if (pclt == SAFacilitator.PCLintType.PCLint) {
           bw.write("au-sm123.lnt");
@@ -192,7 +212,7 @@ public class AnalyzersFunctions {
         bw.newLine();
         bw.write("//  Spazio IT preferred PC-lint options");
         bw.newLine();
-        bw.write("-e309 -e98 -e322 -e952 -e953 -e956 +fqb +e970");
+        bw.write("-e309 -e98 -e322 -e952 -e953 -e956 -e970 +fqb");
         bw.newLine();
         bw.newLine();
         if (pclt == SAFacilitator.PCLintType.PCLint) {

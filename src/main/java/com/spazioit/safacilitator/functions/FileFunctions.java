@@ -85,7 +85,7 @@ public class FileFunctions {
                 normDirectory = ".";
             } else {
                 if (normDirectory.startsWith(p.getBaseDirectory())) {
-                    normDirectory = normDirectory.substring(p.getBaseDirectory().length() + 1);
+                    normDirectory = normDirectory.substring(p.getBaseDirectory().length());
                 }
             }
             if (sFile.startsWith(sDirectory)) {

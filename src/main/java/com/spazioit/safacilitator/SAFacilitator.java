@@ -43,17 +43,27 @@ import java.time.format.DateTimeFormatter;
  */
 public class SAFacilitator {
 
+    public enum MisraVersion {MisC1998, MisC2004, MisC2012, MisCpp2008, MisC0412};
     public enum PCLintType {PCLint, PCLintPlus};
     private Project currentProject = null;
     private static SAFacilitator myself = null;
     private static boolean guiEnabled = true;
-    private static String version = "1.9";
+    private static String version = "2.1";
     private static int MAX_LINES = 24576;
     private static String fileName = "";
     private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private MisraVersion misv = MisraVersion.MisC0412;
     private PCLintType pclt = PCLintType.PCLintPlus;
 
     
+    public MisraVersion getMisv() {
+        return misv;
+    }
+
+    public void setMisv(MisraVersion misv) {
+        this.misv = misv;
+    }
+
     public PCLintType getPclt() {
         return pclt;
     }
@@ -198,6 +208,7 @@ public class SAFacilitator {
                 System.out.println("-jpm:              (Java) prepare for Maven");
                 System.err.println("-l <file name>:    load project file");
                 System.out.println("-lcc <file name>:  load compile_commands file into project");
+                System.out.println("-misv MisC1998 | MisC2004 | MisC2012 | MisC0412 (def): select MISRA C Version");
                 System.err.println("-pa:               prepare analyzers");
                 System.err.println("-pclt PCLint[Plus]:select PCLint Type");
                 System.err.println("-pp:               prepare preprocessing");
@@ -253,6 +264,29 @@ public class SAFacilitator {
                     System.err.println(ex.getMessage());
                     System.exit(-1);
                 }
+            }
+            if (args[i].equals("-misv")) {
+                if (i == (args.length - 1)) {
+                    System.err.println(Strings.WRONG_COMMAND_LINE);
+                    System.err.println("Arg \"-misv\" expects to be followed by Misra Version.");
+                    System.exit(-1);
+                }
+                if (args[++i].equals("MisC1998")) {
+                    misv = MisraVersion.MisC1998;
+                    pclt = PCLintType.PCLint;
+                } else if (args[i].equals("MisC2004")) {
+                    misv = MisraVersion.MisC2004;
+                } else if (args[i].equals("MisC2012")) {
+                    misv = MisraVersion.MisC2012;
+                } else if (args[i].equals("MisCpp2008")) {
+                    misv = MisraVersion.MisCpp2008;
+                } else if (args[i].equals("MisC0412")) {
+                    misv = MisraVersion.MisC0412;
+                } else {
+                    misv = MisraVersion.MisC0412;
+                
+                }
+                checkArgument = false;
             }
             if (args[i].equals("-pa")) {
                 try {
@@ -383,6 +417,7 @@ public class SAFacilitator {
                 System.out.println("-jpm:              (Java) prepare for Maven");
                 System.err.println("-l <file name>:    load project file");
                 System.out.println("-lcc <file name>:  load compile_commands file into project");
+                System.out.println("-misv MisC1998 | MisC2004 | MisC2012 | MisC0412 (def): select MISRA C Version");
                 System.err.println("-pa:               prepare analyzers");
                 System.err.println("-pclt PCLint[Plus]:select PCLint Type");
                 System.err.println("-pp:               prepare preprocessing");
