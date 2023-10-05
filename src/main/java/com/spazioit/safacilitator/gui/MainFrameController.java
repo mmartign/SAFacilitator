@@ -58,6 +58,7 @@ import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
+import javafx.concurrent.Worker.State;
 import org.apache.commons.io.FileUtils;
 
 /**
@@ -258,7 +259,7 @@ public class MainFrameController implements Initializable {
         alert.showAndWait();
         */
         String url = "https://support.spazioit.com";
-        callBrowser(url);
+        callBrowser(url, "Online Support");
     }
 
     /**
@@ -554,11 +555,12 @@ public class MainFrameController implements Initializable {
     @FXML
     private void showHelp(ActionEvent event) {
         String url = "https://spazioit.com/SAFeToolsetHelp";
-        callBrowser(url);
+        callBrowser(url, "Online Help");
     }
     
-    private void callBrowser(String url) {
-        applicationMessage.setText("Consulting Help.");
+    private void callBrowser(String url, String purpose) {
+        
+        applicationMessage.setText(purpose);
         
         StackPane root = new StackPane();
         WebView view = new WebView();
@@ -568,6 +570,15 @@ public class MainFrameController implements Initializable {
         Scene scene = new Scene(root, 800, 600);
         Stage stage = new Stage();
         stage.setScene(scene);
+        stage.getIcons().add(new Image(MainFrame.class.getResourceAsStream(Strings.MARVIN_PNG)));
+        engine.getLoadWorker().stateProperty().addListener(
+        new ChangeListener<State>() {
+            public void changed(ObservableValue ov, State oldState, State newState) {
+                if (newState == State.SUCCEEDED) {
+                    stage.setTitle(engine.getLocation());
+                }
+            }
+        });
         stage.show();
     }
 }

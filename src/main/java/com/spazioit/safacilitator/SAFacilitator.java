@@ -48,12 +48,12 @@ public class SAFacilitator {
     private Project currentProject = null;
     private static SAFacilitator myself = null;
     private static boolean guiEnabled = true;
-    private static String version = "2.1";
+    private static String version = "2.2";
     private static int MAX_LINES = 24576;
     private static String fileName = "";
     private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     private MisraVersion misv = MisraVersion.MisC0412;
-    private PCLintType pclt = PCLintType.PCLintPlus;
+    private PCLintType pclt = PCLintType.PCLint;
 
     
     public MisraVersion getMisv() {
@@ -199,26 +199,26 @@ public class SAFacilitator {
                 System.out.println("Spazio IT - Soluzioni Informatiche s.a.s.");
                 System.out.println("https://spazioit.com\n");
                 System.out.println("Used technologies: Java FX, Jackson, JSON, CompileDB\n");
-                System.err.println("Available commands:");                    
-                System.err.println("-ea:               execute analyzers");
-                System.err.println("-ep:               execute preprocessing");
-                System.err.println("-fip:              (FB Infer)prepare for FB Infer");                
-                System.err.println("-h:                print this text");
-                System.out.println("-jpg:              (Java) prepare for Gradle");
-                System.out.println("-jpm:              (Java) prepare for Maven");
-                System.err.println("-l <file name>:    load project file");
-                System.out.println("-lcc <file name>:  load compile_commands file into project");
+                System.out.println("Available commands:");                    
+                System.out.println("-ea: execute analyzers");
+                System.out.println("-ep: execute preprocessing");
+                System.out.println("-fip: (FB Infer)prepare for FB Infer");                
+                System.out.println("-h: print this text");
+                System.out.println("-jpg: (Java) prepare for Gradle");
+                System.out.println("-jpm: (Java) prepare for Maven");
+                System.out.println("-l <file name>: load project file");
+                System.out.println("-lcc <file name>: load compile_commands file into project");
                 System.out.println("-misv MisC1998 | MisC2004 | MisC2012 | MisC0412 (def): select MISRA C Version");
-                System.err.println("-pa:               prepare analyzers");
-                System.err.println("-pclt PCLint[Plus]:select PCLint Type");
-                System.err.println("-pp:               prepare preprocessing");
-                System.err.println("-ppa:              post process analyzers");
-                System.err.println("-psq:              prepare SonarQube");
-                System.err.println("-pyp:              (Pyhton) prepare for Python analyzers");
-                System.err.println("-rss:              run SonarScanner");
-                System.err.println("-s <file name>:    save project file");
-                System.err.println("-scc <file name>:  save project as compile_commands file");
-                System.out.println("-scd:              show compiler defines\n");
+                System.out.println("-pa: prepare analyzers");
+                System.out.println("-pclt PCLint (def) | PClintPlus: select PCLint Type");
+                System.out.println("-pp: prepare preprocessing");
+                System.out.println("-ppa: post process analyzers");
+                System.out.println("-psq: prepare SonarQube");
+                System.out.println("-pyp: (Pyhton) prepare for Python analyzers");
+                System.out.println("-rss: run SonarScanner");
+                System.out.println("-s <file name>: save project file");
+                System.out.println("-scc <file name>: save project as compile_commands file");
+                System.out.println("-scd: show compiler defines\n");
                 System.out.println("No argument starts the GUI\n");
             }
             if (args[i].equals("-jpg")) {
@@ -409,25 +409,25 @@ public class SAFacilitator {
                 checkArgument) {
                 System.err.println(Strings.WRONG_COMMAND_LINE);
                 System.err.println("Available commands:");                    
-                System.err.println("-ea:               execute analyzers");
-                System.err.println("-ep:               execute preprocessing");
-                System.err.println("-fip:              (FB Infer)prepare for FB Infer");                
-                System.err.println("-h:                print this text");
-                System.out.println("-jpg:              (Java) prepare for Gradle");
-                System.out.println("-jpm:              (Java) prepare for Maven");
-                System.err.println("-l <file name>:    load project file");
-                System.out.println("-lcc <file name>:  load compile_commands file into project");
-                System.out.println("-misv MisC1998 | MisC2004 | MisC2012 | MisC0412 (def): select MISRA C Version");
-                System.err.println("-pa:               prepare analyzers");
-                System.err.println("-pclt PCLint[Plus]:select PCLint Type");
-                System.err.println("-pp:               prepare preprocessing");
-                System.err.println("-ppa:              post process analyzers");
-                System.err.println("-psq:              prepare SonarQube");
-                System.err.println("-pyp:              (Pyhton) prepare for Python analyzers");
-                System.err.println("-rss:              run SonarScanner");
-                System.err.println("-s <file name>:    save project file");
-                System.err.println("-scc <file name>:  save project as compile_commands file");
-                System.out.println("-scd:              show compiler defines\n");
+                System.err.println("-ea: execute analyzers");
+                System.err.println("-ep: execute preprocessing");
+                System.err.println("-fip: (FB Infer)prepare for FB Infer");                
+                System.err.println("-h: print this text");
+                System.out.println("-jpg: (Java) prepare for Gradle");
+                System.out.println("-jpm: (Java) prepare for Maven");
+                System.err.println("-l <file name>: load project file");
+                System.err.println("-lcc <file name>: load compile_commands file into project");
+                System.err.println("-misv MisC1998 | MisC2004 | MisC2012 | MisC0412 (def): select MISRA C Version");
+                System.err.println("-pa: prepare analyzers");
+                System.err.println("-pclt PCLint (def) | PClintPlus: select PCLint Type");
+                System.err.println("-pp: prepare preprocessing");
+                System.err.println("-ppa: post process analyzers");
+                System.err.println("-psq: prepare SonarQube");
+                System.err.println("-pyp: (Pyhton) prepare for Python analyzers");
+                System.err.println("-rss: run SonarScanner");
+                System.err.println("-s <file name>: save project file");
+                System.err.println("-scc <file name>: save project as compile_commands file");
+                System.err.println("-scd: show compiler defines\n");
                 System.exit(-1);
             }
         }

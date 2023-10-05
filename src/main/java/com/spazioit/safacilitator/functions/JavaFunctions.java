@@ -84,7 +84,7 @@ public class JavaFunctions {
         CommonFunctions.printMessage("mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install -Dmaven.test.failure.ignore=true");
         CommonFunctions.printMessage("mvn org.jacoco:jacoco-maven-plugin:report");
         CommonFunctions.printMessage("mvn sonar:sonar -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml\n");
-        CommonFunctions.printMessage("More details at https://docs.sonarqube.org/display/SCAN/Analyzing+with+SonarQube+Scanner+for+Maven");
+        CommonFunctions.printMessage("More details at https://docs.sonarsource.com/sonarqube/latest/analyzing-source-code/scanners/sonarscanner-for-maven/");
         
     }
 
@@ -110,28 +110,32 @@ public class JavaFunctions {
         }
         CommonFunctions.printMessage("Activate the scanner in your build:");
         CommonFunctions.printMessage("File: build.gradle\n");
-        CommonFunctions.printMessage("Using the plugins DSL:");
+        CommonFunctions.printMessage("Using the plugin Groovy DSL:");
         CommonFunctions.printMessage("plugins {");
-        CommonFunctions.printMessage("  id \"org.sonarqube\" version \"3.0\"");
+        CommonFunctions.printMessage("  id \"org.sonarqube\" version \"4.3.1.3277\"");
         CommonFunctions.printMessage("}\n");
-        CommonFunctions.printMessage("Using legacy plugin application:");
-        CommonFunctions.printMessage("buildscript {");
-        CommonFunctions.printMessage("  repositories {");
-        CommonFunctions.printMessage("    maven {");
-        CommonFunctions.printMessage("      url \"https://plugins.gradle.org/m2/\"");
-        CommonFunctions.printMessage("    }");
-        CommonFunctions.printMessage("  }");
-        CommonFunctions.printMessage("  dependencies {");
-        CommonFunctions.printMessage("    classpath \"org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.0\"");
+        CommonFunctions.printMessage("sonar {");
+        CommonFunctions.printMessage("  properties {");
+        if ((p != null) && p.getSonarQubeUrl() != null) {
+            CommonFunctions.printMessage("    property \"sonar.projectKey\", \"" + p.getProjectKey() + "");
+            
+        } else {
+            CommonFunctions.printMessage("    property \"sonar.projectKey\", \"myProjectKey\"");
+        }
+        CommonFunctions.printMessage("    property \"sonar.organization\", \"myOrganization\"");
+        if ((p != null) && p.getSonarQubeUrl() != null) {
+            CommonFunctions.printMessage("    property \"sonar.host.url\", \"" + p.getSonarQubeUrl() + "\"");
+            
+        } else {
+            CommonFunctions.printMessage("    property \"sonar.host.url\", \"myHostUrl\"");
+        }
         CommonFunctions.printMessage("  }");
         CommonFunctions.printMessage("}");
-        CommonFunctions.printMessage("");
-        CommonFunctions.printMessage("apply plugin: \"org.sonarqube\"\n");
         CommonFunctions.printMessage("To run the analysis:");
         CommonFunctions.printMessage("gradle sonarqube");
         CommonFunctions.printMessage("or, to get also coverage information:");
         CommonFunctions.printMessage("gradle jacocoTestReport");
         CommonFunctions.printMessage("gradle sonarqube\n");
-        CommonFunctions.printMessage("More details at https://docs.sonarqube.org/display/SCAN/Analyzing+with+SonarQube+Scanner+for+Gradle");        
+        CommonFunctions.printMessage("More details at https://docs.sonarsource.com/sonarqube/latest/analyzing-source-code/scanners/sonarscanner-for-gradle/");        
     }   
 }
