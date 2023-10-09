@@ -1,4 +1,3 @@
- SAFacilitator
 SAFacilitator: the configurator tool part of Spazio IT SAFe Toolset
 
 More information is available @
