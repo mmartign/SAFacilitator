@@ -318,7 +318,6 @@ public class AnalyzersFunctions {
         if (p == null) {
             throw new Exception(Strings.CURRENT_PROJECT_IS_NULL);
         }
-        /* 
         String fileName = p.getBaseDirectory() + "/" + p.getProjectName() + ".cppcheck";
         FileWriter fw = new FileWriter(fileName);
         BufferedWriter bw = new BufferedWriter(fw);
@@ -411,8 +410,6 @@ public class AnalyzersFunctions {
         bw.newLine();
         bw.write("        <addon>y2038</addon>");
         bw.newLine();
-        bw.write("        <addon>cert</addon>");
-        bw.newLine();
         bw.write("    </addons>");
         bw.newLine();
         bw.write("</project>");
@@ -420,11 +417,9 @@ public class AnalyzersFunctions {
         bw.newLine();
         bw.flush();
         bw.close();
-        */
-        BufferedWriter bw;
         if (System.getProperty(Strings.OS_NAME).toLowerCase().startsWith(Strings.WINDOWS)) {
-            String fileName = p.getBaseDirectory() + "/run_cppcheck.bat";
-            FileWriter fw = new FileWriter(fileName);
+            fileName = p.getBaseDirectory() + "/run_cppcheck.bat";
+            fw = new FileWriter(fileName);
             bw = new BufferedWriter(fw);
             bw.write(ECHO_OFF_WIN);
             bw.newLine();
@@ -437,12 +432,12 @@ public class AnalyzersFunctions {
             bw.newLine();
             bw.write("cd " + p.getBaseDirectory());
             bw.newLine();
-            bw.write("\"C:\\Program Files\\Cppcheck\\cppcheck.exe\" --project=compile_commands.json " +
+            bw.write("\"C:\\Program Files\\Cppcheck\\cppcheck.exe\" --project=" + p.getProjectName() + ".cppcheck " +
                      "--enable=all --xml --quiet --output-file=" + CPPCHECK_OUT_REP_WIN);
             bw.newLine();
         } else {
-            String fileName = p.getBaseDirectory() + "/run_cppcheck.sh";
-            FileWriter fw = new FileWriter(fileName);
+            fileName = p.getBaseDirectory() + "/run_cppcheck.sh";
+            fw = new FileWriter(fileName);
             bw = new BufferedWriter(fw);
             bw.write(BIN_BASH_UNX);
             bw.newLine();
@@ -455,7 +450,7 @@ public class AnalyzersFunctions {
             bw.newLine();
             bw.write("cd " + p.getBaseDirectory());
             bw.newLine();
-            bw.write("cppcheck --project=compile_commands.json " + 
+            bw.write("cppcheck --project=" + p.getProjectName() + ".cppcheck " + 
                      "--enable=all --xml --quiet --output-file=" + CPPCHECK_OUT_REP_UNX);
             bw.newLine();
         }
